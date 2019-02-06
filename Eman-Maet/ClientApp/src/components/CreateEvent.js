@@ -16,7 +16,7 @@ export class CreateEvent extends Component {
             starttime: '12:00',
             maxattendance: '1',
             location: '',
-            data: makeData(64),
+            data: makeData(22),
         }
     }
 
@@ -74,7 +74,6 @@ export class CreateEvent extends Component {
                         data={this.state.data}
                         columns={[
                             {
-                                Header: "Name",
                                 columns: [
                                     {
                                         Header: "First Name",
@@ -87,7 +86,6 @@ export class CreateEvent extends Component {
                                 ]
                             },
                             {
-                                Header: "Info",
                                 columns: [
                                     {
                                         Header: "Status",
@@ -98,8 +96,8 @@ export class CreateEvent extends Component {
                         ]}
                         defaultSorted={[
                             {
-                                id: "age",
-                                desc: true
+                                id: "lastName",
+                                desc: false
                             }
                         ]}
                         defaultPageSize={10}
