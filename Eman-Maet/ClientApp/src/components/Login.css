@@ -1,13 +1,15 @@
 ﻿#LoginTitle {
     vertical-align: middle;
+    
 }
 
+
 #LoginBack {
-    background-image: linear-gradient(#505050, #D8D8D8, #505050);
-    background-color: #A9A9A9;
-    height: 500px;
-    background-position: center, center;
-    background-repeat: no-repeat, repeat;
+    background-image: url(https://forums.unrealengine.com/filedata/fetch?id=1113441&d=1470732920);
+    background-color: #cccccc;
+    height: 600px;
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
     position: relative;
 }
@@ -21,6 +23,14 @@
     color: black;
 }
 
+.col-sm-12{
+    padding-left: 0;
+    padding-right: 0;
+}
+
 body {
     align-content: center;
+    margin: 0;
 }
+
+.NavMenu{display: none;}
