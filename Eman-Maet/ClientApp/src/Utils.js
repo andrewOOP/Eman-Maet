@@ -12,6 +12,9 @@ const range = len => {
 const newPerson = () => {
 
     return {
+        id:
+            Math.floor(Math.random() * Math.floor(100)),
+
         firstName:
             Math.random() > 0.66
                 ? "Bob"
