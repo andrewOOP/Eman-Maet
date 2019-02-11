@@ -33,30 +33,18 @@ export class CreateEvent extends Component {
 
     render() {
 
-        const data = [{
-            name: 'Tanner Linsley',
-            age: 26,
-            friend: {
-                name: 'Jason Maurer',
-                age: 23,
-            }
-        }]
-
         const columns = [{
-            Header: 'Name',
-            accessor: 'name' // String-based value accessors!
-        }, {
-            Header: 'Age',
-            accessor: 'age',
-            Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
-        }, {
-            id: 'friendName', // Required because our accessor is not a string
-            Header: 'Friend Name',
-            accessor: d => d.friend.name // Custom value accessors!
-        }, {
-            Header: props => <span>Friend Age</span>, // Custom header components!
-            accessor: 'friend.age'
-        }]
+                Header: "First Name",
+                accessor: "firstName"
+            },
+            {
+                Header: "Last Name",
+                accessor: "lastName"
+            },
+            {
+                Header: "Status",
+                accessor: "status"
+            }]
 
 
       return (
@@ -98,13 +86,22 @@ export class CreateEvent extends Component {
                     <option value="coconut">Coconut</option>
                     <option value="mango">Mango</option>
                 </select><br />
+
                   <div id="table-container">
-                  <ReactTable
-                      data={data}
+                      <ReactTable
+                          data={this.state.data}
                           columns={columns}
+                          defaultSorted={[
+                              {
+                                  id: "lastName",
+                                  desc: false
+                              }
+                          ]}
                           defaultPageSize={10}
-                  />
-                  </div>
+                          className="-striped -highlight"
+                      />
+                    </div>
+
                 <br /><input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
             </form >
 
