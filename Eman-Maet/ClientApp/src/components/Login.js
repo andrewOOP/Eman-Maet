@@ -34,16 +34,17 @@ export class Login extends Component {
                     {this.renderRedirect()}
                     <h1>Login</h1>
                     <form action="#" >
-                        <br />
+                        <br/>
                         <input type="text" id="username" name="username" placeholder="Username"
                         value={this.state.username}
-                        onChange={e => this.setState({ username: e.target.value })}
-                        /><br />
+                        onChange={e => this.setState({ username: e.target.value })}/>
+                        <br/>
                         <input type="password" id="pasword" name="password" placeholder="Password"
                             value={this.state.password}
-                            onChange={e => this.setState({ password: e.target.value })}
-                        /> <br />
-                        <br /><input type="submit" onClick={e => this.handleFormSubmit(e)} value="Sign In" />
+                            onChange={e => this.setState({ password: e.target.value })}/>
+                        <br/>
+                        <br/>
+                      <input type="submit" onClick={e => this.handleFormSubmit(e)} value="Sign In" />
                     </form >
             </div>
         </div>
