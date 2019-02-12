@@ -18,8 +18,9 @@ export class CreateEvent extends Component {
             location: '',
             selected: {},
             selectAll: 0,
-            data: makeData(22),
         }
+
+        this.data = makeData(22);
 
         this.toggleRow = this.toggleRow.bind(this);
     }
@@ -114,44 +115,86 @@ export class CreateEvent extends Component {
 
         <div id="everything">
             <h1>Create Event</h1>
-            <form action="#" >
-                <br /><label>Title</label><br />
+              <form action="#" >
+                  <div class="row">
+                      <div class="col-25">
+                          <label>Title</label>
+                      </div>
+                      <div class="col-75">
                 <input type="text" id="title" name="eventtitle" placeholder="Event Name"
                 value={this.state.title}
                 onChange={e => this.setState({ title: e.target.value })}
-                /><br />
-                <br /><label>Start Date</label><br />
-                <input type="date" id="startdate" name="startdate"
-                    value={this.state.startdate}
-                    onChange={e => this.setState({ startdate: e.target.value })}
-                /><br />
-                <br /><label>End Date</label><br />
-                <input type="date" id="enddate" name="enddate"
-                    value={this.state.enddate}
-                    onChange={e => this.setState({ enddate: e.target.value })}
-                /><br />
-                <br /><label>Start Time</label><br />
-                <input type="time" id="starttime" name="starttime"
-                    value={this.state.starttime}
-                    onChange={e => this.setState({ starttime: e.target.value })}
-                /><br />
-                <br /><label>Max Attendance</label><br />
-                <input type="number" id="maxattendance" name="maxattendance"
-                    value={this.state.maxattendance}
-                    onChange={e => this.setState({ maxattendance: e.target.value })}
-                /><br />
-                <br /><label>Location</label><br />
-                <select value={this.state.location} onChange={e => this.setState({ location: e.target.value })} id="location">
-                    <option value="default">-------</option>
-                    <option value="grapefruit">Grapefruit</option>
-                    <option value="lime">Lime</option>
-                    <option value="coconut">Coconut</option>
-                    <option value="mango">Mango</option>
-                </select><br />
+                          />
+                      </div>
+                  </div>
 
+                  <div class="row">
+                      <div class="col-25">
+                          <label>Start Date</label>
+                      </div>
+                      <div class="col-75">
+                        <input type="date" id="startdate" name="startdate"
+                            value={this.state.startdate}
+                            onChange={e => this.setState({ startdate: e.target.value })}
+                          />
+                      </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-25">
+                          <label>End Date</label>
+                      </div>
+                      <div class="col-75">
+                          <input type="date" id="enddate" name="enddate"
+                              value={this.state.enddate}
+                              onChange={e => this.setState({ enddate: e.target.value })}
+                          />
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-25">
+                          <label>Start Time</label>
+                      </div>
+                      <div class="col-75">
+                          <input type="time" id="starttime" name="starttime"
+                              value={this.state.starttime}
+                              onChange={e => this.setState({ starttime: e.target.value })}
+                          />
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-25">
+                          <label>Max Attendance</label>
+                      </div>
+                      <div class="col-75">
+                          <input type="number" id="maxattendance" name="maxattendance"
+                              value={this.state.maxattendance}
+                              onChange={e => this.setState({ maxattendance: e.target.value })}
+                          />
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-25">
+                          <label>Location</label>
+                      </div>
+                      <div class="col-75">
+                          <select value={this.state.location} onChange={e => this.setState({ location: e.target.value })} id="location">
+                              <option value="default">-------</option>
+                              <option value="grapefruit">Grapefruit</option>
+                              <option value="lime">Lime</option>
+                              <option value="coconut">Coconut</option>
+                              <option value="mango">Mango</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-25">
+                          <label>Event Coordinators</label><br />
+                      </div>
+                  </div>
                   <div id="table-container">
                       <ReactTable
-                          data={this.state.data}
+                          data={this.data}
                           columns={columns}
                           defaultSorted={[
                               {
