@@ -32,7 +32,12 @@ export class NavMenu extends Component {
               <NavItem>
                  <Glyphicon glyph='th-list' /> Create Event
               </NavItem>
-            </LinkContainer>
+			</LinkContainer>
+			<LinkContainer to={'/eventlist'}>
+				<NavItem>
+					<Glyphicon glyph='th-list' /> Event List
+				</NavItem>
+			</LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

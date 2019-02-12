@@ -10,62 +10,49 @@ export class EventList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			title: '',
-			startdate: this.getCurrentDate(),
-			enddate: this.getCurrentDate(),
-			starttime: '12:00',
-			maxattendance: '1',
-			location: '',
-			data: makeData(22),
 		}
 	}
 
-	handleFormSubmit(event) {
-		event.preventDefault();
-		console.log(this.state);
-	}
 
-	getCurrentDate() {
-		return new Date().toISOString().substr(0, 10);
-	}
 
 
 
 	render() {
+
+
+		const columns = [
+			{
+				Header: "Event Name",
+				accessor: "eventName"
+			},
+			{
+				Header: "Event Date",
+				accessor: "evetnDate"
+			},
+			{
+				Header: "Event Desrciption",
+				accessor: "eventDescription"
+			},
+			{
+				Header: "Inactive?",
+				accessor: "inactive"
+			}
+		];
+
 		return (
 			<div>
 				<h1>Event List</h1>
 				<div id="table-container">
 					<ReactTable
-						data={this.state.data}
-						columns={[
-							{
-								columns: [
-									{
-										Header: "Event Name",
-										accessor: "eventName"
-									},
-									{
-										Header: "Event Date",
-										accessor: "evetnDate"
-									},
-									{
-										Header: "Event Desrciption",
-										accessor: "eventDescription"
-									},
-									{
-										Header: "Inactive?",
-										accessor: "inactive"
-									}
-								]
-							}
-						]}
+						data={this.data}
+						columns={columns}
 						defaultSorted={[
 							{
 								id: "eventName",
 								desc: false
 							}
 						]}
+						defaultPageSize={10}
 						className="-striped -highlight"
 					/>
 				</div>
