@@ -1,36 +1,12 @@
-﻿#LoginTitle {
-    vertical-align: middle;
-    
-}
-
-
-#LoginBack {
-    background-image: url(https://forums.unrealengine.com/filedata/fetch?id=1113441&d=1470732920);
-    background-color: #cccccc;
-    height: 600px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-}
-
-#LoginText {
-    text-align: center;
+﻿.Login.main {
+    width: 25%;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: black;
+    left: 37.5%;
+    padding-top: 20px;
 }
 
-.col-sm-12{
-    padding-left: 0;
-    padding-right: 0;
+.Login.background {
+    background-image: url(https://forums.unrealengine.com/filedata/fetch?id=1113441&d=1470732920);
+    background-size: cover;
+    height: calc(100vh - 50px);
 }
-
-body {
-    align-content: center;
-    margin: 0;
-}
-
-.NavMenu{display: none;}

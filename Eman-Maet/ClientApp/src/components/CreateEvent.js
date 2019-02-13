@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { makeData } from "../Utils";
 import ReactTable from "react-table";
 import './CreateEvent.css'
+import './AppStyle.css'
 import 'react-table/react-table.css'
 
 export class CreateEvent extends Component {
@@ -113,26 +114,26 @@ export class CreateEvent extends Component {
       return (
 
 
-        <div id="everything">
+          <div className="main">
             <h1>Create Event</h1>
               <form action="#" >
-                  <div class="row">
-                      <div class="col-25">
+                  <div className="row">
+                      <div className="col-25">
                           <label>Title</label>
                       </div>
-                      <div class="col-75">
-                <input type="text" id="title" name="eventtitle" placeholder="Event Name"
+                      <div className="col-75">
+                <input type="text" placeholder="Event Name"
                 value={this.state.title}
                 onChange={e => this.setState({ title: e.target.value })}
                           />
                       </div>
                   </div>
 
-                  <div class="row">
-                      <div class="col-25">
+                  <div className="row">
+                      <div className="col-25">
                           <label>Start Date</label>
                       </div>
-                      <div class="col-75">
+                      <div className="col-75">
                         <input type="date" id="startdate" name="startdate"
                             value={this.state.startdate}
                             onChange={e => this.setState({ startdate: e.target.value })}
@@ -140,44 +141,44 @@ export class CreateEvent extends Component {
                       </div>
                   </div>
 
-                  <div class="row">
-                      <div class="col-25">
+                  <div className="row">
+                      <div className="col-25">
                           <label>End Date</label>
                       </div>
-                      <div class="col-75">
+                      <div className="col-75">
                           <input type="date" id="enddate" name="enddate"
                               value={this.state.enddate}
                               onChange={e => this.setState({ enddate: e.target.value })}
                           />
                       </div>
                   </div>
-                  <div class="row">
-                      <div class="col-25">
+                  <div className="row">
+                      <div className="col-25">
                           <label>Start Time</label>
                       </div>
-                      <div class="col-75">
+                      <div className="col-75">
                           <input type="time" id="starttime" name="starttime"
                               value={this.state.starttime}
                               onChange={e => this.setState({ starttime: e.target.value })}
                           />
                       </div>
                   </div>
-                  <div class="row">
-                      <div class="col-25">
+                  <div className="row">
+                      <div className="col-25">
                           <label>Max Attendance</label>
                       </div>
-                      <div class="col-75">
+                      <div className="col-75">
                           <input type="number" id="maxattendance" name="maxattendance"
                               value={this.state.maxattendance}
                               onChange={e => this.setState({ maxattendance: e.target.value })}
                           />
                       </div>
                   </div>
-                  <div class="row">
-                      <div class="col-25">
+                  <div className="row">
+                      <div className="col-25">
                           <label>Location</label>
                       </div>
-                      <div class="col-75">
+                      <div className="col-75">
                           <select value={this.state.location} onChange={e => this.setState({ location: e.target.value })} id="location">
                               <option value="default">-------</option>
                               <option value="grapefruit">Grapefruit</option>
@@ -187,12 +188,11 @@ export class CreateEvent extends Component {
                           </select>
                       </div>
                   </div>
-                  <div class="row">
-                      <div class="col-25">
+                  <div className="row">
+                      <div className="col-25">
                           <label>Event Coordinators</label><br />
                       </div>
                   </div>
-                  <div id="table-container">
                       <ReactTable
                           data={this.data}
                           columns={columns}
@@ -205,7 +205,6 @@ export class CreateEvent extends Component {
                           defaultPageSize={10}
                           className="-striped -highlight"
                       />
-                    </div>
 
                 <br /><input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
             </form >

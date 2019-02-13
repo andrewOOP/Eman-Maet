@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { makeData } from "../Utils";
 import ReactTable from "react-table";
 import './EventList.css'
+import './AppStyle.css'
 import 'react-table/react-table.css'
 
 export class EventList extends Component {
@@ -40,9 +41,8 @@ export class EventList extends Component {
 		];
 
 		return (
-			<div>
+			<div className="main">
 				<h1>Event List</h1>
-				<div id="table-container">
 					<ReactTable
 						data={this.data}
 						columns={columns}
@@ -55,7 +55,6 @@ export class EventList extends Component {
 						defaultPageSize={10}
 						className="-striped -highlight"
 					/>
-				</div>
 
 			</div>
 		);
