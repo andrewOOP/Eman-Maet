@@ -22,7 +22,12 @@ export class NavMenu extends Component {
 				<NavItem>
 					<Glyphicon glyph='th-list' /> Event List
 				</NavItem>
-             </LinkContainer>
+					</LinkContainer>
+					<LinkContainer to={'/fetchdata'}>
+						<NavItem>
+							<Glyphicon glyph='th-list' /> Fetch Data
+				</NavItem>
+					</LinkContainer>
                     <LinkContainer to={'/createevent'}>
                 <NavItem>
                     <Glyphicon glyph='th-list' /> Create Event

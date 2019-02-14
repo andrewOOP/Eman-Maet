@@ -5,33 +5,33 @@ export class FetchData extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { forecasts: [], loading: true };
+    this.state = { eventList: [], loading: true };
 
-    fetch('api/SampleData/WeatherForecasts')
+	  fetch('mysql\data\codeathon')
       .then(response => response.json())
-      .then(data => {
-        this.setState({ forecasts: data, loading: false });
+		  .then(data => {
+			  this.setState({ eventList: data, loading: false });
       });
   }
 
-  static renderForecastsTable(forecasts) {
+  static renderEventTable(events) {
     return (
-      <table className='table'>
+      <table className='eventsTable'>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
+            <th>Event Name</th>
+            <th>Event Date</th>
+            <th>Event Desciption</th>
+            <th>Inactive?</th>
           </tr>
         </thead>
         <tbody>
-          {forecasts.map(forecast =>
-            <tr key={forecast.dateFormatted}>
-              <td>{forecast.dateFormatted}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
+          {events.map(event =>
+            <tr key={event.eventID}>
+              <td>{event.eventDescription}</td>
+              <td>{event.eventDate}</td>
+			  <td>{event.eventDescription}</td>
+              <td>{event.inactive}</td>
             </tr>
           )}
         </tbody>
@@ -42,14 +42,15 @@ export class FetchData extends Component {
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
+		: FetchData.renderEventTable(this.state.eventList);
 
     return (
       <div>
-        <h1>Weather forecast</h1>
+        <h1>Event Data</h1>
         <p>This component demonstrates fetching data from the server.</p>
         {contents}
       </div>
     );
   }
 }
+
