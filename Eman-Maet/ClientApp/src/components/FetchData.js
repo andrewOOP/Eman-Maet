@@ -7,7 +7,7 @@ export class FetchData extends Component {
     super(props);
     this.state = { eventList: [], loading: true };
 
-	  fetch('mysql\data\codeathon')
+	  fetch('api\data\codeathon')
       .then(response => response.json())
 		  .then(data => {
 			  this.setState({ eventList: data, loading: false });
