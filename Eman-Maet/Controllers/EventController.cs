@@ -5,6 +5,7 @@ using Eman_Maet.Models;
 using System.Data;
 using MySql.Data;
 using MySql.Data.MySqlClient;
+using Dapper;
 
 
 
@@ -17,6 +18,7 @@ namespace Eman_Maet.EventController
 
         string defaultConnection = "Server=localhost; Database=codeathon; UID=root; Password=; SslMode=none;";
 
+
         public EventController()
         {
             
@@ -25,22 +27,22 @@ namespace Eman_Maet.EventController
 
 
         [HttpGet]
-        public ActionResult<List<Event>> GetAll()
+        public ActionResult<List<EventModel>> GetAll()
         {
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<Event> output = connection.Query<Event>("SELECT * FROM Event");
+                IEnumerable<EventModel> output = connection.Query<EventModel>("SELECT * FROM Event");
                 return output.ToList();
             }
         }
 
         [HttpGet("{id}", Name = "GetEvent")]
-        public ActionResult<Event> GetById(int id)
+        public ActionResult<EventModel> GetById(int id)
         {
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<Event> output = connection.Query<Event>("SELECT * FROM Event WHERE eventId=(@_id)", new { _id = id });
+                IEnumerable<EventModel> output = connection.Query<EventModel>("SELECT * FROM Event WHERE eventId=(@_id)", new { _id = id });
                 if (output.Count() == 0)
                 {
                     return NotFound();
