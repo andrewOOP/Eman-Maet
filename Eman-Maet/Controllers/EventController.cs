@@ -16,7 +16,7 @@ namespace Eman_Maet.EventController
     public class EventController : ControllerBase
     {
 
-        string defaultConnection = "Server=localhost; Database=codeathon; UID=root; Password=monkey173; SslMode=none;";
+        string defaultConnection = "Server=localhost; Database=codeathon; UID=root; Password=; SslMode=none; allowPublicKeyRetrieval = true;";
 
 
         public EventController()
