@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Eman_Maet.Models
 {
-    public class CompanyModel
+    public class SessionModel
     {
         public int companyId { get; set; }
         public String companyName { get; set; }

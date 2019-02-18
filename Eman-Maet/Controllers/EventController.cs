@@ -11,12 +11,12 @@ using Dapper;
 
 namespace Eman_Maet.EventController
 {
-    [Route("api/stu")]
+    [Route("api/event")]
     [ApiController]
     public class EventController : ControllerBase
     {
 
-        string defaultConnection = "Server=localhost; Database=codeathon; UID=root; Password=; SslMode=none;";
+        string defaultConnection = "Server=localhost; Database=codeathon; UID=root; Password=monkey173; SslMode=none;";
 
 
         public EventController()
