@@ -7,9 +7,10 @@ namespace Eman_Maet.Models
 {
     public class EventModel
     {
+        public int eventId { get; set; }
         public int companyId { get; set; }
-        public String companyName { get; set; }
-        public String companyContact { get; set; }
+        public DateTime eventDate { get; set; }
+        public String companyDescription { get; set; }
         public int inactive { get; set; }
 
 
