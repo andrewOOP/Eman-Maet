@@ -7,7 +7,7 @@ export class FetchData extends Component {
     super(props);
     this.state = { eventList: [], loading: true };
 
-	  fetch('api\event')
+	  fetch('api/event')
       .then(response => response.json())
 		  .then(data => {
 			  this.setState({ eventList: data, loading: false });
