@@ -6,6 +6,7 @@ import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { CreateEvent } from './components/CreateEvent';
 import { EventList } from './components/EventList';
+import { EventDetails } from './components/EventDetails';
 import { Login } from './components/Login';
 
 
@@ -19,7 +20,8 @@ export default class App extends Component {
         <Route path='/counter' component={Counter} />
         <Route path='/fetchdata' component={FetchData} />
 		<Route path='/createevent' component={CreateEvent} />
-		<Route path='/eventlist' component={EventList} />
+        <Route path='/eventlist' component={EventList} />
+        <Route path='/eventdetails' component={EventDetails} />
         <Route path='/login' component={Login} />
       </Layout>
     );
