@@ -10,7 +10,7 @@ namespace Eman_Maet.Models
         public int eventId { get; set; }
         public int companyId { get; set; }
         public DateTime eventDate { get; set; }
-        public String companyDescription { get; set; }
+        public String eventDescription { get; set; }
         public int inactive { get; set; }
 
 

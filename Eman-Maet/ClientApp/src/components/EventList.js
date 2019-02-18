@@ -10,29 +10,29 @@ export class EventList extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-		}
+        this.state = { eventList: [], loading: true };
+
+        fetch('api/event')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ eventList: data, loading: false });
+            });
 	}
 
 
 
 
 
-	render() {
-
+    static renderEventTable(events) {
 
 		const columns = [
 			{
 				Header: "Event Name",
-				accessor: "eventName"
+                accessor: "eventDescription"
 			},
 			{
 				Header: "Event Date",
-				accessor: "evetnDate"
-			},
-			{
-				Header: "Event Desrciption",
-				accessor: "eventDescription"
+				accessor: "eventDate"
 			},
 			{
 				Header: "Inactive?",
@@ -40,11 +40,12 @@ export class EventList extends Component {
 			}
 		];
 
+
 		return (
 			<div className="main">
 				<h1>Event List</h1>
 					<ReactTable
-						data={this.data}
+                    data={events}
 						columns={columns}
 						defaultSorted={[
 							{
@@ -55,8 +56,21 @@ export class EventList extends Component {
 						defaultPageSize={10}
 						className="-striped -highlight"
 					/>
-
 			</div>
 		);
-	}
+    }
+
+
+
+    render() {
+        let contents = this.state.loading
+            ? <p><em>Loading...</em></p>
+            : EventList.renderEventTable(this.state.eventList);
+
+        return (
+            <div>
+                {contents}
+            </div>
+        );
+    }
 }
