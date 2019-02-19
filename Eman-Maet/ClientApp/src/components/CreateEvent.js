@@ -19,9 +19,15 @@ export class CreateEvent extends Component {
             location: '',
             selected: {},
             selectAll: 0,
+            userList: [],
+            loading: true,
         }
 
-        this.data = makeData(22);
+        fetch('api/user')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ userList: data, loading: false });
+            });
 
         this.toggleRow = this.toggleRow.bind(this);
     }
@@ -61,7 +67,7 @@ export class CreateEvent extends Component {
 
 
 
-    render() {
+    renderUserTable(users) {
 
 
         const columns = [
@@ -73,8 +79,8 @@ export class CreateEvent extends Component {
                                 <input
                                     type="checkbox"
                                     className="checkbox"
-                                    checked={this.state.selected[original.id] === true}
-                                    onChange={() => this.toggleRow(original.id)}
+                                    checked={this.state.selected[original.userId] === true}
+                                    onChange={() => this.toggleRow(original.userId)}
                                 />
                             );
                         },
@@ -97,16 +103,16 @@ export class CreateEvent extends Component {
                         width: 45
                     },
                     {
+                        Header: "User ID",
+                        accessor: "userId"
+                    },
+                    {
                         Header: "First Name",
-                        accessor: "firstName"
+                        accessor: "fName",
                     },
                     {
                         Header: "Last Name",
-                        accessor: "lastName",
-                    },
-                    {
-                        Header: "Status",
-                        accessor: "status"
+                        accessor: "lName",
                     }
                 ];
 
@@ -122,8 +128,8 @@ export class CreateEvent extends Component {
                           <label>Title</label>
                       </div>
                       <div className="col-75">
-                <input type="text" placeholder="Event Name"
-                value={this.state.title}
+                          <input type="text" placeholder="Event Name"
+                              value={this.state.title}
                 onChange={e => this.setState({ title: e.target.value })}
                           />
                       </div>
@@ -194,7 +200,7 @@ export class CreateEvent extends Component {
                       </div>
                   </div>
                       <ReactTable
-                          data={this.data}
+                          data={users}
                           columns={columns}
                           defaultSorted={[
                               {
@@ -210,6 +216,20 @@ export class CreateEvent extends Component {
             </form >
 
         </div>
-    );
-  }
+        );
+
+
+
+    }
+    render() {
+        let contents = this.state.loading
+            ? <p><em>Loading...</em></p>
+            : this.renderUserTable(this.state.userList);
+
+        return (
+            <div>
+                {contents}
+            </div>
+        );
+    }
 }
