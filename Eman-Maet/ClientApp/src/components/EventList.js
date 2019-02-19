@@ -64,7 +64,7 @@ export class EventList extends Component {
 
     render() {
         let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
+            ? <p><em></em></p>
             : EventList.renderEventTable(this.state.eventList);
 
         return (

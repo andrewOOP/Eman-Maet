@@ -223,7 +223,7 @@ export class CreateEvent extends Component {
     }
     render() {
         let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
+            ? <p><em></em></p>
             : this.renderUserTable(this.state.userList);
 
         return (
