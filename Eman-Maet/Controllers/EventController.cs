@@ -66,17 +66,17 @@ namespace Eman_Maet.EventController
         //    }
         //}
 
-        //[HttpPost]
-        //public IActionResult Create(Event item)
-        //{
+        [HttpPost]
+        public IActionResult Create(EventModel item)
+        {
 
-        //    using (MySqlConnection connection = new MySqlConnection(defaultConnection))
-        //    {
-        //        IEnumerable<Event> output = connection.Query<Event>("INSERT INTO Event (Id, Name, Gpa) VALUES ((@_Id), (@_Name), (@_Gpa))", new { _Id = item.Id, _Name = item.Name, _Gpa = item.Gpa });
-        //        return CreatedAtRoute("GetEvent", new { id = item.Id }, item);
-        //    }
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<EventModel> output = connection.Query<EventModel>("INSERT INTO Event (companyId, eventDate, eventDescription, visitorCount, startTime, inactive) VALUES ((@_companyId), (@_eventDate), (@_eventDescription), (@_visitorCount), (@_startTime), (@_inactive))", new { _companyId = item.companyId, _eventDate = item.eventDate, _eventDescription = item.eventDescription, _visitorCount = item.visitorCount, _startTime = item.startTime, _inactive = item.inactive});
+                return CreatedAtRoute("GetEvent", new { id = item.eventId }, item);
+            }
 
-        //}
+        }
 
         //[HttpDelete("{id}")]
         //public IActionResult Delete(string id)

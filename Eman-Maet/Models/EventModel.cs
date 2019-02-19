@@ -11,6 +11,8 @@ namespace Eman_Maet.Models
         public int companyId { get; set; }
         public DateTime eventDate { get; set; }
         public String eventDescription { get; set; }
+        public int visitorCount { get; set; }
+        public DateTime startTime { get; set; }
         public int inactive { get; set; }
 
 

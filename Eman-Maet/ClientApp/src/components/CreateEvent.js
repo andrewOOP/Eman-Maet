@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { makeData } from "../Utils";
 import ReactTable from "react-table";
 import './CreateEvent.css'
 import './AppStyle.css'
@@ -58,7 +57,32 @@ export class CreateEvent extends Component {
 
     handleFormSubmit(event) {
         event.preventDefault();
-        console.log(this.state);
+        let submitState = {
+            companyId: 1,
+            eventDate: this.state.startdate,
+            eventDescription: this.state.title,
+            visitorCount: 0,
+            startTime: this.state.starttime,
+            inactive: 0
+        };
+        this.createEvent(submitState);
+    }
+
+    createEvent(data) {
+
+        fetch('api/event', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => {
+            console.log("WIN");
+            return res;
+            }).catch(err => {
+                console.log(err);
+            });
+        console.log(JSON.stringify(data));
     }
 
     getCurrentDate() {
