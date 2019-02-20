@@ -14,7 +14,6 @@ export class CreateEvent extends Component {
             startdate: this.getCurrentDate(),
             enddate: this.getCurrentDate(),
             starttime: '12:00',
-            maxattendance: '1',
             location: '',
             selected: {},
             selectAll: 0,
@@ -170,18 +169,6 @@ export class CreateEvent extends Component {
                           />
                       </div>
                   </div>
-
-                  <div className="row">
-                      <div className="col-25">
-                          <label>End Date</label>
-                      </div>
-                      <div className="col-75">
-                          <input type="date" id="enddate" name="enddate"
-                              value={this.state.enddate}
-                              onChange={e => this.setState({ enddate: e.target.value })}
-                          />
-                      </div>
-                  </div>
                   <div className="row">
                       <div className="col-25">
                           <label>Start Time</label>
@@ -190,17 +177,6 @@ export class CreateEvent extends Component {
                           <input type="time" id="starttime" name="starttime"
                               value={this.state.starttime}
                               onChange={e => this.setState({ starttime: e.target.value })}
-                          />
-                      </div>
-                  </div>
-                  <div className="row">
-                      <div className="col-25">
-                          <label>Max Attendance</label>
-                      </div>
-                      <div className="col-75">
-                          <input type="number" id="maxattendance" name="maxattendance"
-                              value={this.state.maxattendance}
-                              onChange={e => this.setState({ maxattendance: e.target.value })}
                           />
                       </div>
                   </div>
@@ -247,7 +223,7 @@ export class CreateEvent extends Component {
     }
     render() {
         let contents = this.state.loading
-            ? <p><em></em></p>
+            ? <div class="loader"></div>
             : this.renderUserTable(this.state.userList);
 
         return (
