@@ -7,9 +7,13 @@ namespace Eman_Maet.Models
 {
     public class LocationModel
     {
+        public int locationId { get; set; }
         public int companyId { get; set; }
-        public String companyName { get; set; }
-        public String companyContact { get; set; }
+        public String locationName { get; set; }
+        public String address { get; set; }
+        public String city { get; set; }
+        public String state { get; set; }
+        public String zip { get; set; }
         public int inactive { get; set; }
 
 

@@ -9,17 +9,17 @@ using Dapper;
 
 
 
-namespace Eman_Maet.EventController
+namespace Eman_Maet.LocationController
 {
-    [Route("api/event")]
+    [Route("api/location")]
     [ApiController]
-    public class EventController : ControllerBase
+    public class LocationController : ControllerBase
     {
 
         string defaultConnection = "Server=localhost; Database=codeathon; UID=root; Password=iamroot; SslMode=none; allowPublicKeyRetrieval = true;";
 
 
-        public EventController()
+        public LocationController()
         {
             
         }
@@ -27,22 +27,22 @@ namespace Eman_Maet.EventController
 
 
         [HttpGet]
-        public ActionResult<List<EventModel>> GetAll()
+        public ActionResult<List<LocationModel>> GetAll()
         {
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<EventModel> output = connection.Query<EventModel>("SELECT * FROM Event");
+                IEnumerable<LocationModel> output = connection.Query<LocationModel>("SELECT * FROM Location");
                 return output.ToList();
             }
         }
 
-        [HttpGet("{id}", Name = "GetEvent")]
-        public ActionResult<EventModel> GetById(int id)
+        [HttpGet("{id}", Name = "GetLocation")]
+        public ActionResult<LocationModel> GetById(int id)
         {
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<EventModel> output = connection.Query<EventModel>("SELECT * FROM Event WHERE eventId=(@_id)", new { _id = id });
+                IEnumerable<LocationModel> output = connection.Query<LocationModel>("SELECT * FROM Location WHERE locationId=(@_id)", new { _id = id });
                 if (output.Count() == 0)
                 {
                     return NotFound();
@@ -67,13 +67,13 @@ namespace Eman_Maet.EventController
         //}
 
         [HttpPost]
-        public IActionResult Create(EventModel item)
+        public IActionResult Create(LocationModel item)
         {
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<EventModel> output = connection.Query<EventModel>("INSERT INTO Event (eventDate, eventDescription, startTime) VALUES ((@_eventDate), (@_eventDescription), (@_startTime))", new { _eventDate = item.eventDate, _eventDescription = item.eventDescription, _startTime = item.startTime});
-                return CreatedAtRoute("GetEvent", new { id = item.eventId }, item);
+                IEnumerable<LocationModel> output = connection.Query<LocationModel>("INSERT INTO Event (locationName, address, city, state, zip) VALUES ((@_locationName), (@_address), (@_city), (@_state), (@_zip))", new { _locationName = item.locationName, _address = item.address, _city = item.city, _state = item.state, _zip = item.zip });
+                return CreatedAtRoute("GetLocation", new { id = item.locationId }, item);
             }
 
         }

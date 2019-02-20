@@ -57,12 +57,9 @@ export class CreateEvent extends Component {
     handleFormSubmit(event) {
         event.preventDefault();
         let submitState = {
-            companyId: 1,
             eventDate: this.state.startdate,
             eventDescription: this.state.title,
-            visitorCount: 0,
             startTime: this.state.starttime,
-            inactive: 0
         };
         this.createEvent(submitState);
     }
