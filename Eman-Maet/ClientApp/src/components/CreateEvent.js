@@ -208,7 +208,7 @@ export class CreateEvent extends Component {
                           defaultPageSize={10}
                           className="-striped -highlight"
                       />
-
+               
                 <br /><input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
             </form >
 
@@ -220,7 +220,7 @@ export class CreateEvent extends Component {
     }
     render() {
         let contents = this.state.loading
-            ? <div class="loader"></div>
+            ? <div class="loader">Please Wait...</div>
             : this.renderUserTable(this.state.userList);
 
         return (

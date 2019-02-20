@@ -64,7 +64,7 @@ export class EventList extends Component {
 
     render() {
         let contents = this.state.loading
-            ? <div class="loader"></div>
+            ? <div class="loader">Please Wait...</div>
             : EventList.renderEventTable(this.state.eventList);
 
         return (
