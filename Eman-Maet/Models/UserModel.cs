@@ -7,8 +7,8 @@ namespace Eman_Maet.Models
 {
     public class UserModel
     {
-        public int userId { get; set; }
-        public int companyId { get; set; }
+        public int userID { get; set; }
+        public int companyID { get; set; }
         public String fName { get; set; }
         public String lName { get; set; }
         public String securityRole { get; set; }

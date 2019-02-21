@@ -10,12 +10,12 @@ using MySql.Data.MySqlClient;
 
 namespace Eman_Maet.CompanyController
 {
-    [Route("api/stu")]
+    [Route("api/company")]
     [ApiController]
     public class CompanyController : ControllerBase
     {
 
-        string defaultConnection = "Server=localhost; Database=codeathon; UID=root; Password=; SslMode=none;";
+        string defaultConnection = "Server=localhost; Database=codeathon; UID=root; Password=iamroot; SslMode=none;";
 
         public CompanyController()
         {

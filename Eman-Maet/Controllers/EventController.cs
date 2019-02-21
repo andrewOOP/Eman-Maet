@@ -73,7 +73,7 @@ namespace Eman_Maet.EventController
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
                 IEnumerable<EventModel> output = connection.Query<EventModel>("INSERT INTO Event (eventDate, eventDescription, startTime) VALUES ((@_eventDate), (@_eventDescription), (@_startTime))", new { _eventDate = item.eventDate, _eventDescription = item.eventDescription, _startTime = item.startTime});
-                return CreatedAtRoute("GetEvent", new { id = item.eventId }, item);
+                return CreatedAtRoute("GetEvent", new { id = item.eventID }, item);
             }
 
         }

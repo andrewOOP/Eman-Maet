@@ -73,7 +73,7 @@ namespace Eman_Maet.LocationController
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
                 IEnumerable<LocationModel> output = connection.Query<LocationModel>("INSERT INTO Event (locationName, address, city, state, zip) VALUES ((@_locationName), (@_address), (@_city), (@_state), (@_zip))", new { _locationName = item.locationName, _address = item.address, _city = item.city, _state = item.state, _zip = item.zip });
-                return CreatedAtRoute("GetLocation", new { id = item.locationId }, item);
+                return CreatedAtRoute("GetLocation", new { id = item.locationID }, item);
             }
 
         }

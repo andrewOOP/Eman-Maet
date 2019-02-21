@@ -7,7 +7,7 @@ namespace Eman_Maet.Models
 {
     public class CompanyModel
     {
-        public int companyId { get; set; }
+        public int companyID { get; set; }
         public String companyName { get; set; }
         public String companyContact { get; set; }
         public int inactive { get; set; }

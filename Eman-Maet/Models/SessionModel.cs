@@ -7,10 +7,14 @@ namespace Eman_Maet.Models
 {
     public class SessionModel
     {
-        public int companyId { get; set; }
-        public String companyName { get; set; }
-        public String companyContact { get; set; }
-        public int inactive { get; set; }
+        public int sessionID { get; set; }
+        public int eventID { get; set; }
+        public String sessionName { get; set; }
+        public DateTime sessionDate { get; set; }
+        public DateTime startTime { get; set; }
+        public DateTime endTime { get; set; }
+        public int locationID { get; set; }
+        public int companyID { get; set; }
 
 
     }

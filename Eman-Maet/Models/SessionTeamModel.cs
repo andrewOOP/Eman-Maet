@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace Eman_Maet.Models
 {
-    public class TeamModel
+    public class SessionTeamModel
     {
+        public int sessionTeamID { get; set; }
+        public int sessionID { get; set; }
         public int teamID { get; set; }
-        public String teamName { get; set; }
-        public String preferredJob { get; set; }
-        public int companyID { get; set; }
 
 
     }
