@@ -31,11 +31,11 @@ export class EventList extends Component {
 			},
 			{
 				Header: "Event Date",
-				accessor: "eventDate"
+				accessor: "formattedEventDate"
 			},
 			{
-				Header: "Inactive?",
-				accessor: "inactive"
+				Header: "Start Time",
+				accessor: "formattedStartTime"
 			}
 		];
 

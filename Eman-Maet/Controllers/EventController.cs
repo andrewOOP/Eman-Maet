@@ -24,6 +24,17 @@ namespace Eman_Maet.EventController
             
         }
 
+        IEnumerable<EventModel> formatDatesAndTimes(IEnumerable<EventModel> ienum)
+        {
+            foreach (EventModel x in ienum)
+            {
+                x.formattedEventDate = x.eventDate.ToString("MM/dd/yyyy");
+                x.formattedStartTime = x.startTime.ToString("h:mm tt");
+            }
+
+            return ienum;
+
+        }
 
 
         [HttpGet]
@@ -32,7 +43,7 @@ namespace Eman_Maet.EventController
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
                 IEnumerable<EventModel> output = connection.Query<EventModel>("SELECT * FROM Event");
-                return output.ToList();
+                return formatDatesAndTimes(output).ToList();
             }
         }
 
@@ -47,7 +58,7 @@ namespace Eman_Maet.EventController
                 {
                     return NotFound();
                 }
-                return output.FirstOrDefault();
+                return formatDatesAndTimes(output).FirstOrDefault();
             }
         }
 
