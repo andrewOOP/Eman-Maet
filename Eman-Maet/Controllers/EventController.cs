@@ -42,7 +42,7 @@ namespace Eman_Maet.EventController
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<EventModel> output = connection.Query<EventModel>("SELECT * FROM Event WHERE eventId=(@_id)", new { _id = id });
+                IEnumerable<EventModel> output = connection.Query<EventModel>("SELECT * FROM Event WHERE eventID=(@_id)", new { _id = id });
                 if (output.Count() == 0)
                 {
                     return NotFound();
@@ -72,7 +72,7 @@ namespace Eman_Maet.EventController
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<EventModel> output = connection.Query<EventModel>("INSERT INTO Event (companyId, eventDate, eventDescription, visitorCount, startTime, inactive) VALUES ((@_companyId), (@_eventDate), (@_eventDescription), (@_visitorCount), (@_startTime), (@_inactive))", new { _companyId = item.companyId, _eventDate = item.eventDate, _eventDescription = item.eventDescription, _visitorCount = item.visitorCount, _startTime = item.startTime, _inactive = item.inactive});
+                IEnumerable<EventModel> output = connection.Query<EventModel>("INSERT INTO Event (companyID, eventDate, eventDescription, visitorCount, startTime, inactive) VALUES ((@_companyID), (@_eventDate), (@_eventDescription), (@_visitorCount), (@_startTime), (@_inactive))", new { _companyId = item.companyId, _eventDate = item.eventDate, _eventDescription = item.eventDescription, _visitorCount = item.visitorCount, _startTime = item.startTime, _inactive = item.inactive});
                 return CreatedAtRoute("GetEvent", new { id = item.eventId }, item);
             }
 

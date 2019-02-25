@@ -31,7 +31,7 @@ namespace Eman_Maet.EventController
         {
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM User");
+                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM user");
                 return output.ToList();
             }
         }
@@ -42,12 +42,31 @@ namespace Eman_Maet.EventController
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM User WHERE userId=(@_id)", new { _id = id });
+                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM user WHERE userID=(@_id)", new { _id = id });
                 if (output.Count() == 0)
                 {
                     return NotFound();
                 }
                 return output.FirstOrDefault();
+            }
+        }
+
+        //Austin's function
+        [HttpGet("{username}/{password}", Name = "Login")]
+        public ActionResult<UserModel> GetResult(string username, string password)
+        {
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<UserModel> test = connection.Query<UserModel>("SELECT userID from user WHERE email=(@_email) AND password=(@_password)", new { _email = username, _password = password });
+                if (test.Count() == 1)
+                {
+                    IEnumerable<UserModel> result = connection.Query<UserModel>("SELECT * from user WHERE email=(@_email) AND password=(@_password)", new { _email = username, _password = password });
+                    int userid = result.First().userId;
+                    int companyid = result.First().companyId;
+                    HttpContext.Session.Set(string 'sessionUserID', userid);
+                    
+                }
+                return NotFound();
             }
         }
 
