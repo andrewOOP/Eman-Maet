@@ -10,9 +10,9 @@ namespace Eman_Maet.Models
         public int sessionID { get; set; }
         public int eventID { get; set; }
         public String sessionName { get; set; }
-        public DateTime sessionDate { get; set; }
-        public DateTime startTime { get; set; }
-        public DateTime endTime { get; set; }
+        public String sessionDate { get; set; }
+        public String startTime { get; set; }
+        public String endTime { get; set; }
         public int locationID { get; set; }
         public int companyID { get; set; }
 

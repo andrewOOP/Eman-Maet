@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { makeData } from "../Utils";
 import ReactTable from "react-table";
 import './EventList.css'
 import './AppStyle.css'
