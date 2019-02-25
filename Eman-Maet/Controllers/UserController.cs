@@ -66,7 +66,9 @@ namespace Eman_Maet.EventController
                     HttpContext.Session.Set("sessionUserID", System.BitConverter.GetBytes(userid));
                     HttpContext.Session.Set("sessionCompanyID", System.BitConverter.GetBytes(companyid));
 
-                    return RedirectToPage("/components/EventList");
+                    //I don't know what to return here to have the Login.js page continue redirecting to EventList.js
+                    //Some things may need to be changed in Login.js as well...
+                    return something;
                 }
                 return NotFound();
             }
