@@ -63,8 +63,10 @@ namespace Eman_Maet.EventController
                     IEnumerable<UserModel> result = connection.Query<UserModel>("SELECT * from user WHERE email=(@_email) AND password=(@_password)", new { _email = username, _password = password });
                     int userid = result.First().userId;
                     int companyid = result.First().companyId;
-                    HttpContext.Session.Set(string 'sessionUserID', userid);
-                    
+                    HttpContext.Session.Set("sessionUserID", System.BitConverter.GetBytes(userid));
+                    HttpContext.Session.Set("sessionCompanyID", System.BitConverter.GetBytes(companyid));
+
+                    return RedirectToPage("/components/EventList");
                 }
                 return NotFound();
             }

@@ -16,9 +16,17 @@ export class Login extends Component {
     }
 
     handleFormSubmit(event) {
-        this.setState({ redirect: true });
-        event.preventDefault();
+        //this.setState({ redirect: true });
+        //event.preventDefault();
         //console.log(this.state);
+
+        this.state = { userModel: null, redirect: false };
+
+        fetch('api/user/username/password')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ userModel: data, redirect: true });
+            });
     }
 
     renderRedirect = () => {
