@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
+import { LinkContainer } from 'react-router-bootstrap';
 import './EventList.css'
 import './AppStyle.css'
 import 'react-table/react-table.css'
@@ -17,9 +18,6 @@ export class EventList extends Component {
                 this.setState({ eventList: data, loading: false });
             });
 	}
-
-
-
 
 
     static renderEventTable(events) {
@@ -54,7 +52,10 @@ export class EventList extends Component {
 						]}
 						defaultPageSize={10}
 						className="-striped -highlight"
-					/>
+                />
+                <LinkContainer to={'/createevent'}>
+                    <button className="submit" type="button">Create Event</button>
+                </LinkContainer>
 			</div>
 		);
     }

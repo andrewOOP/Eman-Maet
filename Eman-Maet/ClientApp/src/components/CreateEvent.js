@@ -209,7 +209,7 @@ export class CreateEvent extends Component {
                           className="-striped -highlight"
                       />
                
-                <br /><input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
+                <input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
             </form >
 
         </div>
