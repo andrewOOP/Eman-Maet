@@ -43,8 +43,8 @@ export class CreateEvent extends Component {
         let newSelected = {};
 
         if (this.state.selectAll === 0) {
-            this.state.data.forEach(x => {
-                newSelected[x.id] = true;
+            this.state.userList.forEach(x => {
+                newSelected[x.userID] = true;
             });
         }
 
@@ -99,8 +99,8 @@ export class CreateEvent extends Component {
                                 <input
                                     type="checkbox"
                                     className="checkbox"
-                                    checked={this.state.selected[original.userId] === true}
-                                    onChange={() => this.toggleRow(original.userId)}
+                                    checked={this.state.selected[original.userID] === true}
+                                    onChange={() => this.toggleRow(original.userID)}
                                 />
                             );
                         },
@@ -123,16 +123,16 @@ export class CreateEvent extends Component {
                         width: 45
                     },
                     {
-                        Header: "User ID",
-                        accessor: "userId"
-                    },
-                    {
                         Header: "First Name",
                         accessor: "fName",
                     },
                     {
                         Header: "Last Name",
                         accessor: "lName",
+                    },
+                    {
+                        Header: "Email",
+                        accessor: "email",
                     }
                 ];
 
