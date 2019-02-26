@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
 import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 import './EventList.css'
 import './AppStyle.css'
 import 'react-table/react-table.css'
+import { EditEvent } from './EditEvent';
 
 export class EventList extends Component {
 	displayName = EventList.name
@@ -38,7 +40,17 @@ export class EventList extends Component {
             {
                 id: 'editButton',
                 accessor: 'eventID',
-                Cell: ({ value }) => (<a className="EditEvent" onClick={() => { console.log('clicked value', value) }}>Edit</a>),
+                Cell: ({ value }) => (
+
+                    <LinkContainer to={'/editevent?id=' + value}>
+                    <a className="EditEvent" onClick={() => {
+
+                    console.log(value);
+
+                        }}>Edit</a>
+                    </LinkContainer>
+
+                ),
                 sortable: false,
                 width: 40
             },

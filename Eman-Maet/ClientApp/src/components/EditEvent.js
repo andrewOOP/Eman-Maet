@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
+import * as qs from 'query-string';
 import { LinkContainer } from 'react-router-bootstrap';
 import './EditEvent.css'
 import './AppStyle.css'
@@ -21,6 +22,16 @@ export class EditEvent extends Component {
             userList: [],
             loading: true,
         }
+
+        const params = qs.parse(this.props.location.search);
+        console.log(params);
+
+        fetch('api/event/' + params.id)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ title: data.eventDescription, startdate: data.eventDate.substr(0, 10), starttime: data.startTime.substr(11, 100) })
+                console.log(this.state.starttime);
+            });
 
         fetch('api/user')
             .then(response => response.json())
