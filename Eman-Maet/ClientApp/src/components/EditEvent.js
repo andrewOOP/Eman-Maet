@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
 import { LinkContainer } from 'react-router-bootstrap';
-import './CreateEvent.css'
+import './EditEvent.css'
 import './AppStyle.css'
 import 'react-table/react-table.css'
 
-export class CreateEvent extends Component {
-    displayName = CreateEvent.name
+export class EditEvent extends Component {
+    displayName = EditEvent.name
 
     constructor(props) {
         super(props);
@@ -62,10 +62,10 @@ export class CreateEvent extends Component {
             eventDescription: this.state.title,
             startTime: this.state.starttime,
         };
-        this.createEvent(submitState);
+        this.editEvent(submitState);
     }
 
-    createEvent(data) {
+    editEvent(data) {
 
         fetch('api/event', {
             method: 'POST',
@@ -142,7 +142,7 @@ export class CreateEvent extends Component {
 
 
           <div className="main">
-            <h1>Create Event</h1>
+            <h1>Edit Event</h1>
               <form action="#" >
                   <div className="row">
                       <div className="col-25">

@@ -34,7 +34,14 @@ export class EventList extends Component {
 			{
 				Header: "Start Time",
 				accessor: "formattedStartTime"
-			}
+            },
+            {
+                id: 'editButton',
+                accessor: 'eventID',
+                Cell: ({ value }) => (<a className="EditEvent" onClick={() => { console.log('clicked value', value) }}>Edit</a>),
+                sortable: false,
+                width: 40
+            },
 		];
 
 
