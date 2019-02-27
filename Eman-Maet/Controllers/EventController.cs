@@ -89,14 +89,15 @@ namespace Eman_Maet.EventController
 
         }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(string id)
-        //{
-        //    using (MySqlConnection connection = new MySqlConnection(defaultConnection))
-        //    {
-        //        IEnumerable<Event> output = connection.Query<Event>("DELETE FROM Event WHERE Id=(@_id)", new { _id = id });
-        //        return NoContent();
-        //    }
-        //}
+        [HttpPut("{id}")]
+        public IActionResult Update(long id, EventModel item)
+        {
+
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<EventModel> output = connection.Query<EventModel>("UPDATE Event SET eventDate = @_eventDate, eventDescription = @_eventDescription, startTime = @_startTime WHERE eventID = @_id", new { _eventDate = item.eventDate, _eventDescription = item.eventDescription, _startTime = item.startTime, _id = id });
+                return NoContent();
+            }
+        }
     }
 }

@@ -20,17 +20,16 @@ export class EditEvent extends Component {
             selected: {},
             selectAll: 0,
             userList: [],
+            paramID: -1,
             loading: true,
         }
 
         const params = qs.parse(this.props.location.search);
-        console.log(params);
 
         fetch('api/event/' + params.id)
             .then(response => response.json())
             .then(data => {
-                this.setState({ title: data.eventDescription, startdate: data.eventDate.substr(0, 10), starttime: data.startTime.substr(11, 100) })
-                console.log(this.state.starttime);
+                this.setState({ paramID: params.id, title: data.eventDescription, startdate: data.eventDate.substr(0, 10), starttime: data.startTime.substr(11, 100) })
             });
 
         fetch('api/user')
@@ -78,8 +77,8 @@ export class EditEvent extends Component {
 
     editEvent(data) {
 
-        fetch('api/event', {
-            method: 'POST',
+        fetch('api/event/' + this.state.paramID, {
+            method: 'PUT',
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
