@@ -25,11 +25,6 @@ export class NavMenu extends Component
 					<Glyphicon glyph='th-list' /> Event List
 				</NavItem>
 			</LinkContainer>
-            <LinkContainer to={'/createevent'}>
-                <NavItem>
-                    <Glyphicon glyph='th-list' /> Create Event
-                </NavItem>
-            </LinkContainer>
             <LinkContainer to={'/eventdetails'}>
                 <NavItem>
                     <Glyphicon glyph='th-list' /> Event Details

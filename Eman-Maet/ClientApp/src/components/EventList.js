@@ -12,7 +12,7 @@ export class EventList extends Component {
 
 	constructor(props) {
 		super(props);
-        this.state = { eventList: [], loading: true, prevKey: this.props.key };
+        this.state = { eventList: [], loading: true, prevKey: "" };
 
         this.fetchData();
     }
