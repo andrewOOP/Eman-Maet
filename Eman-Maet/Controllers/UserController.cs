@@ -51,6 +51,29 @@ namespace Eman_Maet.EventController
             }
         }
 
+        [HttpGet("GetNextUserId")]
+        public ActionResult<UserModel> GetNextUserId()
+        {
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT Max(userId)+1 as userID FROM User");
+                return output.FirstOrDefault();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Create(UserModel item)
+        {
+
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<UserModel> output = connection.Query<UserModel>("INSERT INTO User (userID, companyID, fName, lName, securityRole, email, password, inactive) VALUES ((@_userID), (@_companyID), (@_fName), (@_lName), (@_securityRole), (@_email), (@_password), (@_inactive))",
+                    new { _userID = item.userID, _companyID = item.companyID, _fName = item.fName, _lName = item.lName, _securityRole = item.securityRole, _email = item.email, _password = item.password, _inactive = item.inactive });
+                return CreatedAtRoute("GetUser", new { id = item.userID }, item);
+            }
+
+        }
+
         //[HttpGet("range", Name = "GetEventRange")]
         //public ActionResult<List<Event>> GetByRange(float min, float max)
         //{
@@ -64,18 +87,6 @@ namespace Eman_Maet.EventController
         //        }
         //        return output.ToList();
         //    }
-        //}
-
-        //[HttpPost]
-        //public IActionResult Create(Event item)
-        //{
-
-        //    using (MySqlConnection connection = new MySqlConnection(defaultConnection))
-        //    {
-        //        IEnumerable<Event> output = connection.Query<Event>("INSERT INTO Event (Id, Name, Gpa) VALUES ((@_Id), (@_Name), (@_Gpa))", new { _Id = item.Id, _Name = item.Name, _Gpa = item.Gpa });
-        //        return CreatedAtRoute("GetEvent", new { id = item.Id }, item);
-        //    }
-
         //}
 
         //[HttpDelete("{id}")]
