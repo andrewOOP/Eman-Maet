@@ -24,6 +24,17 @@ namespace Eman_Maet.EventController
             
         }
 
+        IEnumerable<EventModel> formatDatesAndTimes(IEnumerable<EventModel> ienum)
+        {
+            foreach (EventModel x in ienum)
+            {
+                x.formattedEventDate = x.eventDate.ToString("MM/dd/yyyy");
+                x.formattedStartTime = x.startTime.ToString("h:mm tt");
+            }
+
+            return ienum;
+
+        }
 
 
         [HttpGet]
@@ -32,7 +43,7 @@ namespace Eman_Maet.EventController
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
                 IEnumerable<EventModel> output = connection.Query<EventModel>("SELECT * FROM Event");
-                return output.ToList();
+                return formatDatesAndTimes(output).ToList();
             }
         }
 
@@ -47,7 +58,7 @@ namespace Eman_Maet.EventController
                 {
                     return NotFound();
                 }
-                return output.FirstOrDefault();
+                return formatDatesAndTimes(output).FirstOrDefault();
             }
         }
 
@@ -78,14 +89,15 @@ namespace Eman_Maet.EventController
 
         }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(string id)
-        //{
-        //    using (MySqlConnection connection = new MySqlConnection(defaultConnection))
-        //    {
-        //        IEnumerable<Event> output = connection.Query<Event>("DELETE FROM Event WHERE Id=(@_id)", new { _id = id });
-        //        return NoContent();
-        //    }
-        //}
+        [HttpPut("{id}")]
+        public IActionResult Update(long id, EventModel item)
+        {
+
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<EventModel> output = connection.Query<EventModel>("UPDATE Event SET eventDate = @_eventDate, eventDescription = @_eventDescription, startTime = @_startTime WHERE eventID = @_id", new { _eventDate = item.eventDate, _eventDescription = item.eventDescription, _startTime = item.startTime, _id = id });
+                return NoContent();
+            }
+        }
     }
 }

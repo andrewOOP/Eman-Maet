@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
+import * as qs from 'query-string';
 import { withRouter } from 'react-router';
-import './CreateEvent.css'
+import './EditEvent.css'
 import './AppStyle.css'
 import 'react-table/react-table.css'
 
-export class CreateEvent extends Component {
-    displayName = CreateEvent.name
+export class EditEvent extends Component {
+    displayName = EditEvent.name
 
     constructor(props) {
         super(props);
@@ -19,8 +20,17 @@ export class CreateEvent extends Component {
             selected: {},
             selectAll: 0,
             userList: [],
+            paramID: -1,
             loading: true,
         }
+
+        const params = qs.parse(this.props.location.search);
+
+        fetch('api/event/' + params.id)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ paramID: params.id, title: data.eventDescription, startdate: data.eventDate.substr(0, 10), starttime: data.startTime.substr(11, 100) })
+            });
 
         fetch('api/user')
             .then(response => response.json())
@@ -62,13 +72,13 @@ export class CreateEvent extends Component {
             eventDescription: this.state.title,
             startTime: this.state.starttime,
         };
-        this.createEvent(submitState);
+        this.editEvent(submitState);
     }
 
-    createEvent(data) {
+    editEvent(data) {
 
-        fetch('api/event', {
-            method: 'POST',
+        fetch('api/event/' + this.state.paramID, {
+            method: 'PUT',
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
@@ -144,7 +154,7 @@ export class CreateEvent extends Component {
 
 
           <div className="main">
-            <h1>Create Event</h1>
+            <h1>Edit Event</h1>
               <form action="#" >
                   <div className="row">
                       <div className="col-25">
@@ -233,4 +243,4 @@ export class CreateEvent extends Component {
     }
 }
 
-export default withRouter(CreateEvent);
+export default withRouter(EditEvent);
