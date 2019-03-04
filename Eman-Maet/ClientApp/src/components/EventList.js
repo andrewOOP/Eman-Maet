@@ -87,6 +87,7 @@ export class EventList extends Component {
                 <LinkContainer to={'/createevent'}>
                     <button className="submit" type="button">Create Event</button>
                 </LinkContainer>
+
 			</div>
 		);
     }

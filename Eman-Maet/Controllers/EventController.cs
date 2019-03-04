@@ -42,7 +42,7 @@ namespace Eman_Maet.EventController
         {
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<EventModel> output = connection.Query<EventModel>("SELECT * FROM Event");
+                IEnumerable<EventModel> output = connection.Query<EventModel>("SELECT * FROM Event WHERE inactive = 0");
                 return formatDatesAndTimes(output).ToList();
             }
         }
@@ -96,6 +96,17 @@ namespace Eman_Maet.EventController
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
                 IEnumerable<EventModel> output = connection.Query<EventModel>("UPDATE Event SET eventDate = @_eventDate, eventDescription = @_eventDescription, startTime = @_startTime WHERE eventID = @_id", new { _eventDate = item.eventDate, _eventDescription = item.eventDescription, _startTime = item.startTime, _id = id });
+                return NoContent();
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult MarkAsInactive(long id)
+        {
+
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<EventModel> output = connection.Query<EventModel>("UPDATE Event SET inactive = 1 WHERE eventID = @_id", new { _id = id });
                 return NoContent();
             }
         }

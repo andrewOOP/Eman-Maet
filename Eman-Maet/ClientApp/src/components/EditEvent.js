@@ -67,12 +67,33 @@ export class EditEvent extends Component {
 
     handleFormSubmit(event) {
         event.preventDefault();
+
         let submitState = {
             eventDate: this.state.startdate,
             eventDescription: this.state.title,
             startTime: this.state.starttime,
         };
         this.editEvent(submitState);
+    }
+
+    deleteEvent(event) {
+        event.preventDefault();
+
+        if (!window.confirm('Are you sure you want to delete this event?')) {
+            return;
+        } else {
+
+            fetch('api/event/' + this.state.paramID, {
+                method: 'DELETE'
+            }).then(res => {
+                console.log("WIN");
+                return res;
+            }).catch(err => {
+                console.log(err);
+            });
+
+            this.props.history.push('/eventlist');
+        }
     }
 
     editEvent(data) {
@@ -221,8 +242,9 @@ export class EditEvent extends Component {
                           defaultPageSize={10}
                           className="-striped -highlight"
                       />
-                      <input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
-            </form >
+                  <input type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
+                  <input className="delete" type="submit" onClick={e => this.deleteEvent(e)} value="Delete" />
+              </form >
 
         </div>
         );
