@@ -4,10 +4,12 @@ import { Glyphicon, Nav, Navbar, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import './NavMenu.css';
 
-export class NavMenu extends Component {
+export class NavMenu extends Component
+{
   displayName = NavMenu.name
 
-  render() {
+    render()
+    {
     return (
       <Navbar inverse fixedTop fluid collapseOnSelect>
         <Navbar.Header>
@@ -22,10 +24,15 @@ export class NavMenu extends Component {
 				<NavItem>
 					<Glyphicon glyph='th-list' /> Event List
 				</NavItem>
-					</LinkContainer>
-                    <LinkContainer to={'/createevent'}>
+			</LinkContainer>
+            <LinkContainer to={'/createevent'}>
                 <NavItem>
                     <Glyphicon glyph='th-list' /> Create Event
+                </NavItem>
+            </LinkContainer>
+            <LinkContainer to={'/eventdetails'}>
+                <NavItem>
+                    <Glyphicon glyph='th-list' /> Event Details
                 </NavItem>
             </LinkContainer>
           </Nav>
