@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
-import { LinkContainer } from 'react-router-bootstrap';
+import { withRouter } from 'react-router';
 import './CreateEvent.css'
 import './AppStyle.css'
 import 'react-table/react-table.css'
@@ -80,6 +80,8 @@ export class CreateEvent extends Component {
                 console.log(err);
             });
         console.log(JSON.stringify(data));
+
+        this.props.history.push('/eventlist');
     }
 
     getCurrentDate() {
@@ -230,3 +232,5 @@ export class CreateEvent extends Component {
         );
     }
 }
+
+export default withRouter(CreateEvent);

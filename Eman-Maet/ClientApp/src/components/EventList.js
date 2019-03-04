@@ -12,15 +12,27 @@ export class EventList extends Component {
 
 	constructor(props) {
 		super(props);
-        this.state = { eventList: [], loading: true };
+        this.state = { eventList: [], loading: true, prevKey: this.props.key };
 
+        this.fetchData();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        // only update chart if the data has changed
+        if (this.state.prevKey !== this.props.location.key) {
+            this.fetchData();
+            this.setState({ prevKey: this.props.location.key });
+        }
+    }
+
+
+    fetchData() {
         fetch('api/event')
             .then(response => response.json())
             .then(data => {
                 this.setState({ eventList: data, loading: false });
             });
-	}
-
+    }
 
     static renderEventTable(events) {
 
