@@ -31,7 +31,7 @@ namespace Eman_Maet.EventController
         {
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM user");
+                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM user ORDER BY inactive");
                 return output.ToList();
             }
         }
@@ -68,7 +68,7 @@ namespace Eman_Maet.EventController
 
                     //I don't know what to return here to have the Login.js page continue redirecting to EventList.js
                     //Some things may need to be changed in Login.js as well...
-                    return something;
+                    return result.First();
                 }
                 return NotFound();
             }

@@ -22,10 +22,15 @@ export class NavMenu extends Component {
 				<NavItem>
 					<Glyphicon glyph='th-list' /> Event List
 				</NavItem>
-					</LinkContainer>
-                    <LinkContainer to={'/createevent'}>
+			</LinkContainer>
+            <LinkContainer to={'/createevent'}>
                 <NavItem>
                     <Glyphicon glyph='th-list' /> Create Event
+                </NavItem>
+            </LinkContainer>
+            <LinkContainer to={'/userlist'}>
+                <NavItem>
+                    <Glyphicon glyph='th-list' /> User List
                 </NavItem>
             </LinkContainer>
           </Nav>
