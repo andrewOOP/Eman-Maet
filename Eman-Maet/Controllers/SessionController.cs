@@ -65,17 +65,17 @@ namespace Eman_Maet.SessionController
         }
 
 
-        //[HttpPost]
-        //public IActionResult Create(SessionModel item)
-        //{
+        [HttpPost]
+        public IActionResult Create(SessionModel item)
+        {
 
-        //    using (MySqlConnection connection = new MySqlConnection(defaultConnection))
-        //    {
-        //        IEnumerable<SessionModel> output = connection.Query<SessionModel>("INSERT INTO Event (eventDate, eventDescription, startTime) VALUES ((@_eventDate), (@_eventDescription), (@_startTime))", new { _eventDate = item.eventDate, _eventDescription = item.eventDescription, _startTime = item.startTime});
-        //        return CreatedAtRoute("GetSession", new { id = item.sessionID }, item);
-        //    }
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<SessionModel> output = connection.Query<SessionModel>("INSERT INTO Session (eventID, locationID, sessionName, sessionDate, startTime, endTime) VALUES ((@_eventID), (@_locationID), (@_sessionName), (@_sessionDate), (@_startTime), (@_endTime))", new { _eventID = item.eventID, _locationID = item.locationID, _sessionName = item.sessionName, _sessionDate = item.sessionDate, _startTime = item.startTime, _endTime = item.endTime });
+                return CreatedAtRoute("GetSession", new { id = item.sessionID }, item);
+            }
 
-        //}
+        }
 
         //[HttpPut("{id}")]
         //public IActionResult Update(long id, SessionModel item)
