@@ -74,29 +74,17 @@ namespace Eman_Maet.EventController
 
         }
 
-        //[HttpGet("range", Name = "GetEventRange")]
-        //public ActionResult<List<Event>> GetByRange(float min, float max)
-        //{
+        [HttpPost("{id}", Name = "EditUser")]
+        public IActionResult Edit(UserModel item)
+        {
 
-        //    using (MySqlConnection connection = new MySqlConnection(defaultConnection))
-        //    {
-        //        IEnumerable<Event> output = connection.Query<Event>("SELECT * FROM Event WHERE Gpa>=(@_min) AND Gpa<=(@_max)", new { _min = min, _max = max });
-        //        if (output.Count() == 0)
-        //        {
-        //            return NotFound();
-        //        }
-        //        return output.ToList();
-        //    }
-        //}
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<UserModel> output = connection.Query<UserModel>("UPDATE User SET companyID = (@_companyID), fName = (@_fName), lName = (@_lName), securityRole = (@_securityRole), email = (@_email), password = (@_password), inactive = (@_inactive) WHERE userID = (@_userID)",
+                    new { _userID = item.userID, _companyID = item.companyID, _fName = item.fName, _lName = item.lName, _securityRole = item.securityRole, _email = item.email, _password = item.password, _inactive = item.inactive });
+                return CreatedAtRoute("GetUser", new { id = item.userID }, item);
+            }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(string id)
-        //{
-        //    using (MySqlConnection connection = new MySqlConnection(defaultConnection))
-        //    {
-        //        IEnumerable<Event> output = connection.Query<Event>("DELETE FROM Event WHERE Id=(@_id)", new { _id = id });
-        //        return NoContent();
-        //    }
-        //}
+        }
     }
 }

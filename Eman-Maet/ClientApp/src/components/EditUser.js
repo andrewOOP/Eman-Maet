@@ -3,40 +3,53 @@ import { Redirect } from 'react-router-dom'
 import './AppStyle.css'
 import 'react-table/react-table.css'
 
-export class CreateUser extends Component {
-    displayName = CreateUser.name
+export class EditUser extends Component {
+    displayName = EditUser.name
 
     constructor(props) {
         super(props);
         this.state = {
             userid: '',
-            companyid: 1,
+            companyid: '',
             fname: '',
             lname: '',
             securityrole: '',
             email: '',
             password: '',
-            inactive: false,
+            inactive: '',
             redirect: false,
         }
-        fetch('api/user/GetNextUserId', {
+        fetch('api/user/2', {
             method: 'GET',
         }).then(res => res.json())
-            .then(response => this.setState({ userid: response.userID }))
+            .then(response =>
+                this.setState({
+                    userid: response.userID,
+                    companyid: response.companyID,
+                    fname: response.fName,
+                    lname: response.lName,
+                    securityrole: response.securityRole,
+                    email: response.email,
+                    password: response.password,
+                    inactive: response.inactive,
+                }))
             .catch(error => console.error('Error:', error));
+        //change inactive to a boolean
+        if (this.state.inactive === 1) { this.setState({ inactive: true }) }
+        else { this.setState({ inactive: false }) }
     }
 
     handleFormSubmit(userEvent) {
         userEvent.preventDefault();
-        //changinge inactive flag to a integer value
+
+        //changinge inactive flag back to a integer value
         var inactiveFlag;
         if (this.state.inactive) { inactiveFlag = 1 }
         else { inactiveFlag = 0 }
         this.setState({ redirect: true });
-        this.setState({ redirect: true });
         let submitState = {
             userID: this.state.userid,
-            companyID: '1',
+            companyID: this.state.companyID,
             fName: this.state.fname,
             lName: this.state.lname,
             securityRole: this.state.securityrole,
@@ -44,11 +57,11 @@ export class CreateUser extends Component {
             password: this.state.password,
             inactive: inactiveFlag,
         };
-        this.createUser(submitState);
+        this.editUser(submitState);
     }
 
-    createUser(data) {
-        fetch('api/user', {
+    editUser(data) {
+        fetch('api/user/2', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -61,10 +74,10 @@ export class CreateUser extends Component {
         });
     }
 
-    renderCreateUser() {
+    renderEditUser() {
         return (
             <div className="main">
-                <h1>Create User</h1>
+                <h1>Edit User</h1>
                 <form action="#" >
                     <div className="row">
                         <div className="col-25">
@@ -143,6 +156,7 @@ export class CreateUser extends Component {
                         <div className="col-75">
                             <input type="checkbox"
                                 value={this.state.inactive}
+                                checked={this.state.inactive}
                                 onChange={e => this.setState({ inactive: e.target.checked })}
                             />
                         </div>
@@ -164,7 +178,7 @@ export class CreateUser extends Component {
     render() {
         return (
             <div>
-                {this.renderCreateUser()}
+                {this.renderEditUser()}
                 {this.renderRedirect()}
             </div>
         );

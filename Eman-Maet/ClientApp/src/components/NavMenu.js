@@ -35,6 +35,11 @@ export class NavMenu extends Component
                     <Glyphicon glyph='th-list' /> Create User
                 </NavItem>
              </LinkContainer>
+             <LinkContainer to={'/edituser'}>
+                <NavItem>
+                    <Glyphicon glyph='th-list' /> Edit User
+                </NavItem>
+             </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

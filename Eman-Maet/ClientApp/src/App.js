@@ -5,6 +5,7 @@ import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { CreateEvent } from './components/CreateEvent';
 import { CreateUser } from './components/CreateUser';
+import { EditUser } from './components/EditUser';
 import { EditEvent } from './components/EditEvent';
 import { EventList } from './components/EventList';
 import { EventDetails } from './components/EventDetails';
@@ -26,6 +27,7 @@ export default class App extends Component
 		<Route path='/eventlist' component={EventList} />
         <Route path='/eventdetails' component={EventDetails} />
         <Route path='/createuser' component={CreateUser} />
+        <Route path='/edituser' component={EditUser} />
 
       </Layout>
     );
