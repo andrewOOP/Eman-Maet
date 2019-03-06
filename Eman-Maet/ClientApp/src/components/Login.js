@@ -35,6 +35,7 @@ export class Login extends Component {
                 console.log('error: ' + error);
                 this.setState({ requestFailed: true });
             });
+        }
 
         renderRedirect = () => {
             if (this.state.redirect) {
@@ -66,5 +67,5 @@ export class Login extends Component {
                 </div>
             );
         }
-    }
+
 }
