@@ -29,7 +29,12 @@ export class NavMenu extends Component
                 <NavItem>
                     <Glyphicon glyph='th-list' /> Event Details
                 </NavItem>
-             </LinkContainer>
+            </LinkContainer>
+            <LinkContainer to={'/userlist'}>
+                <NavItem>
+                   <Glyphicon glyph='th-list' /> User List
+                </NavItem>
+            </LinkContainer>
              <LinkContainer to={'/createuser'}>
                 <NavItem>
                     <Glyphicon glyph='th-list' /> Create User
