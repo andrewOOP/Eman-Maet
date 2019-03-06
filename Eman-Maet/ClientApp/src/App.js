@@ -3,6 +3,7 @@ import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
+import { CreateSession } from './components/CreateSession';
 import { CreateEvent } from './components/CreateEvent';
 import { CreateUser } from './components/CreateUser';
 import { EditUser } from './components/EditUser';
@@ -28,7 +29,7 @@ export default class App extends Component
         <Route path='/eventdetails' component={EventDetails} />
         <Route path='/createuser' component={CreateUser} />
         <Route path='/edituser' component={EditUser} />
-
+        <Route path='/createsession' component={CreateSession} />
       </Layout>
     );
   }
