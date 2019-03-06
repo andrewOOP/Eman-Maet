@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import ReactTable from "react-table";
 import { withRouter } from 'react-router';
 import './AppStyle.css'
-import 'react-table/react-table.css'
 
 export class CreateSession extends Component {
     displayName = CreateSession.name

@@ -4,6 +4,7 @@ import { Layout } from './components/Layout';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { CreateSession } from './components/CreateSession';
+import { EditSession } from './components/EditSession';
 import { CreateEvent } from './components/CreateEvent';
 import { CreateUser } from './components/CreateUser';
 import { EditUser } from './components/EditUser';
@@ -30,6 +31,7 @@ export default class App extends Component
         <Route path='/createuser' component={CreateUser} />
         <Route path='/edituser' component={EditUser} />
         <Route path='/createsession' component={CreateSession} />
+        <Route path='/editsession' component={EditSession} />
       </Layout>
     );
   }
