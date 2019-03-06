@@ -28,11 +28,11 @@ export class UserList extends Component {
 		const columns = [
 			{
 				Header: "First Name",
-                accessor: "userFirstName"
+                accessor: "fName"
 			},
 			{
 				Header: "Last Name",
-				accessor: "userLastName"
+				accessor: "lName"
 			},
 			{
 				Header: "Email",
@@ -65,7 +65,7 @@ export class UserList extends Component {
     render() {
         let contents = this.state.loading
             ? <p><em></em></p>
-            : UserList.renderEventTable(this.state.userList);
+            : UserList.renderUserTable(this.state.userList);
 
         return (
             <div>

@@ -6,6 +6,7 @@ import { Counter } from './components/Counter';
 import { CreateEvent } from './components/CreateEvent';
 import { EventList } from './components/EventList';
 import { Login } from './components/Login';
+import { UserList } from './components/UserList';
 
 
 export default class App extends Component {
@@ -18,7 +19,8 @@ export default class App extends Component {
         <Route path='/counter' component={Counter} />
         <Route path='/fetchdata' component={FetchData} />
 		<Route path='/createevent' component={CreateEvent} />
-		<Route path='/eventlist' component={EventList} />
+        <Route path='/eventlist' component={EventList} />
+        <Route path='/userlist' component={UserList} />
       </Layout>
     );
   }
