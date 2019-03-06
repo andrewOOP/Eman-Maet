@@ -14,17 +14,32 @@ export class EditSession extends Component {
             startdate: this.getCurrentDate(),
             starttime: '12:00',
             endtime: '12:00',
-            location: '',
             paramID: -1,
+            locID: 1,
+            locChoice: '',
+            locations: [],
+            loading: true,
         }
+
+        fetch('api/location/')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ locations: data })
+            });
 
         const params = qs.parse(this.props.location.search);
 
         fetch('api/session/' + params.id)
             .then(response => response.json())
             .then(data => {
-                this.setState({ paramID: params.id, title: data.sessionName, startdate: data.sessionDate.substr(0, 10), starttime: data.startTime.substr(11, 100), endtime: data.endTime.substr(11, 100) })
+                this.setState({ paramID: params.id, title: data.sessionName, startdate: data.sessionDate.substr(0, 10), starttime: data.startTime.substr(11, 100), endtime: data.endTime.substr(11, 100), locID: data.locationID })
+                fetch('api/location/' + this.state.locID)
+                    .then(response => response.json())
+                    .then(data => {
+                        this.setState({ locChoice: data.locationName, loading: false })
+                    });
             });
+
 
     }
 
@@ -35,6 +50,7 @@ export class EditSession extends Component {
             sessionName: this.state.title,
             startTime: this.state.starttime,
             endTime: this.state.endtime,
+            locationID: this.state.locID,
         };
         this.editSession(submitState);
     }
@@ -85,11 +101,15 @@ export class EditSession extends Component {
     }
 
 
-    render() {
+    renderScreen() {
+
+        let options = this.state.locations.map((location) =>
+            <option key={location.locationID}>{location.locationName}</option>
+        );
 
         return (
             <div className="main">
-                <h1>Create Session</h1>
+                <h1>Edit Session</h1>
                 <form action="#" >
                     <div className="row">
                         <div className="col-25">
@@ -141,12 +161,8 @@ export class EditSession extends Component {
                             <label>Location</label>
                         </div>
                         <div className="col-75">
-                            <select value={this.state.location} onChange={e => this.setState({ location: e.target.value })} id="location">
-                                <option value="default">-------</option>
-                                <option value="grapefruit">Grapefruit</option>
-                                <option value="lime">Lime</option>
-                                <option value="coconut">Coconut</option>
-                                <option value="mango">Mango</option>
+                            <select value={this.state.locChoice} onChange={e => this.setState({ locChoice: e.target.value, locID: e.target.selectedIndex + 1 })} id="location">
+                                {options}
                             </select>
                         </div>
                     </div>
@@ -159,6 +175,18 @@ export class EditSession extends Component {
 
 
 
+    }
+
+    render() {
+        let contents = this.state.loading
+            ? <div class="loader">Please Wait...</div>
+            : this.renderScreen();
+
+        return (
+            <div>
+                {contents}
+            </div>
+        );
     }
 }
 

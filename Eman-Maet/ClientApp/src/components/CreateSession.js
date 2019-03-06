@@ -12,8 +12,19 @@ export class CreateSession extends Component {
             startdate: this.getCurrentDate(),
             starttime: '12:00',
             endtime: '12:00',
-            location: '',
+            locChoice: '',
+            locIndex: 1,
+            locations: [],
+            loading: true,
         }
+
+
+        fetch('api/location')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ locations: data, loading: false });
+            });
+
     }
 
     handleFormSubmit(event) {
@@ -23,6 +34,7 @@ export class CreateSession extends Component {
             sessionName: this.state.title,
             startTime: this.state.starttime,
             endTime: this.state.endtime,
+            locationID: this.state.locIndex,
         };
         this.createSession(submitState);
     }
@@ -53,8 +65,11 @@ export class CreateSession extends Component {
 
 
     
+    renderScreen() {
 
-    render() {
+        let options = this.state.locations.map((location) =>
+            <option key={location.locationID}>{location.locationName}</option>
+        );
 
         return (
           <div className="main">
@@ -109,13 +124,9 @@ export class CreateSession extends Component {
                       <div className="col-25">
                           <label>Location</label>
                       </div>
-                      <div className="col-75">
-                          <select value={this.state.location} onChange={e => this.setState({ location: e.target.value })} id="location">
-                              <option value="default">-------</option>
-                              <option value="grapefruit">Grapefruit</option>
-                              <option value="lime">Lime</option>
-                              <option value="coconut">Coconut</option>
-                              <option value="mango">Mango</option>
+                        <div className="col-75">
+                            <select value={this.state.locChoice} onChange={e => this.setState({ locChoice: e.target.value, locIndex: e.target.selectedIndex+1 })} id="location">
+                                {options}
                           </select>
                       </div>
                   </div>
@@ -128,6 +139,18 @@ export class CreateSession extends Component {
 
 
 
+    }
+
+    render() {
+        let contents = this.state.loading
+            ? <div class="loader">Please Wait...</div>
+            : this.renderScreen();
+
+        return (
+            <div>
+                {contents}
+            </div>
+        );
     }
 }
 

@@ -83,7 +83,7 @@ namespace Eman_Maet.SessionController
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<SessionModel> output = connection.Query<SessionModel>("UPDATE Session SET sessionName = @_sessionName, sessionDate = @_sessionDate, startTime = @_startTime, endTime = @_endTime WHERE sessionID = @_id", new { _sessionName = item.sessionName, _sessionDate = item.sessionDate, _startTime = item.startTime, _endTime = item.endTime, _id = id });
+                IEnumerable<SessionModel> output = connection.Query<SessionModel>("UPDATE Session SET locationID = @_locationID, sessionName = @_sessionName, sessionDate = @_sessionDate, startTime = @_startTime, endTime = @_endTime WHERE sessionID = @_id", new { _locationID = item.locationID, _sessionName = item.sessionName, _sessionDate = item.sessionDate, _startTime = item.startTime, _endTime = item.endTime, _id = id });
                 return NoContent();
             }
         }

@@ -16,7 +16,6 @@ export class EditEvent extends Component {
             startdate: this.getCurrentDate(),
             enddate: this.getCurrentDate(),
             starttime: '12:00',
-            location: '',
             selected: {},
             selectAll: 0,
             userList: [],
@@ -209,20 +208,6 @@ export class EditEvent extends Component {
                               value={this.state.starttime}
                               onChange={e => this.setState({ starttime: e.target.value })}
                           />
-                      </div>
-                  </div>
-                  <div className="row">
-                      <div className="col-25">
-                          <label>Location</label>
-                      </div>
-                      <div className="col-75">
-                          <select value={this.state.location} onChange={e => this.setState({ location: e.target.value })} id="location">
-                              <option value="default">-------</option>
-                              <option value="grapefruit">Grapefruit</option>
-                              <option value="lime">Lime</option>
-                              <option value="coconut">Coconut</option>
-                              <option value="mango">Mango</option>
-                          </select>
                       </div>
                   </div>
                   <div className="row">
