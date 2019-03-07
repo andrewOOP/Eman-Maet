@@ -44,7 +44,12 @@ export class NavMenu extends Component
                         <NavItem>
                             <Glyphicon glyph='th-list' /> Create Session
                 </NavItem>
-                    </LinkContainer>
+					</LinkContainer>
+					<LinkContainer to={'/sessiondetails'}>
+						<NavItem>
+							<Glyphicon glyph='th-list' /> Session Details
+                </NavItem>
+					</LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
