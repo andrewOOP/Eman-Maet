@@ -8,14 +8,16 @@ export class EventDetails extends Component
 {
     displayName = EventDetails.name
 
-    constructor(props) {
+    constructor(props) 
+    {
         super(props);
         this.state = {
             title: 'code-a-thon',
             startdate: this.getCurrentDate(),
             enddate: this.getCurrentDate(),
             starttime: '12:00',
-            location: '',
+            location: 'Paycom',
+            maxAttendance: '150',
             selected: {},
             selectAll: 0,
             userList: [],
@@ -91,9 +93,8 @@ export class EventDetails extends Component
 
 
 
-    renderUserTable(users) {
-
-
+    renderUserTable(users)
+    {
         const columns = [
             {
                 id: "checkbox",
@@ -132,10 +133,7 @@ export class EventDetails extends Component
             }
         ];
 
-
         return (
-
-
             <div className="main">
                 <h1>Event Details</h1>
                 <form action="#" >
@@ -144,9 +142,7 @@ export class EventDetails extends Component
                             <label>Title</label>
                         </div>
                         <div className="col-75">
-                            <input type="text" placeholder="Event Name"
-                                value={this.state.title}
-                                onChange={e => this.setState({ title: e.target.value })}
+                            <input type="text" value={this.state.title} disabled
                             />
                         </div>
                     </div>
@@ -159,6 +155,7 @@ export class EventDetails extends Component
                             <input type="date" id="startdate" name="startdate"
                                 value={this.state.startdate}
                                 onChange={e => this.setState({ startdate: e.target.value })}
+                                disabled
                             />
                         </div>
                     </div>
@@ -170,29 +167,30 @@ export class EventDetails extends Component
                             <input type="time" id="starttime" name="starttime"
                                 value={this.state.starttime}
                                 onChange={e => this.setState({ starttime: e.target.value })}
+                                disabled
                             />
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-25">
+                            <label>Max Attendance: </label>
+                        </div>
+                        <div className="col-75">
+                            <input type="text" value={this.state.maxAttendance} disabled
+                            />
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col-25">
                             <label>Location</label>
                         </div>
                         <div className="col-75">
-                            <select value={this.state.location} onChange={e => this.setState({ location: e.target.value })} id="location">
-                                <option value="default">-------</option>
-                                <option value="grapefruit">Grapefruit</option>
-                                <option value="lime">Lime</option>
-                                <option value="coconut">Coconut</option>
-                                <option value="mango">Mango</option>
-                            </select>
+                            <input type="text" value={this.state.location} disabled
+                            />
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col-25">
-                            <label>Event Coordinators</label><br />
-                        </div>
-                    </div>
-                    {/* This is a table*/}
+                    {/* This is a where the buttons to change the tables out go*/}
                     <ReactTable
                         data={users}
                         columns={columns}
