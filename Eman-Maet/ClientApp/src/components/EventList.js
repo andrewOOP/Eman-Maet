@@ -57,8 +57,6 @@ export class EventList extends Component {
                     <LinkContainer to={'/editevent?id=' + value}>
                     <a className="EditEvent" onClick={() => {
 
-                    console.log(value);
-
                         }}>Edit</a>
                     </LinkContainer>
 

@@ -78,13 +78,14 @@ namespace Eman_Maet.EventController
         //}
 
         [HttpPost]
-        public IActionResult Create(EventModel item)
+        public ActionResult<int> Create(EventModel item)
         {
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
                 IEnumerable<EventModel> output = connection.Query<EventModel>("INSERT INTO Event (eventDate, eventDescription, startTime) VALUES ((@_eventDate), (@_eventDescription), (@_startTime))", new { _eventDate = item.eventDate, _eventDescription = item.eventDescription, _startTime = item.startTime});
-                return CreatedAtRoute("GetEvent", new { id = item.eventID }, item);
+                IEnumerable<int> id = connection.Query<int>("SELECT MAX(eventID) FROM Event");
+                return id.FirstOrDefault();
             }
 
         }
