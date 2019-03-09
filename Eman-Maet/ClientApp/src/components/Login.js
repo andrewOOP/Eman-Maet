@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import './Login.css';
 import './AppStyle.css'
@@ -11,14 +11,60 @@ export class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            redirect: false
+            redirect: false,
+            showError: false
         }
     }
 
     handleFormSubmit(event) {
-        this.setState({ redirect: true });
+        var url = 'api/user/' + this.state.username + '/' + this.state.password;
+        fetch(url)
+            .then((response) => {
+                if (!response.ok) throw new Error(response.status);
+                else return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                this.setState({ redirect: true });
+            })
+            .catch((error) => {
+                console.log('Error from fetch in login.js: ' + error);
+                this.setState({ showError: true})
+            });
         event.preventDefault();
-        //console.log(this.state);
+    }
+
+    renderLogin() {
+        var error;
+        if (this.state.showError) {
+            error = <label>Invalid username or password!</label>
+        }
+        else {
+            error = <div></div>
+        }
+        
+        return (
+            <div className="Login background">
+                <div className="Login main">
+                    {this.renderRedirect()}
+                    <h1>Login</h1>
+                    <form action="#" >
+                        <div className="row">
+                            <input type="text" id="username" name="username" placeholder="Username"
+                                value={this.state.username}
+                                onChange={e => this.setState({ username: e.target.value })} />
+                        </div>
+                        <div className="row">
+                            <input type="password" id="password" name="password" placeholder="Password"
+                                value={this.state.password}
+                                onChange={e => this.setState({ password: e.target.value })} />
+                        </div>
+                        <input class="submit" id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Sign In" />
+                        {error}
+                    </form >
+                </div>
+            </div>
+        );
     }
 
     renderRedirect = () => {
@@ -27,28 +73,15 @@ export class Login extends Component {
         }
     }
 
+    render() {
+        return (
+            <div>
+                {this.renderLogin()}
+                {this.renderRedirect()}
+            </div>
+        );
+    }
 
-  render() {
-      return (
-          <div className="Login background">
-          <div className="Login main">
-              {this.renderRedirect()}
-              <h1>Login</h1>
-              <form action="#" >
-                  <br />
-                  <input type="text" id="username" name="username" placeholder="Username"
-                      value={this.state.username}
-                      onChange={e => this.setState({ username: e.target.value })} />
-                  <br />
-                  <input type="password" id="password" name="password" placeholder="Password"
-                      value={this.state.password}
-                      onChange={e => this.setState({ password: e.target.value })} />
-                  <br />
-                  <br />
-                  <input type="submit" onClick={e => this.handleFormSubmit(e)} value="Sign In" />
-              </form >
-              </div>
-              </div>
-    );
-  }
+       
+
 }
