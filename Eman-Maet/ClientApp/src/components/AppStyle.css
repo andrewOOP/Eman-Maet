@@ -67,6 +67,17 @@ input[type=submit].delete {
         background-color: #f00;
         float: left;
 }
+	
+input[type=submit].rsvp {
+		background-color: #2789d0;
+		float: left;
+		margin-left: 43%;
+	}
+input[type=submit].rsvp:hover {
+		background-color: #2274ae;
+		float: left;
+		margin-left: 43%;
+	}
 
 .container {
     border-radius: 5px;
