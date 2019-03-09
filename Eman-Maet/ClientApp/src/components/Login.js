@@ -11,38 +11,38 @@ export class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            redirect: false
+            redirect: false,
+            showError: false
         }
     }
 
     handleFormSubmit(event) {
-        //this.state = { userModel: null, redirect: false };
-        console.log("Step 1:");
         var url = 'api/user/' + this.state.username + '/' + this.state.password;
-        console.log("Step 1.5:" + url + ".");
         fetch(url)
             .then((response) => {
-                console.log("Step 2:");
                 if (!response.ok) throw new Error(response.status);
                 else return response.json();
             })
             .then((data) => {
-                console.log("Step 3:");
                 console.log(data);
-               // this.setState({ userModel: data });
                 this.setState({ redirect: true });
             })
             .catch((error) => {
-                console.log("Step 4:");
                 console.log('Error from fetch in login.js: ' + error);
+                this.setState({ showError: true})
             });
-        console.log("Step 5:");
         event.preventDefault();
-        //console.log(this.state);
-
     }
 
     renderLogin() {
+        var error;
+        if (this.state.showError) {
+            error = <label>Invalid username or password!</label>
+        }
+        else {
+            error = <div></div>
+        }
+        
         return (
             <div className="Login background">
                 <div className="Login main">
@@ -60,6 +60,7 @@ export class Login extends Component {
                                 onChange={e => this.setState({ password: e.target.value })} />
                         </div>
                         <input class="submit" id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Sign In" />
+                        {error}
                     </form >
                 </div>
             </div>
