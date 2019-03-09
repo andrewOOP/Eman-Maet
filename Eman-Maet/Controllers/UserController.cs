@@ -55,8 +55,10 @@ namespace Eman_Maet.EventController
         [HttpGet("{username}/{password}", Name = "Login")]
         public ActionResult<UserModel> GetResult(string username, string password)
         {
+            System.Console.WriteLine("HERE 1234");
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
+                System.Console.WriteLine("HERE 1234");
                 IEnumerable<UserModel> test = connection.Query<UserModel>("SELECT userID from user WHERE email=(@_email) AND password=(@_password)", new { _email = username, _password = password });
                 if (test.Count() == 1)
                 {
@@ -65,9 +67,15 @@ namespace Eman_Maet.EventController
                     int companyid = result.First().companyId;
                     HttpContext.Session.Set("sessionUserID", System.BitConverter.GetBytes(userid));
                     HttpContext.Session.Set("sessionCompanyID", System.BitConverter.GetBytes(companyid));
-
-                    //I don't know what to return here to have the Login.js page continue redirecting to EventList.js
-                    //Some things may need to be changed in Login.js as well...
+                    var sessionUserId = new byte[20];
+                    bool worked = HttpContext.Session.TryGetValue("sessionUserID", out sessionUserId);
+                    System.Console.WriteLine("HERE 1:");
+                    if (worked)
+                    {
+                        System.Console.WriteLine("HERE 2:");
+                        string resultID = System.Text.Encoding.UTF8.GetString(sessionUserId);
+                        System.Console.WriteLine("HERE 3:");
+                    }
                     return result.First();
                 }
                 return NotFound();

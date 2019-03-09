@@ -16,25 +16,29 @@ export class Login extends Component {
     }
 
     handleFormSubmit(event) {
-        //this.setState({ redirect: true });
-        //event.preventDefault();
-        //console.log(this.state);
-
         this.state = { userModel: null, redirect: false };
-
-        fetch('api/user/username/password')
+        console.log("Step 1:");
+        fetch('api/user/' + this.state.username + '/' + this.state.password)
             .then((response) => {
+                console.log("Step 2:");
                 if (!response.ok) throw new Error(response.status);
                 else return response.json();
             })
             .then((data) => {
+                console.log("Step 3:");
                 console.log(data);
                 this.setState({ userModel: data });
+                this.setState({ redirect: true });
             })
             .catch((error) => {
+                console.log("Step 4:");
                 console.log('error: ' + error);
                 this.setState({ requestFailed: true });
             });
+        console.log("Step 5:");
+        event.preventDefault();
+        //console.log(this.state);
+
         }
 
         renderRedirect = () => {

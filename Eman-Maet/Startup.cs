@@ -20,6 +20,13 @@ namespace Eman_Maet
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //LIA ADDED CODE//
+            //In-Memory
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = System.TimeSpan.FromMinutes(1);
+            });
+            //END LIA ADDED CODE
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the React files will be served from this directory
@@ -43,6 +50,7 @@ namespace Eman_Maet
             }
 
             app.UseHttpsRedirection();
+            app.UseSession();               //added by Lia
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
