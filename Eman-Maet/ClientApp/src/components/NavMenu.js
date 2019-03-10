@@ -45,7 +45,7 @@ export class NavMenu extends Component
                             <Glyphicon glyph='th-list' /> Edit Session (1)
                 </NavItem>
                     </LinkContainer>
-			 <LinkContainer to={'/sessiondetails'}>
+			 <LinkContainer to={'/sessiondetails?id=1'}>
 			    <NavItem>
 					<Glyphicon glyph='th-list' /> Session Details
                 </NavItem>
