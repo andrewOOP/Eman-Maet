@@ -36,7 +36,7 @@ export class CreateLocation extends Component
             city: this.state.city,
             zip: this.state.zip
         };
-        this.editLocation(submitState);
+        this.createLocation(submitState);
     }
 
     createLocation(data) {
@@ -64,7 +64,10 @@ export class CreateLocation extends Component
                             <label>Location Name:</label>
                         </div>
                         <div className="col-75">
-                            <label>{this.state.locationname}</label>
+                            <input type="text" placeholder="Enter Name"
+                                value={this.state.name}
+                                onChange={e => this.setState({ name: e.target.value })}
+                            />
                         </div>
                     </div>
 
@@ -73,7 +76,7 @@ export class CreateLocation extends Component
                             <label>Street Address:</label>
                         </div>
                         <div className="col-75">
-                            <input type="text" placeholder="Address"
+                            <input type="text" placeholder="Enter Address"
                                 value={this.state.address}
                                 onChange={e => this.setState({ address: e.target.value })}
                             />

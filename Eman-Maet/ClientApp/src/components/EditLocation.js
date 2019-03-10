@@ -75,7 +75,10 @@ export class EditLocation extends Component {
                             <label>Location Name:</label>
                         </div>
                         <div className="col-75">
-                            <label>{this.state.locationName}</label>
+                            <input type="text" placeholder="Enter Name"
+                                value={this.state.locationName}
+                                onChange={e => this.setState({ locationName: e.target.value })}
+                            />
                         </div>
                     </div>
 
