@@ -44,17 +44,32 @@ export class NavMenu extends Component
                 <NavItem>
                     <Glyphicon glyph='th-list' /> Edit User
                 </NavItem>
-                    </LinkContainer>
-                    <LinkContainer to={'/createsession'}>
-                        <NavItem>
-                            <Glyphicon glyph='th-list' /> Create Session
+             </LinkContainer>
+             <LinkContainer to={'/createsession'}>
+                <NavItem>
+                    <Glyphicon glyph='th-list' /> Create Session
                 </NavItem>
-					</LinkContainer>
-					<LinkContainer to={'/sessiondetails'}>
-						<NavItem>
-							<Glyphicon glyph='th-list' /> Session Details
+		  	 </LinkContainer>
+			 <LinkContainer to={'/sessiondetails'}>
+			    <NavItem>
+					<Glyphicon glyph='th-list' /> Session Details
                 </NavItem>
-					</LinkContainer>
+			 </LinkContainer>
+             <LinkContainer to={'/createlocation'}>
+			    <NavItem>
+					<Glyphicon glyph='th-list' /> Create Location
+                </NavItem>
+			 </LinkContainer>
+             <LinkContainer to={'/editlocation'}>
+			    <NavItem>
+					<Glyphicon glyph='th-list' /> Edit Location
+                </NavItem>
+			 </LinkContainer>
+             <LinkContainer to={'/locationlist'}>
+			    <NavItem>
+					<Glyphicon glyph='th-list' /> Location List
+                </NavItem>
+			 </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
