@@ -25,26 +25,16 @@ export class NavMenu extends Component
 					<Glyphicon glyph='th-list' /> Event List
 				</NavItem>
 			</LinkContainer>
-            <LinkContainer to={'/eventdetails'}>
-                <NavItem>
-                    <Glyphicon glyph='th-list' /> Event Details
-                </NavItem>
-            </LinkContainer>
             <LinkContainer to={'/userlist'}>
                 <NavItem>
                    <Glyphicon glyph='th-list' /> User List
                 </NavItem>
-            </LinkContainer>
-             <LinkContainer to={'/createuser'}>
-                <NavItem>
-                    <Glyphicon glyph='th-list' /> Create User
+                    </LinkContainer>
+                    <LinkContainer to={'/locationlist'}>
+                        <NavItem>
+                            <Glyphicon glyph='th-list' /> Location List
                 </NavItem>
-             </LinkContainer>
-             <LinkContainer to={'/edituser'}>
-                <NavItem>
-                    <Glyphicon glyph='th-list' /> Edit User
-                </NavItem>
-             </LinkContainer>
+                    </LinkContainer>
              <LinkContainer to={'/createsession'}>
                 <NavItem>
                     <Glyphicon glyph='th-list' /> Create Session
@@ -55,21 +45,7 @@ export class NavMenu extends Component
 					<Glyphicon glyph='th-list' /> Session Details
                 </NavItem>
 			 </LinkContainer>
-             <LinkContainer to={'/createlocation'}>
-			    <NavItem>
-					<Glyphicon glyph='th-list' /> Create Location
-                </NavItem>
-			 </LinkContainer>
-             <LinkContainer to={'/editlocation'}>
-			    <NavItem>
-					<Glyphicon glyph='th-list' /> Edit Location
-                </NavItem>
-			 </LinkContainer>
-             <LinkContainer to={'/locationlist'}>
-			    <NavItem>
-					<Glyphicon glyph='th-list' /> Location List
-                </NavItem>
-			 </LinkContainer>
+             
           </Nav>
         </Navbar.Collapse>
       </Navbar>
