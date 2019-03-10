@@ -18,6 +18,7 @@ export class EditUser extends Component {
             email: '',
             password: '',
             inactive: '',
+            paramID: -1,
             redirect: false,
         }
 
@@ -36,6 +37,7 @@ export class EditUser extends Component {
                     email: response.email,
                     password: response.password,
                     inactive: response.inactive,
+                    paramID: params.id,
                 }))
             .catch(error => console.error('Error:', error));
         //change inactive to a boolean
@@ -65,7 +67,7 @@ export class EditUser extends Component {
     }
 
     editUser(data) {
-        fetch('api/user/2', {
+        fetch('api/user/' + this.state.paramID, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -175,7 +177,7 @@ export class EditUser extends Component {
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            return <Redirect to='/eventlist' />
+            return <Redirect to='/userlist' />
         }
     }
 
