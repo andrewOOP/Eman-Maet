@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
+import * as qs from 'query-string';
 import './AppStyle.css'
 import 'react-table/react-table.css'
 
@@ -17,7 +18,9 @@ export class EditLocation extends Component {
             redirect: false,
         }
 
-        fetch('api/location/1',
+        const params = qs.parse(this.props.location.search);
+
+        fetch('api/location/' + params.id,
             {
             method: 'GET',
         }).then(res => res.json())
