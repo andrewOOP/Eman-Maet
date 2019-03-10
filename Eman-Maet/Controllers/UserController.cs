@@ -31,7 +31,7 @@ namespace Eman_Maet.EventController
         {
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM User");
+                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM User WHERE inactive = 0");
                 return output.ToList();
             }
         }
@@ -85,6 +85,17 @@ namespace Eman_Maet.EventController
                 return CreatedAtRoute("GetUser", new { id = item.userID }, item);
             }
 
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult MarkAsInactive(long id)
+        {
+
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<UserModel> output = connection.Query<UserModel>("UPDATE User SET inactive = 1 WHERE userID = @_id", new { _id = id });
+                return NoContent();
+            }
         }
 
         [HttpGet("{username}/{password}", Name = "Login")]

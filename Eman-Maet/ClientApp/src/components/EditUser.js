@@ -66,6 +66,28 @@ export class EditUser extends Component {
         this.editUser(submitState);
     }
 
+    deleteUser(user) {
+        user.preventDefault();
+
+        if (!window.confirm('Are you sure you want to delete this user?')) {
+            return;
+        } else {
+
+            fetch('api/user/' + this.state.paramID, {
+                method: 'DELETE'
+            }).then(res => {
+                return res;
+            }).catch(err => {
+                console.log(err);
+            });
+
+
+
+
+            this.props.history.push('/userlist');
+        }
+    }
+
     editUser(data) {
         fetch('api/user/' + this.state.paramID, {
             method: 'POST',
@@ -155,20 +177,8 @@ export class EditUser extends Component {
                         </div>
                     </div>
 
-                    <div className="row">
-                        <div className="col-25">
-                            <label>Inactive:</label>
-                        </div>
-                        <div className="col-75">
-                            <input type="checkbox"
-                                value={this.state.inactive}
-                                checked={this.state.inactive}
-                                onChange={e => this.setState({ inactive: e.target.checked })}
-                            />
-                        </div>
-                    </div>
-
                     <br /><input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
+                    <input className="delete" type="submit" onClick={e => this.deleteUser(e)} value="Delete" />
                 </form >
 
             </div>

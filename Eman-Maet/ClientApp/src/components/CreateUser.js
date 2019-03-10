@@ -136,18 +136,6 @@ export class CreateUser extends Component {
                         </div>
                     </div>
 
-                    <div className="row">
-                        <div className="col-25">
-                            <label>Inactive:</label>
-                        </div>
-                        <div className="col-75">
-                            <input type="checkbox"
-                                value={this.state.inactive}
-                                onChange={e => this.setState({ inactive: e.target.checked })}
-                            />
-                        </div>
-                    </div>
-
                     <br /><input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
                 </form >
 
@@ -157,7 +145,7 @@ export class CreateUser extends Component {
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            return <Redirect to='/eventlist' />
+            return <Redirect to='/userlist' />
         }
     }
 
