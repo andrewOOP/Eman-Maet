@@ -40,10 +40,13 @@ export class SessionDetails extends Component {
                         this.setState({ locChoice: data.locationName, loading: false })
                     });
 			});
-		fetch('api/sessionattendance/' + params.id + '/' + 1)
+		fetch('api/sessionattendance/' + params.id + '/' + 1) // Change the 1 to whatever the sessionVariable user is
 			.then(response => response.json())
 			.then(data => {
-				this.setState({ locations: data.rsvpCheckin })
+				if (data.rsvpCheckin === 1)
+					this.setState({ rsvped: true })
+				else
+					this.setState({ rsvped: false })
 			});
 
 		console.log(this.state.rsvped);

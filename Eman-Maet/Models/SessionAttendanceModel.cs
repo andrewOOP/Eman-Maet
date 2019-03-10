@@ -10,7 +10,8 @@ namespace Eman_Maet.Models
         public int sessionAttendanceID { get; set; }
         public int sessionID { get; set; }
         public int userID { get; set; }
-        public bool rsvpCheckin { get; set; }
+        public int rsvpCheckin { get; set; }
+        public bool formattedRsvpCheckin { get; set; }
 
 
     }
