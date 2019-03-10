@@ -27,7 +27,7 @@ export class LocationList extends Component {
     }
 
     fetchData() {
-        fetch('api/user')
+        fetch('api/location')
             .then(response => response.json())
             .then(data => {
                 this.setState({ locationList: data, loading: false });
@@ -84,7 +84,7 @@ export class LocationList extends Component {
                     className="-striped -highlight"
                 />
                 <LinkContainer to={'/createlocation'}>
-                    <button className="submit" type="button">Create location</button>
+                    <button className="submit" type="button">Create Location</button>
                 </LinkContainer>
             </div>
         );
