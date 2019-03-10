@@ -18,7 +18,8 @@ export class SessionDetails extends Component {
             locID: 1,
             locChoice: '',
             locations: [],
-            loading: true,
+			loading: true,
+			rsvped: false,
         }
 
         fetch('api/location/')
@@ -38,9 +39,17 @@ export class SessionDetails extends Component {
                     .then(data => {
                         this.setState({ locChoice: data.locationName, loading: false })
                     });
-            });
+			});
+		fetch('api/sessionattendance/' + params.id + '/' + 1) // Change the 1 to whatever the sessionVariable user is
+			.then(response => response.json())
+			.then(data => {
+				if (data.rsvpCheckin === 1)
+					this.setState({ rsvped: true })
+				else
+					this.setState({ rsvped: false })
+			});
 
-
+		console.log(this.state.rsvped);
     }
 
     handleFormSubmit(event) {
@@ -52,11 +61,42 @@ export class SessionDetails extends Component {
             endTime: this.state.endtime,
             locationID: this.state.locID,
         };
-        this.SessionDetails(submitState);
-    }
+        this.sessionDetails(submitState);
+	}
+
+	handleFormRsvp(event) {
+		event.preventDefault();
+		let rsvpState = {
+			sessionID: this.state.paramID,
+			userID: 1, //This is gonna be where we put the UserID that we get from the session variable
+			rsvpCheckin: true,
+		};
+		this.RsvpCheckin(rsvpState);
+	}
+
+	RsvpCheckin(data) {
+
+		console.log(this.state.paramID);
+
+		fetch('api/sessionattendance', {
+				method: 'POST',
+				body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}).then(res => {
+			console.log("WIN");
+			return res;
+		}).catch(err => {
+			console.log(err);
+		});
+		console.log(JSON.stringify(data));
 
 
+		this.props.history.push('/sessiondetails?id=' + this.state.paramID);
+	}
 
+	
     sessionDetails(data) {
 
         console.log(this.state.paramID);
@@ -75,7 +115,7 @@ export class SessionDetails extends Component {
             });
         console.log(JSON.stringify(data));
 
-        this.props.history.push('/eventdetails');
+		this.props.history.push('/editsession?id=' + this.state.paramID);
     }
 
     getCurrentDate() {
@@ -153,7 +193,8 @@ export class SessionDetails extends Component {
                         </div>
                     </div>
 
-                    <input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Edit Session" />
+					<input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Edit Session" />
+					<input className="rsvp" type="submit" onClick={e => this.handleFormRsvp(e)} value="Rsvp/Check-in" />
                 </form >
 
             </div>

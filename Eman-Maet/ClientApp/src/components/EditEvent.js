@@ -17,7 +17,6 @@ export class EditEvent extends Component {
             enddate: this.getCurrentDate(),
             starttime: '12:00',
             selected: {},
-            selectAll: 0,
             userList: [],
             paramID: -1,
             loading: true,
@@ -31,6 +30,21 @@ export class EditEvent extends Component {
                 this.setState({ paramID: params.id, title: data.eventDescription, startdate: data.eventDate.substr(0, 10), starttime: data.startTime.substr(11, 100) })
             });
 
+        fetch('api/eventcoordinator/' + params.id)
+            .then((response) => {
+                if (!response.ok) throw new Error(response.status);
+                else return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                data.forEach(x => {
+                    this.toggleRow(x.userID);
+                });
+            })
+            .catch((error) => {
+                console.log('error: ' + error);
+            });
+
         fetch('api/user')
             .then(response => response.json())
             .then(data => {
@@ -40,27 +54,11 @@ export class EditEvent extends Component {
         this.toggleRow = this.toggleRow.bind(this);
     }
 
-    toggleRow(firstName) {
-        const newSelected = Object.assign({}, this.state.selected);
-        newSelected[firstName] = !this.state.selected[firstName];
+    toggleRow(userID) {
+        const newSelected = Object.assign(this.state.selected);
+        newSelected[userID] = !this.state.selected[userID];
         this.setState({
             selected: newSelected,
-            selectAll: 2
-        });
-    }
-
-    toggleSelectAll() {
-        let newSelected = {};
-
-        if (this.state.selectAll === 0) {
-            this.state.userList.forEach(x => {
-                newSelected[x.userID] = true;
-            });
-        }
-
-        this.setState({
-            selected: newSelected,
-            selectAll: this.state.selectAll === 0 ? 1 : 0
         });
     }
 
@@ -85,11 +83,13 @@ export class EditEvent extends Component {
             fetch('api/event/' + this.state.paramID, {
                 method: 'DELETE'
             }).then(res => {
-                console.log("WIN");
                 return res;
             }).catch(err => {
                 console.log(err);
-            });
+                });
+
+
+
 
             this.props.history.push('/eventlist');
         }
@@ -104,12 +104,75 @@ export class EditEvent extends Component {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
-            console.log("WIN");
             return res;
             }).catch(err => {
                 console.log(err);
             });
-        console.log(JSON.stringify(data));
+        
+        for (var property in this.state.selected) {
+            let id = Object.values(property)[0];
+
+            if (this.state.selected[id]) {
+                
+
+                fetch('api/eventcoordinator/byIDs?eventID=' + this.state.paramID + '&userID=' + id)
+                    .then((response) => {
+                        if (!response.ok) throw new Error(response.status);
+                        else return response.json();
+                    })
+                    .catch((error) => {
+                        //Not found, so add it
+                        console.log("add in " + id);
+
+                        let submitState = {
+                            eventID: this.state.paramID,
+                            userID: id,
+                        };
+
+                        fetch('api/eventcoordinator', {
+                            method: 'POST',
+                            body: JSON.stringify(submitState),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }).then(res => {
+                            console.log(JSON.stringify(submitState));
+                            return res;
+                        }).catch(err => {
+                            console.log(err);
+                        });
+                    });
+
+
+            } else {
+
+                fetch('api/eventcoordinator/byIDs?eventID=' + this.state.paramID + '&userID=' + id)
+                    .then((response) => {
+                        if (!response.ok) throw new Error(response.status);
+                        else return response.json();
+                    })
+                    .then((data) => {
+
+                        //Found, remove it
+                        console.log(data);
+
+                        fetch('api/eventcoordinator/' + data.eventCoordinatorId, {
+                            method: 'DELETE'
+                        }).then(res => {
+                            return res;
+                        }).catch(err => {
+                            console.log(err);
+                        });
+                    })
+                    .catch((error) => {
+
+                    });
+
+                
+            }
+            
+        }
+
 
         this.props.history.push('/eventlist');
     }
@@ -137,21 +200,7 @@ export class EditEvent extends Component {
                                 />
                             );
                         },
-                        Header: x => {
-                            return (
-                                <input
-                                    type="checkbox"
-                                    className="checkbox"
-                                    checked={this.state.selectAll === 1}
-                                    ref={input => {
-                                        if (input) {
-                                            input.indeterminate = this.state.selectAll === 2;
-                                        }
-                                    }}
-                                    onChange={() => this.toggleSelectAll()}
-                                />
-                            );
-                        },
+                        
                         sortable: false,
                         width: 45
                     },

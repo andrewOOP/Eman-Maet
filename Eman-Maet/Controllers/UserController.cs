@@ -86,5 +86,23 @@ namespace Eman_Maet.EventController
             }
 
         }
+
+        [HttpGet("{username}/{password}", Name = "Login")]
+        public ActionResult<UserModel> GetResult(string username, string password)
+        {
+            System.Console.WriteLine("HERE 1234");
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                System.Console.WriteLine("HERE 1234");
+                IEnumerable<UserModel> test = connection.Query<UserModel>("SELECT userID from user WHERE email=(@_email) AND password=(@_password)", new { _email = username, _password = password });
+                if (test.Count() == 1)
+                {
+                    IEnumerable<UserModel> result = connection.Query<UserModel>("SELECT * from user WHERE email=(@_email) AND password=(@_password)", new { _email = username, _password = password });
+                    
+                    return result.First();
+                }
+                return NotFound();
+            }
+        }
     }
 }

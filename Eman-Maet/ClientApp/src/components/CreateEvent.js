@@ -16,7 +16,6 @@ export class CreateEvent extends Component {
             enddate: this.getCurrentDate(),
             starttime: '12:00',
             selected: {},
-            selectAll: 0,
             userList: [],
             loading: true,
         }
@@ -39,21 +38,6 @@ export class CreateEvent extends Component {
         });
     }
 
-    toggleSelectAll() {
-        let newSelected = {};
-
-        if (this.state.selectAll === 0) {
-            this.state.userList.forEach(x => {
-                newSelected[x.userID] = true;
-            });
-        }
-
-        this.setState({
-            selected: newSelected,
-            selectAll: this.state.selectAll === 0 ? 1 : 0
-        });
-    }
-
     handleFormSubmit(event) {
         event.preventDefault();
         let submitState = {
@@ -73,13 +57,50 @@ export class CreateEvent extends Component {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
-            console.log("WIN");
-            return res;
-            }).catch(err => {
-                console.log(err);
-            });
-        console.log(JSON.stringify(data));
 
+            res.json().then(data => {
+
+            for (var property in this.state.selected) {
+                let id = Object.values(property)[0];
+
+                if (this.state.selected[id]) {
+
+                    console.log("data");
+                    console.log(data);
+
+                    let submitState = {
+                        eventID: data,
+                        userID: id,
+                    };
+
+                    fetch('api/eventcoordinator', {
+                        method: 'POST',
+                        body: JSON.stringify(submitState),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(res => {
+                        console.log(JSON.stringify(submitState));
+                        return res;
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                }
+
+                }
+
+            })
+
+
+            return res;
+        }).catch(err => {
+            console.log(err);
+        });
+
+
+
+
+        
         this.props.history.push('/eventlist');
     }
 
@@ -103,21 +124,6 @@ export class CreateEvent extends Component {
                                     className="checkbox"
                                     checked={this.state.selected[original.userID] === true}
                                     onChange={() => this.toggleRow(original.userID)}
-                                />
-                            );
-                        },
-                        Header: x => {
-                            return (
-                                <input
-                                    type="checkbox"
-                                    className="checkbox"
-                                    checked={this.state.selectAll === 1}
-                                    ref={input => {
-                                        if (input) {
-                                            input.indeterminate = this.state.selectAll === 2;
-                                        }
-                                    }}
-                                    onChange={() => this.toggleSelectAll()}
                                 />
                             );
                         },
