@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
+import * as qs from 'query-string';
 import './AppStyle.css'
 import 'react-table/react-table.css'
 
@@ -19,7 +20,10 @@ export class EditUser extends Component {
             inactive: '',
             redirect: false,
         }
-        fetch('api/user/2', {
+
+        const params = qs.parse(this.props.location.search);
+
+        fetch('api/user/'+params.id, {
             method: 'GET',
         }).then(res => res.json())
             .then(response =>
