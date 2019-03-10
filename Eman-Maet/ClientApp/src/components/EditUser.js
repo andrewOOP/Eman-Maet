@@ -82,8 +82,6 @@ export class EditUser extends Component {
             });
 
 
-
-
             this.props.history.push('/userlist');
         }
     }
