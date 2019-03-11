@@ -93,7 +93,7 @@ export class EditSession extends Component {
             });
         console.log(JSON.stringify(data));
 
-        this.props.history.push('/eventdetails');
+        this.props.history.push('/sessiondetails?id=' + this.state.paramID);
     }
 
     getCurrentDate() {

@@ -31,7 +31,7 @@ namespace Eman_Maet.LocationController
         {
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<LocationModel> output = connection.Query<LocationModel>("SELECT * FROM Location");
+                IEnumerable<LocationModel> output = connection.Query<LocationModel>("SELECT * FROM Location WHERE inactive = 0");
                 return output.ToList();
             }
         }
@@ -78,14 +78,15 @@ namespace Eman_Maet.LocationController
 
         }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(string id)
-        //{
-        //    using (MySqlConnection connection = new MySqlConnection(defaultConnection))
-        //    {
-        //        IEnumerable<Event> output = connection.Query<Event>("DELETE FROM Event WHERE Id=(@_id)", new { _id = id });
-        //        return NoContent();
-        //    }
-        //}
+        [HttpDelete("{id}")]
+        public IActionResult MarkAsInactive(long id)
+        {
+
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<EventModel> output = connection.Query<EventModel>("UPDATE Location SET inactive = 1 WHERE locationID = @_id", new { _id = id });
+                return NoContent();
+            }
+        }
     }
 }
