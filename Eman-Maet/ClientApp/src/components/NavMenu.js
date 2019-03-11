@@ -39,10 +39,10 @@ export class NavMenu extends Component
                 <NavItem>
                     <Glyphicon glyph='th-list' /> Create Session
                 </NavItem>
-		  	 </LinkContainer>
-			 <LinkContainer to={'/sessiondetails'}>
+                    </LinkContainer>
+			 <LinkContainer to={'/sessiondetails?id=1'}>
 			    <NavItem>
-					<Glyphicon glyph='th-list' /> Session Details
+					<Glyphicon glyph='th-list' /> Session Details (1)
                 </NavItem>
 			 </LinkContainer>
              

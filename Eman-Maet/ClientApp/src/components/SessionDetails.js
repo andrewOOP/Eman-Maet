@@ -41,13 +41,20 @@ export class SessionDetails extends Component {
                     });
 			});
 		fetch('api/sessionattendance/' + params.id + '/' + 1) // Change the 1 to whatever the sessionVariable user is
-			.then(response => response.json())
+            .then((response) => {
+                if (!response.ok) throw new Error(response.status);
+                else return response.json();
+            })
 			.then(data => {
 				if (data.rsvpCheckin === 1)
 					this.setState({ rsvped: true })
 				else
 					this.setState({ rsvped: false })
-			});
+            })
+            .catch((error) => {
+                console.log('error: ' + error);
+            });
+
 
 		console.log(this.state.rsvped);
     }
