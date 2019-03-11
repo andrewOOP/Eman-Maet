@@ -17,8 +17,9 @@ export class EventList extends Component {
             .then(data => {
                 this.setState({ eventList: data, loading: false });
             });
+        let dataone = sessionStorage.getItem('myData');
+        console.log("Here Data in Event:" + dataone.userId);
 	}
-
 
 
 

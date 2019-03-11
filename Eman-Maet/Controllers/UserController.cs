@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using Eman_Maet.Models;
@@ -65,17 +66,13 @@ namespace Eman_Maet.EventController
                     IEnumerable<UserModel> result = connection.Query<UserModel>("SELECT * from user WHERE email=(@_email) AND password=(@_password)", new { _email = username, _password = password });
                     int userid = result.First().userId;
                     int companyid = result.First().companyId;
-                    HttpContext.Session.Set("sessionUserID", System.BitConverter.GetBytes(userid));
-                    HttpContext.Session.Set("sessionCompanyID", System.BitConverter.GetBytes(companyid));
-                    var sessionUserId = new byte[20];
-                    bool worked = HttpContext.Session.TryGetValue("sessionUserID", out sessionUserId);
-                    System.Console.WriteLine("HERE 1:");
-                    if (worked)
-                    {
-                        System.Console.WriteLine("HERE 2:");
-                        string resultID = System.Text.Encoding.UTF8.GetString(sessionUserId);
-                        System.Console.WriteLine("HERE 3:");
-                    }
+                    //HttpContext.Session.Set("sessionUserID", System.BitConverter.GetBytes(userid));
+                    HttpContext.Session.SetString("sessionUserID", "098");
+                    //HttpContext.Session.SetString("sessionCompanyID", System.BitConverter.GetBytes(companyid));
+                    
+                    var worked = HttpContext.Session.GetString("sessionUserID");
+                    System.Console.WriteLine("HERE 1:" + worked + ".");
+                    
                     return result.First();
                 }
                 return NotFound();

@@ -24,7 +24,10 @@ export class Login extends Component {
                 else return response.json();
             })
             .then((data) => {
-                console.log(data);
+                console.log("Here Data:" + data);
+                sessionStorage.setItem('myData', data);
+                let dataone = sessionStorage.getItem('myData');
+                console.log("Here Data in Login:" + dataone.userId);
                 this.setState({ redirect: true });
             })
             .catch((error) => {
@@ -81,7 +84,4 @@ export class Login extends Component {
             </div>
         );
     }
-
-       
-
 }
