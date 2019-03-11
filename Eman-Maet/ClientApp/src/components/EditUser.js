@@ -11,7 +11,6 @@ export class EditUser extends Component {
         super(props);
         this.state = {
             userid: '',
-            companyid: '',
             fname: '',
             lname: '',
             securityrole: '',
@@ -30,7 +29,6 @@ export class EditUser extends Component {
             .then(response =>
                 this.setState({
                     userid: response.userID,
-                    companyid: response.companyID,
                     fname: response.fName,
                     lname: response.lName,
                     securityrole: response.securityRole,
@@ -55,7 +53,6 @@ export class EditUser extends Component {
         this.setState({ redirect: true });
         let submitState = {
             userID: this.state.userid,
-            companyID: this.state.companyID,
             fName: this.state.fname,
             lName: this.state.lname,
             securityRole: this.state.securityrole,

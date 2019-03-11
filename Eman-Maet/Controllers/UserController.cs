@@ -67,8 +67,8 @@ namespace Eman_Maet.EventController
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<UserModel> output = connection.Query<UserModel>("INSERT INTO User (userID, companyID, fName, lName, securityRole, email, password, inactive) VALUES ((@_userID), (@_companyID), (@_fName), (@_lName), (@_securityRole), (@_email), (@_password), (@_inactive))",
-                    new { _userID = item.userID, _companyID = item.companyID, _fName = item.fName, _lName = item.lName, _securityRole = item.securityRole, _email = item.email, _password = item.password, _inactive = item.inactive });
+                IEnumerable<UserModel> output = connection.Query<UserModel>("INSERT INTO User (userID, fName, lName, securityRole, email, password, inactive) VALUES ((@_userID), (@_fName), (@_lName), (@_securityRole), (@_email), (@_password), (@_inactive))",
+                    new { _userID = item.userID, _fName = item.fName, _lName = item.lName, _securityRole = item.securityRole, _email = item.email, _password = item.password, _inactive = item.inactive });
                 return CreatedAtRoute("GetUser", new { id = item.userID }, item);
             }
 
@@ -80,8 +80,8 @@ namespace Eman_Maet.EventController
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<UserModel> output = connection.Query<UserModel>("UPDATE User SET companyID = (@_companyID), fName = (@_fName), lName = (@_lName), securityRole = (@_securityRole), email = (@_email), password = (@_password), inactive = (@_inactive) WHERE userID = (@_userID)",
-                    new { _userID = item.userID, _companyID = item.companyID, _fName = item.fName, _lName = item.lName, _securityRole = item.securityRole, _email = item.email, _password = item.password, _inactive = item.inactive });
+                IEnumerable<UserModel> output = connection.Query<UserModel>("UPDATE User SET fName = (@_fName), lName = (@_lName), securityRole = (@_securityRole), email = (@_email), password = (@_password), inactive = (@_inactive) WHERE userID = (@_userID)",
+                    new { _userID = item.userID, _fName = item.fName, _lName = item.lName, _securityRole = item.securityRole, _email = item.email, _password = item.password, _inactive = item.inactive });
                 return CreatedAtRoute("GetUser", new { id = item.userID }, item);
             }
 

@@ -10,7 +10,6 @@ export class CreateUser extends Component {
         super(props);
         this.state = {
             userid: '',
-            companyid: 1,
             fname: '',
             lname: '',
             securityrole: '',
@@ -36,7 +35,6 @@ export class CreateUser extends Component {
         this.setState({ redirect: true });
         let submitState = {
             userID: this.state.userid,
-            companyID: '1',
             fName: this.state.fname,
             lName: this.state.lname,
             securityRole: this.state.securityrole,
