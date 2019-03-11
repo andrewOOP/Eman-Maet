@@ -15,7 +15,6 @@ export class EditLocation extends Component {
             city: '',
             state: '',
             zip: '',
-            paramID: -1,
             redirect: false,
         }
 
@@ -31,8 +30,7 @@ export class EditLocation extends Component {
                     address: response.address,
                     city: response.city,
                     state: response.state,
-                    zip: response.zip,
-                    paramID: params.id,
+                    zip: response.zip
                 }))
             .catch(error => console.error('Error:', error));
     }
@@ -50,28 +48,6 @@ export class EditLocation extends Component {
         };
         this.editLocation(submitState);
     }
-
-
-    deleteLocation(location) {
-        location.preventDefault();
-
-        if (!window.confirm('Are you sure you want to delete this location?')) {
-            return;
-        } else {
-
-            fetch('api/location/' + this.state.paramID, {
-                method: 'DELETE'
-            }).then(res => {
-                return res;
-            }).catch(err => {
-                console.log(err);
-            });
-
-
-            this.props.history.push('/locationlist');
-        }
-    }
-
 
     editLocation(data)
     {
@@ -165,8 +141,6 @@ export class EditLocation extends Component {
                     </div>
 
                     <br /><input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
-                    <input className="delete" type="submit" onClick={e => this.deleteLocation(e)} value="Delete" />
-
                 </form >
 
             </div>
