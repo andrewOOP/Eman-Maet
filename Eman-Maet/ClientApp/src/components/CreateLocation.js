@@ -11,19 +11,14 @@ export class CreateLocation extends Component
     {
         super(props);
         this.state = {
-            locationid: '',
-            streetAddress: '',
+            locationName: '',
+            address: '',
             city: '',
-            State: '',
+            state: '',
             zip: '',
+            paramID: -1,
             redirect: false,
         }
-
-        fetch('api/user/GetNextLocationId', {
-            method: 'GET',
-        }).then(res => res.json())
-            .then(response => this.setState({ locationid: response.locationID }))
-            .catch(error => console.error('Error:', error));
     }
 
     handleFormSubmit(LocationEvent) {
@@ -31,16 +26,17 @@ export class CreateLocation extends Component
 
         this.setState({ redirect: true });
         let submitState = {
-            locationid: this.state.locationID,
-            streetAddress: this.state.address,
+            locationName: this.state.locationName,
+            address: this.state.address,
             city: this.state.city,
+            state: this.state.state,
             zip: this.state.zip
         };
         this.createLocation(submitState);
     }
 
     createLocation(data) {
-        fetch('api/location/2',
+        fetch('api/location/',
             {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -65,8 +61,8 @@ export class CreateLocation extends Component
                         </div>
                         <div className="col-75">
                             <input type="text" placeholder="Enter Name"
-                                value={this.state.name}
-                                onChange={e => this.setState({ name: e.target.value })}
+                                value={this.state.locationName}
+                                onChange={e => this.setState({ locationName: e.target.value })}
                             />
                         </div>
                     </div>
@@ -76,19 +72,9 @@ export class CreateLocation extends Component
                             <label>Street Address:</label>
                         </div>
                         <div className="col-75">
-                            <input type="text" placeholder="Enter Address"
+                            <input type="text" placeholder="Address"
                                 value={this.state.address}
                                 onChange={e => this.setState({ address: e.target.value })}
-                            />
-                        </div>
-                    </div>
-                    {/*I am not sure how to impliment the optional field yet*/}
-                    <div className="row">
-                        <div className="col-25">
-                            <label></label>
-                        </div>
-                        <div className="col-75">
-                            <input type="text" placeholder="Optional"
                             />
                         </div>
                     </div>
@@ -130,6 +116,7 @@ export class CreateLocation extends Component
                     </div>
 
                     <br /><input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
+
                 </form >
 
             </div>

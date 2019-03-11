@@ -51,31 +51,27 @@ namespace Eman_Maet.LocationController
             }
         }
 
-        //[HttpGet("range", Name = "GetEventRange")]
-        //public ActionResult<List<Event>> GetByRange(float min, float max)
-        //{
-
-        //    using (MySqlConnection connection = new MySqlConnection(defaultConnection))
-        //    {
-        //        IEnumerable<Event> output = connection.Query<Event>("SELECT * FROM Event WHERE Gpa>=(@_min) AND Gpa<=(@_max)", new { _min = min, _max = max });
-        //        if (output.Count() == 0)
-        //        {
-        //            return NotFound();
-        //        }
-        //        return output.ToList();
-        //    }
-        //}
-
         [HttpPost]
         public IActionResult Create(LocationModel item)
         {
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<LocationModel> output = connection.Query<LocationModel>("INSERT INTO Event (locationName, address, city, state, zip) VALUES ((@_locationName), (@_address), (@_city), (@_state), (@_zip))", new { _locationName = item.locationName, _address = item.address, _city = item.city, _state = item.state, _zip = item.zip });
+                IEnumerable<LocationModel> output = connection.Query<LocationModel>("INSERT INTO Location (locationName, address, city, state, zip) VALUES ((@_locationName), (@_address), (@_city), (@_state), (@_zip))", new { _locationName = item.locationName, _address = item.address, _city = item.city, _state = item.state, _zip = item.zip });
                 return CreatedAtRoute("GetLocation", new { id = item.locationID }, item);
             }
 
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(long id, LocationModel item)
+        {
+
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<LocationModel> output = connection.Query<LocationModel>("UPDATE Location SET locationName = @_locationName, address = @_address, city = @_city, state = @_state, zip = @_zip WHERE locationID = @_id", new { _locationName = item.locationName, _address = item.address, _city = item.city, _state = item.state, _zip = item.zip, _id = id });
+                return NoContent();
+            }
         }
 
         [HttpDelete("{id}")]

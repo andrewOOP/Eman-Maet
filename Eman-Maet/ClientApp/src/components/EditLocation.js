@@ -42,7 +42,7 @@ export class EditLocation extends Component {
 
         this.setState({ redirect: true });
         let submitState = {
-            LocationName: this.state.locationName,
+            locationName: this.state.locationName,
             address: this.state.address,
             city: this.state.city,
             state: this.state.state,
@@ -75,9 +75,9 @@ export class EditLocation extends Component {
 
     editLocation(data)
     {
-        fetch('api/location/2',
+        fetch('api/location/' + this.state.paramID,
         {
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
@@ -114,16 +114,6 @@ export class EditLocation extends Component {
                             <input type="text" placeholder="Address"
                                 value={this.state.address}
                                 onChange={e => this.setState({ address: e.target.value })}
-                            />
-                        </div>
-                    </div>
-                    {/*I am not sure how to impliment the optional field yet*/}
-                    <div className="row">
-                        <div className="col-25">
-                            <label></label>
-                        </div>
-                        <div className="col-75">
-                            <input type="text" placeholder="Optional"
                             />
                         </div>
                     </div>
