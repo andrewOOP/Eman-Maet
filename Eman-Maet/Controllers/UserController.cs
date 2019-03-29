@@ -61,6 +61,17 @@ namespace Eman_Maet.EventController
             }
         }
 
+        //Find the user that is currently logged in
+        [HttpGet("GetCurrentUser")]
+        public ActionResult<UserModel> GetCurrentUser()
+        {
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                string id = this.HttpContext.Request.Cookies["CurrentID"];
+                return GetById(int.Parse(id));
+            }
+        }
+
         [HttpPost]
         public IActionResult Create(UserModel item)
         {
@@ -109,7 +120,9 @@ namespace Eman_Maet.EventController
                 if (test.Count() == 1)
                 {
                     IEnumerable<UserModel> result = connection.Query<UserModel>("SELECT * from user WHERE email=(@_email) AND password=(@_password)", new { _email = username, _password = password });
-                    
+                    //Set a cookie with the ID of logged in User
+                    this.HttpContext.Response.Cookies.Append("CurrentID", result.First().userID.ToString());
+
                     return result.First();
                 }
                 return NotFound();

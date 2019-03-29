@@ -29,7 +29,7 @@ export class Login extends Component {
             })
             .catch((error) => {
                 console.log('Error from fetch in login.js: ' + error);
-                this.setState({ showError: true})
+                this.setState({ showError: true })
             });
         event.preventDefault();
     }
@@ -42,7 +42,7 @@ export class Login extends Component {
         else {
             error = <div></div>
         }
-        
+
         return (
             <div className="Login background">
                 <div className="Login main">
@@ -81,7 +81,4 @@ export class Login extends Component {
             </div>
         );
     }
-
-       
-
 }
