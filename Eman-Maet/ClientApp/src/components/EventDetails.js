@@ -1,6 +1,5 @@
 ﻿import React, { Component } from 'react';
 import ReactTable from "react-table";
-import './CreateEvent.css'
 import './AppStyle.css'
 import 'react-table/react-table.css'
 
