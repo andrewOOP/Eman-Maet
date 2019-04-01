@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import ReactTable from "react-table";
-import './CreateEvent.css'
+import * as qs from 'query-string';
+import { withRouter } from 'react-router';
 import './AppStyle.css'
 import 'react-table/react-table.css'
 
@@ -8,21 +9,41 @@ export class EventDetails extends Component
 {
     displayName = EventDetails.name
 
-    constructor(props) 
-    {
+    constructor(props) {
         super(props);
         this.state = {
-            title: 'code-a-thon',
+            title: '',
             startdate: this.getCurrentDate(),
             enddate: this.getCurrentDate(),
             starttime: '12:00',
-            location: 'Paycom',
-            maxAttendance: '150',
             selected: {},
-            selectAll: 0,
             userList: [],
+            paramID: -1,
             loading: true,
         }
+
+        const params = qs.parse(this.props.location.search);
+
+        fetch('api/event/' + params.id)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ paramID: params.id, title: data.eventDescription, startdate: data.eventDate.substr(0, 10), starttime: data.startTime.substr(11, 100) })
+            });
+
+        fetch('api/eventcoordinator/' + params.id)
+            .then((response) => {
+                if (!response.ok) throw new Error(response.status);
+                else return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                data.forEach(x => {
+                    this.toggleRow(x.userID);
+                });
+            })
+            .catch((error) => {
+                console.log('error: ' + error);
+            });
 
         fetch('api/user')
             .then(response => response.json())
@@ -33,58 +54,127 @@ export class EventDetails extends Component
         this.toggleRow = this.toggleRow.bind(this);
     }
 
-    toggleRow(firstName)
-    {
-        const newSelected = Object.assign({}, this.state.selected);
-        newSelected[firstName] = !this.state.selected[firstName];
+    toggleRow(userID) {
+        const newSelected = Object.assign(this.state.selected);
+        newSelected[userID] = !this.state.selected[userID];
         this.setState({
             selected: newSelected,
-            selectAll: 2
-        });
-    }
-
-    toggleSelectAll()
-    {
-        let newSelected = {};
-
-        if (this.state.selectAll === 0)
-        {
-            this.state.userList.forEach(x => {
-                newSelected[x.userID] = true;
-            });
-        }
-
-        this.setState({
-            selected: newSelected,
-            selectAll: this.state.selectAll === 0 ? 1 : 0
         });
     }
 
     handleFormSubmit(event) {
         event.preventDefault();
+
         let submitState = {
             eventDate: this.state.startdate,
             eventDescription: this.state.title,
             startTime: this.state.starttime,
         };
-        this.createEvent(submitState);
+        this.editEvent(submitState);
     }
 
-    createEvent(data) {
+    deleteEvent(event) {
+        event.preventDefault();
 
-        fetch('api/event', {
-            method: 'POST',
+        if (!window.confirm('Are you sure you want to delete this event?')) {
+            return;
+        } else {
+
+            fetch('api/event/' + this.state.paramID, {
+                method: 'DELETE'
+            }).then(res => {
+                return res;
+            }).catch(err => {
+                console.log(err);
+            });
+
+
+
+
+            this.props.history.push('/eventlist');
+        }
+    }
+
+    editEvent(data) {
+
+        fetch('api/event/' + this.state.paramID, {
+            method: 'PUT',
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
-            console.log("WIN");
             return res;
         }).catch(err => {
             console.log(err);
         });
-        console.log(JSON.stringify(data));
+
+        for (var property in this.state.selected) {
+            let id = Object.values(property)[0];
+
+            if (this.state.selected[id]) {
+
+
+                fetch('api/eventcoordinator/byIDs?eventID=' + this.state.paramID + '&userID=' + id)
+                    .then((response) => {
+                        if (!response.ok) throw new Error(response.status);
+                        else return response.json();
+                    })
+                    .catch((error) => {
+                        //Not found, so add it
+                        console.log("add in " + id);
+
+                        let submitState = {
+                            eventID: this.state.paramID,
+                            userID: id,
+                        };
+
+                        fetch('api/eventcoordinator', {
+                            method: 'POST',
+                            body: JSON.stringify(submitState),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }).then(res => {
+                            console.log(JSON.stringify(submitState));
+                            return res;
+                        }).catch(err => {
+                            console.log(err);
+                        });
+                    });
+
+
+            } else {
+
+                fetch('api/eventcoordinator/byIDs?eventID=' + this.state.paramID + '&userID=' + id)
+                    .then((response) => {
+                        if (!response.ok) throw new Error(response.status);
+                        else return response.json();
+                    })
+                    .then((data) => {
+
+                        //Found, remove it
+                        console.log(data);
+
+                        fetch('api/eventcoordinator/' + data.eventCoordinatorId, {
+                            method: 'DELETE'
+                        }).then(res => {
+                            return res;
+                        }).catch(err => {
+                            console.log(err);
+                        });
+                    })
+                    .catch((error) => {
+
+                    });
+
+
+            }
+
+        }
+
+
+        this.props.history.push('/eventlist');
     }
 
     getCurrentDate() {
@@ -93,8 +183,9 @@ export class EventDetails extends Component
 
 
 
-    renderUserTable(users)
-    {
+    renderUserTable(users) {
+
+
         const columns = [
             {
                 id: "checkbox",
@@ -109,40 +200,39 @@ export class EventDetails extends Component
                         />
                     );
                 },
-                Header: x => {
-                    return (
-                        <input
-                            type="checkbox"
-                            className="checkbox"
-                            checked={this.state.selectAll === 1}
-                            ref={input => {
-                                if (input) {
-                                    input.indeterminate = this.state.selectAll === 2;
-                                }
-                            }}
-                            onChange={() => this.toggleSelectAll()}
-                        />
-                    );
-                },
+
                 sortable: false,
                 width: 45
             },
             {
                 Header: "First Name",
                 accessor: "fName",
+            },
+            {
+                Header: "Last Name",
+                accessor: "lName",
+            },
+            {
+                Header: "Email",
+                accessor: "email",
             }
         ];
 
+
         return (
+
+
             <div className="main">
-                <h1>Event Details</h1>
+                <h1>Edit Event</h1>
                 <form action="#" >
                     <div className="row">
                         <div className="col-25">
                             <label>Title</label>
                         </div>
                         <div className="col-75">
-                            <input type="text" value={this.state.title} disabled
+                            <input type="text" placeholder="Event Name"
+                                value={this.state.title}
+                                onChange={e => this.setState({ title: e.target.value })}
                             />
                         </div>
                     </div>
@@ -155,7 +245,6 @@ export class EventDetails extends Component
                             <input type="date" id="startdate" name="startdate"
                                 value={this.state.startdate}
                                 onChange={e => this.setState({ startdate: e.target.value })}
-                                disabled
                             />
                         </div>
                     </div>
@@ -167,30 +256,14 @@ export class EventDetails extends Component
                             <input type="time" id="starttime" name="starttime"
                                 value={this.state.starttime}
                                 onChange={e => this.setState({ starttime: e.target.value })}
-                                disabled
                             />
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-25">
-                            <label>Max Attendance: </label>
-                        </div>
-                        <div className="col-75">
-                            <input type="text" value={this.state.maxAttendance} disabled
-                            />
+                            <label>Event Coordinators</label><br />
                         </div>
                     </div>
-
-                    <div className="row">
-                        <div className="col-25">
-                            <label>Location</label>
-                        </div>
-                        <div className="col-75">
-                            <input type="text" value={this.state.location} disabled
-                            />
-                        </div>
-                    </div>
-                    {/* This is a where the buttons to change the tables out go*/}
                     <ReactTable
                         data={users}
                         columns={columns}
@@ -203,8 +276,8 @@ export class EventDetails extends Component
                         defaultPageSize={10}
                         className="-striped -highlight"
                     />
-
-                    <br /><input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
+                    <input type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
+                    <input className="delete" type="submit" onClick={e => this.deleteEvent(e)} value="Delete" />
                 </form >
 
             </div>
@@ -225,3 +298,5 @@ export class EventDetails extends Component
         );
     }
 }
+
+export default withRouter(EventDetails);

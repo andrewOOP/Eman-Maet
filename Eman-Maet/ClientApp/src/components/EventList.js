@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import './EventList.css'
 import './AppStyle.css'
 import 'react-table/react-table.css'
-import { EditEvent } from './EditEvent';
 
 export class EventList extends Component {
 	displayName = EventList.name
 
 	constructor(props) {
 		super(props);
-        this.state = { eventList: [], loading: true, prevKey: "" };
-
+        this.state = { eventList: [], loading: true, prevKey: "", selected: null };
+        
         this.fetchData();
     }
 
@@ -21,7 +20,7 @@ export class EventList extends Component {
         // only update chart if the data has changed
         if (this.state.prevKey !== this.props.location.key) {
             this.fetchData();
-            this.setState({ prevKey: this.props.location.key });
+            this.setState({ prevKey: this.props.location.key, selected: null });
         }
     }
 
@@ -34,7 +33,8 @@ export class EventList extends Component {
             });
     }
 
-    static renderEventTable(events) {
+    renderEventTable(events) {
+
 
 		const columns = [
 			{
@@ -71,6 +71,28 @@ export class EventList extends Component {
 			<div className="main">
 				<h1>Event List</h1>
 					<ReactTable
+                    getTrProps={(state, rowInfo) => {
+                        if (rowInfo && rowInfo.row) {
+                            return {
+                                onClick: (e) => {
+
+                                    if (rowInfo.index === this.state.selected) {
+                                        this.props.history.push('/eventdetails?id=' + this.state.eventList[rowInfo.index].eventID);
+                                    }
+
+                                    this.setState({
+                                        selected: rowInfo.index
+                                    })
+                                },
+                                style: {
+                                    background: rowInfo.index === this.state.selected ? '#b2b2b2' : 'white',
+                                }
+                            }
+                        } else {
+                            return {}
+                        }
+                    }
+                    }
                     data={events}
 						columns={columns}
 						defaultSorted={[
@@ -95,7 +117,7 @@ export class EventList extends Component {
     render() {
         let contents = this.state.loading
             ? <div class="loader">Please Wait...</div>
-            : EventList.renderEventTable(this.state.eventList);
+            : this.renderEventTable(this.state.eventList);
 
         return (
             <div>
@@ -104,3 +126,5 @@ export class EventList extends Component {
         );
     }
 }
+
+export default withRouter(EventList);
