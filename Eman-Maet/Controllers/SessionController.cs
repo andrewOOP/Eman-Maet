@@ -49,6 +49,18 @@ namespace Eman_Maet.SessionController
             }
         }
 
+
+        [HttpGet("byevent/{id}", Name = "GetSessionsByEvent")]
+        public ActionResult<List<SessionModel>> GetByEvent(int id)
+        {
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<SessionModel> output = connection.Query<SessionModel>("SELECT * FROM Session WHERE eventID=(@_id)", new { _id = id });
+                this.HttpContext.Response.Cookies.Append("eventIDForSessionCreation", id.ToString());
+                return formatDatesAndTimes(output).ToList();
+            }
+        }
+
         [HttpGet("{id}", Name = "GetSession")]
         public ActionResult<SessionModel> GetById(int id)
         {
@@ -66,13 +78,14 @@ namespace Eman_Maet.SessionController
 
 
         [HttpPost]
-        public IActionResult Create(SessionModel item)
+        public string Create(SessionModel item)
         {
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<SessionModel> output = connection.Query<SessionModel>("INSERT INTO Session (eventID, locationID, sessionName, sessionDate, startTime, endTime) VALUES ((@_eventID), (@_locationID), (@_sessionName), (@_sessionDate), (@_startTime), (@_endTime))", new { _eventID = item.eventID, _locationID = item.locationID, _sessionName = item.sessionName, _sessionDate = item.sessionDate, _startTime = item.startTime, _endTime = item.endTime });
-                return CreatedAtRoute("GetSession", new { id = item.sessionID }, item);
+                string eventID = this.HttpContext.Request.Cookies["eventIDForSessionCreation"];
+                IEnumerable<SessionModel> output = connection.Query<SessionModel>("INSERT INTO Session (eventID, locationID, sessionName, sessionDate, startTime, endTime) VALUES ((@_eventID), (@_locationID), (@_sessionName), (@_sessionDate), (@_startTime), (@_endTime))", new { _eventID = eventID, _locationID = item.locationID, _sessionName = item.sessionName, _sessionDate = item.sessionDate, _startTime = item.startTime, _endTime = item.endTime });
+                return eventID;
             }
 
         }
