@@ -11,7 +11,7 @@ export class EventList extends Component {
 
 	constructor(props) {
 		super(props);
-        this.state = { eventList: [], loading: true, prevKey: "", selected: null };
+        this.state = { eventList: [], loading: true, prevKey: "", selected: null, isAdmin: ""};
         
         this.fetchData();
     }
@@ -31,6 +31,18 @@ export class EventList extends Component {
             .then(data => {
                 this.setState({ eventList: data, loading: false });
             });
+        fetch('api/user/GetCurrentUser', {
+            method: 'GET',
+        })
+            .then(res => res.json())
+            .then(response => {
+                this.setState({ isAdmin: response.securityRole });
+                if (this.state.isAdmin === "Administrator") {
+                    this.setState({ isAdmin: true });
+                }
+                else { this.setState({ isAdmin: false });  }
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     renderEventTable(events) {
@@ -53,16 +65,15 @@ export class EventList extends Component {
                 id: 'editButton',
                 accessor: 'eventID',
                 Cell: ({ value }) => (
+                            <LinkContainer to={'/editevent?id=' + value}>
+                                <a className="EditEvent" onClick={() => {
 
-                    <LinkContainer to={'/editevent?id=' + value}>
-                    <a className="EditEvent" onClick={() => {
-
-                        }}>Edit</a>
-                    </LinkContainer>
-
+                                }}>Edit</a>
+                            </LinkContainer>
                 ),
                 sortable: false,
-                width: 40
+                width: 40,
+                show: this.state.isAdmin,
             },
 		];
 
@@ -104,10 +115,11 @@ export class EventList extends Component {
 						defaultPageSize={10}
 						className="-striped -highlight"
                 />
-                <LinkContainer to={'/createevent'}>
-                    <button className="submit" type="button">Create Event</button>
-                </LinkContainer>
-
+                {this.state.isAdmin &&
+                    <LinkContainer to={'/createevent'}>
+                        <button className="submit" type="button">Create Event</button>
+                    </LinkContainer>
+                } 
 			</div>
 		);
     }

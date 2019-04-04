@@ -18,6 +18,7 @@ export class SessionDetails extends Component {
             locID: 1,
             locChoice: '',
             locations: [],
+            isAdmin: '',
 			loading: true,
 			rsvped: false,
         }
@@ -54,6 +55,18 @@ export class SessionDetails extends Component {
             .catch((error) => {
                 console.log('error: ' + error);
             });
+        fetch('api/user/GetCurrentUser', {
+            method: 'GET',
+        })
+            .then(res => res.json())
+            .then(response => {
+                this.setState({ isAdmin: response.securityRole });
+                if (this.state.isAdmin === "Administrator") {
+                    this.setState({ isAdmin: true });
+                }
+                else { this.setState({ isAdmin: false }); }
+            })
+            .catch(error => console.error('Error:', error));
 
 
 		console.log(this.state.rsvped);
@@ -199,8 +212,9 @@ export class SessionDetails extends Component {
                             </select>
                         </div>
                     </div>
-
-					<input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Edit Session" />
+                    {this.state.isAdmin &&
+                        <input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Edit Session" />
+                    }
 					<input className="rsvp" type="submit" onClick={e => this.handleFormRsvp(e)} value="Rsvp/Check-in" />
                 </form >
 

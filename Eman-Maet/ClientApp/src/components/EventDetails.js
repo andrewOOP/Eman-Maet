@@ -17,6 +17,7 @@ export class EventDetails extends Component
             startdate: '',
             starttime: '',
             sessionList: [],
+            isAdmin: '',
             paramID: -1,
             loading: true,
         }
@@ -34,6 +35,19 @@ export class EventDetails extends Component
             .then(data => {
                 this.setState({ sessionList: data, loading: false });
             });
+
+        fetch('api/user/GetCurrentUser', {
+            method: 'GET',
+        })
+            .then(res => res.json())
+            .then(response => {
+                this.setState({ isAdmin: response.securityRole });
+                if (this.state.isAdmin === "Administrator") {
+                    this.setState({ isAdmin: true });
+                }
+                else { this.setState({ isAdmin: false }); }
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     renderUserTable(sessions) {
@@ -106,9 +120,11 @@ export class EventDetails extends Component
                         defaultPageSize={10}
                         className="-striped -highlight"
                 />
-                <LinkContainer to={'/createsession'}>
-                    <button className="submit" type="button">Create Session</button>
-                </LinkContainer>
+                {this.state.isAdmin &&
+                    <LinkContainer to={'/createsession'}>
+                        <button className="submit" type="button">Create Session</button>
+                    </LinkContainer>
+                }
             </div>
         );
 
