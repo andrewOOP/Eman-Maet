@@ -9,7 +9,7 @@ using Dapper;
 
 
 
-namespace Eman_Maet.EventController
+namespace Eman_Maet.UserController
 {
     [Route("api/user")]
     [ApiController]

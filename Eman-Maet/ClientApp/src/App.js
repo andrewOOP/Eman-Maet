@@ -9,6 +9,9 @@ import { SessionDetails } from './components/SessionDetails';
 import { CreateEvent } from './components/CreateEvent';
 import { CreateUser } from './components/CreateUser';
 import { EditUser } from './components/EditUser';
+import { TeamList } from './components/TeamList';
+import { CreateTeam } from './components/CreateTeam';
+import { EditTeam } from './components/EditTeam';
 import { EditEvent } from './components/EditEvent';
 import { EventList } from './components/EventList';
 import { EventDetails } from './components/EventDetails';
@@ -40,6 +43,9 @@ export default class App extends Component
         <Route path='/editsession' component={EditSession} />
         <Route path='/sessiondetails' component={SessionDetails} />
         <Route path='/userlist' component={UserList} />
+        <Route path='/teamlist' component={TeamList} />
+        <Route path='/createteam' component={CreateTeam} />
+        <Route path='/editteam' component={EditTeam} />
         <Route path='/createlocation' component={CreateLocation} />
         <Route path='/editlocation' component={EditLocation} />
         <Route path='/locationlist' component={LocationList} />

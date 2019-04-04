@@ -29,10 +29,15 @@ export class NavMenu extends Component
                 <NavItem>
                    <Glyphicon glyph='th-list' /> User List
                 </NavItem>
-                    </LinkContainer>
-                    <LinkContainer to={'/locationlist'}>
-                        <NavItem>
-                            <Glyphicon glyph='th-list' /> Location List
+            </LinkContainer>
+            <LinkContainer to={'/teamlist'}>
+                <NavItem>
+                   <Glyphicon glyph='th-list' /> Team List
+                </NavItem>
+            </LinkContainer>
+             <LinkContainer to={'/locationlist'}>
+                <NavItem>
+                   <Glyphicon glyph='th-list' /> Location List
                 </NavItem>
                     </LinkContainer>
              <LinkContainer to={'/createsession'}>

@@ -9,8 +9,8 @@ namespace Eman_Maet.Models
     {
         public int teamID { get; set; }
         public String teamName { get; set; }
-        public String preferredJob { get; set; }
-        public int companyID { get; set; }
+        public String teamJob { get; set; }
+        public int inactive { get; set; }
 
 
     }
