@@ -61,6 +61,17 @@ export class TeamList extends Component {
                 sortable: false,
                 width: 40
             },
+            {
+                id: 'emailButton',
+                accessor: 'teamID',
+                Cell: ({ value }) => (
+
+                    //<asp: runat="server" Text="Send Email" OnClick="emailButton_Click" />
+                    <a href="mailto:austin.young@eagles.oc.edu?Subject=Hello%20Again" target="_top">Send Email</a>
+                ),
+                sortable: false,
+                width: 100
+            },
 		];
 
 
