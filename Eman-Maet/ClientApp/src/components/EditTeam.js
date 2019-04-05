@@ -153,7 +153,7 @@ export class EditTeam extends Component {
                         //Found, remove it
                         console.log(data);
 
-                        fetch('api/userteam/' + data.userTeamId, {
+                        fetch('api/userteam/' + data.userTeamID, {
                             method: 'DELETE'
                         }).then(res => {
                             return res;
