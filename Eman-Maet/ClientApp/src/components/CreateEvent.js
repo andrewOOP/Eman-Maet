@@ -110,9 +110,8 @@ export class CreateEvent extends Component {
 
 
 
-    renderUserTable(users) {
-
-
+    renderUserTable(users)
+    {
         const columns = [
             {
                         id: "checkbox",
@@ -142,12 +141,10 @@ export class CreateEvent extends Component {
                         Header: "Email",
                         accessor: "email",
                     }
-                ];
+         ];
 
 
       return (
-
-
           <div className="main">
             <h1>Create Event</h1>
               <form action="#" >
