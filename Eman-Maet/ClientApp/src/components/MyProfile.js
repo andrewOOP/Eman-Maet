@@ -80,17 +80,8 @@ export class MyProfile extends Component {
     renderMyProfile() {
         return (
             <div className="main">
-                <h1>Edit User</h1>
+                <h1>My Profile</h1>
                 <form action="#" >
-                    <div className="row">
-                        <div className="col-25">
-                            <label>User ID:</label>
-                        </div>
-                        <div className="col-75">
-                            <label>{this.state.userid}</label>
-                        </div>
-                    </div>
-
                     <div className="row">
                         <div className="col-25">
                             <label>First Name:</label>
@@ -146,6 +137,7 @@ export class MyProfile extends Component {
                     </div>
 
                     <br /><input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
+                    <input className="delete" type="submit" onClick={e => this.setState({ redirect: true })} value="Cancel" />
                 </form >
 
             </div>

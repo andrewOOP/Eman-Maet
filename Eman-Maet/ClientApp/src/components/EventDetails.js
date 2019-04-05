@@ -1,6 +1,8 @@
 ﻿import React, { Component } from 'react';
 import ReactTable from "react-table";
-import './CreateEvent.css'
+import { LinkContainer } from 'react-router-bootstrap';
+import * as qs from 'query-string';
+import { withRouter } from 'react-router';
 import './AppStyle.css'
 import 'react-table/react-table.css'
 
@@ -8,142 +10,80 @@ export class EventDetails extends Component
 {
     displayName = EventDetails.name
 
-    constructor(props) 
-    {
+    constructor(props) {
         super(props);
         this.state = {
-            title: 'code-a-thon',
-            startdate: this.getCurrentDate(),
-            enddate: this.getCurrentDate(),
-            starttime: '12:00',
-            location: 'Paycom',
-            maxAttendance: '150',
-            selected: {},
-            selectAll: 0,
-            userList: [],
+            title: '',
+            startdate: '',
+            starttime: '',
+            sessionList: [],
+            isAdmin: '',
+            paramID: -1,
             loading: true,
         }
 
-        fetch('api/user')
+        const params = qs.parse(this.props.location.search);
+
+        fetch('api/event/' + params.id)
             .then(response => response.json())
             .then(data => {
-                this.setState({ userList: data, loading: false });
+                this.setState({ paramID: params.id, title: data.eventDescription, startdate: data.formattedEventDate, starttime: data.formattedStartTime })
             });
 
-        this.toggleRow = this.toggleRow.bind(this);
-    }
-
-    toggleRow(firstName)
-    {
-        const newSelected = Object.assign({}, this.state.selected);
-        newSelected[firstName] = !this.state.selected[firstName];
-        this.setState({
-            selected: newSelected,
-            selectAll: 2
-        });
-    }
-
-    toggleSelectAll()
-    {
-        let newSelected = {};
-
-        if (this.state.selectAll === 0)
-        {
-            this.state.userList.forEach(x => {
-                newSelected[x.userID] = true;
+        fetch('api/session/byevent/' + params.id)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ sessionList: data, loading: false });
             });
-        }
 
-        this.setState({
-            selected: newSelected,
-            selectAll: this.state.selectAll === 0 ? 1 : 0
-        });
+        fetch('api/user/GetCurrentUser', {
+            method: 'GET',
+        })
+            .then(res => res.json())
+            .then(response => {
+                this.setState({ isAdmin: response.securityRole });
+                if (this.state.isAdmin === "Administrator") {
+                    this.setState({ isAdmin: true });
+                }
+                else { this.setState({ isAdmin: false }); }
+            })
+            .catch(error => console.error('Error:', error));
     }
 
-    handleFormSubmit(event) {
-        event.preventDefault();
-        let submitState = {
-            eventDate: this.state.startdate,
-            eventDescription: this.state.title,
-            startTime: this.state.starttime,
-        };
-        this.createEvent(submitState);
-    }
-
-    createEvent(data) {
-
-        fetch('api/event', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => {
-            console.log("WIN");
-            return res;
-        }).catch(err => {
-            console.log(err);
-        });
-        console.log(JSON.stringify(data));
-    }
-
-    getCurrentDate() {
-        return new Date().toISOString().substr(0, 10);
-    }
+    renderUserTable(sessions) {
 
 
-
-    renderUserTable(users)
-    {
         const columns = [
             {
-                id: "checkbox",
-                accessor: "",
-                Cell: ({ original }) => {
-                    return (
-                        <input
-                            type="checkbox"
-                            className="checkbox"
-                            checked={this.state.selected[original.userID] === true}
-                            onChange={() => this.toggleRow(original.userID)}
-                        />
-                    );
-                },
-                Header: x => {
-                    return (
-                        <input
-                            type="checkbox"
-                            className="checkbox"
-                            checked={this.state.selectAll === 1}
-                            ref={input => {
-                                if (input) {
-                                    input.indeterminate = this.state.selectAll === 2;
-                                }
-                            }}
-                            onChange={() => this.toggleSelectAll()}
-                        />
-                    );
-                },
-                sortable: false,
-                width: 45
+                Header: "Session Name",
+                accessor: "sessionName",
             },
             {
-                Header: "First Name",
-                accessor: "fName",
+                Header: "Date",
+                accessor: "formattedSessionDate",
+            },
+            {
+                Header: "Start Time",
+                accessor: "formattedStartTime",
+            },
+            {
+                Header: "End Time",
+                accessor: "formattedEndTime",
             }
         ];
 
+
         return (
+
+
             <div className="main">
                 <h1>Event Details</h1>
-                <form action="#" >
                     <div className="row">
                         <div className="col-25">
                             <label>Title</label>
                         </div>
                         <div className="col-75">
-                            <input type="text" value={this.state.title} disabled
-                            />
+                            <label>{this.state.title}</label>
                         </div>
                     </div>
 
@@ -152,11 +92,7 @@ export class EventDetails extends Component
                             <label>Start Date</label>
                         </div>
                         <div className="col-75">
-                            <input type="date" id="startdate" name="startdate"
-                                value={this.state.startdate}
-                                onChange={e => this.setState({ startdate: e.target.value })}
-                                disabled
-                            />
+                            <label>{this.state.startdate}</label>
                         </div>
                     </div>
                     <div className="row">
@@ -164,49 +100,31 @@ export class EventDetails extends Component
                             <label>Start Time</label>
                         </div>
                         <div className="col-75">
-                            <input type="time" id="starttime" name="starttime"
-                                value={this.state.starttime}
-                                onChange={e => this.setState({ starttime: e.target.value })}
-                                disabled
-                            />
+                            <label>{this.state.starttime}</label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-25">
-                            <label>Max Attendance: </label>
-                        </div>
-                        <div className="col-75">
-                            <input type="text" value={this.state.maxAttendance} disabled
-                            />
+                            <label>Event Sessions</label><br />
                         </div>
                     </div>
-
-                    <div className="row">
-                        <div className="col-25">
-                            <label>Location</label>
-                        </div>
-                        <div className="col-75">
-                            <input type="text" value={this.state.location} disabled
-                            />
-                        </div>
-                    </div>
-                    {/* This is a where the buttons to change the tables out go*/}
                     <ReactTable
-                        data={users}
+                        data={sessions}
                         columns={columns}
                         defaultSorted={[
                             {
-                                id: "lastName",
+                                id: "formattedStartTime",
                                 desc: false
                             }
                         ]}
                         defaultPageSize={10}
                         className="-striped -highlight"
-                    />
-
-                    <br /><input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
-                </form >
-
+                />
+                {this.state.isAdmin &&
+                    <LinkContainer to={'/createsession'}>
+                        <button className="submit" type="button">Create Session</button>
+                    </LinkContainer>
+                }
             </div>
         );
 
@@ -216,7 +134,7 @@ export class EventDetails extends Component
     render() {
         let contents = this.state.loading
             ? <div class="loader">Please Wait...</div>
-            : this.renderUserTable(this.state.userList);
+            : this.renderUserTable(this.state.sessionList);
 
         return (
             <div>
@@ -225,3 +143,5 @@ export class EventDetails extends Component
         );
     }
 }
+
+export default withRouter(EventDetails);

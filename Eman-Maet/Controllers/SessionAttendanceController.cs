@@ -57,7 +57,9 @@ namespace Eman_Maet.SessionAttendanceController
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<SessionAttendanceModel> output = connection.Query<SessionAttendanceModel>("INSERT INTO SessionAttendance (sessionID, userID, rsvpCheckin) VALUES ((@_sessionID), (@_userID), (@_rsvpCheckin))", new {_sessionID = item.sessionID, _userID = item.userID, _rsvpCheckin = item.rsvpCheckin });
+                string cookieValueFromReq = this.HttpContext.Request.Cookies["CurrentID"];
+                int cookieUserId = int.Parse(cookieValueFromReq); 
+                IEnumerable<SessionAttendanceModel> output = connection.Query<SessionAttendanceModel>("INSERT INTO SessionAttendance (sessionID, userID, rsvpCheckin) VALUES ((@_sessionID), (@_userID), (@_rsvpCheckin))", new {_sessionID = item.sessionID, _userID = cookieUserId, _rsvpCheckin = item.rsvpCheckin });
                 return CreatedAtRoute("GetSessionAttendance", new { sessionID = item.sessionID , userID = item.userID }, item);
             }
 
@@ -73,6 +75,8 @@ namespace Eman_Maet.SessionAttendanceController
                 return NoContent();
             }
         }
+
+
 
         //[HttpDelete("{id}")]
         //public IActionResult MarkAsInactive(long id)
