@@ -41,7 +41,7 @@ namespace Eman_Maet.UserTeamController
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<UserTeamModel> output = connection.Query<UserTeamModel>("SELECT teamID FROM UserTeam WHERE userId=(@_id)", new { _id = id });
+                IEnumerable<UserTeamModel> output = connection.Query<UserTeamModel>("SELECT * FROM UserTeam WHERE teamID=(@_id)", new { _id = id });
                 if (output.Count() == 0)
                 {
                     return NotFound();
