@@ -102,14 +102,6 @@ export class EditUser extends Component {
             <div className="main">
                 <h1>Edit User</h1>
                 <form action="#" >
-                    <div className="row">
-                        <div className="col-25">
-                            <label>User ID:</label>
-                        </div>
-                        <div className="col-75">
-                            <label>{this.state.userid}</label>
-                        </div>
-                    </div>
 
                     <div className="row">
                         <div className="col-25">
