@@ -36,7 +36,7 @@ namespace Eman_Maet.UserTeamController
         }
 
         [HttpGet("{id}", Name = "GetUserTeams")]
-        public ActionResult<List<UserTeamModel>> GetByUserId(int id)
+        public ActionResult<List<UserTeamModel>> GetByTeamId(int id)
         {
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
@@ -85,6 +85,21 @@ namespace Eman_Maet.UserTeamController
             {
                 IEnumerable<UserTeamModel> output = connection.Query<UserTeamModel>("DELETE FROM userteam WHERE userTeamID = @_id", new {_id = id});
                 return NoContent();
+            }
+        }
+
+        [HttpGet("{id}", Name = "GetUserTeams")]
+        public ActionResult<List<UserTeamModel>> GetByUserId(int id)
+        {
+
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<UserTeamModel> output = connection.Query<UserTeamModel>("SELECT teamID FROM UserTeam WHERE userId=(@_id)", new { _id = id });
+                if (output.Count() == 0)
+                {
+                    return NotFound();
+                }
+                return output.ToList();
             }
         }
     }
