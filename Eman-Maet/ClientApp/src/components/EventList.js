@@ -17,16 +17,19 @@ export class EventList extends Component {
         this.fetchData();
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState)
+    {
         // only update chart if the data has changed
-        if (this.state.prevKey !== this.props.location.key) {
+        if (this.state.prevKey !== this.props.location.key)
+        {
             this.fetchData();
             this.setState({ prevKey: this.props.location.key });
         }
     }
 
 
-    fetchData() {
+    fetchData()
+    {
         fetch('api/event')
             .then(response => response.json())
             .then(data => {
@@ -34,7 +37,8 @@ export class EventList extends Component {
             });
     }
 
-    static renderEventTable(events) {
+    static renderEventTable(events)
+    {
 
 		const columns = [
 			{
