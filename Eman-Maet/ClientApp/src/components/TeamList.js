@@ -14,7 +14,7 @@ export class TeamList extends Component {
 
     constructor(props) {
         super(props);
-		this.state = { teamList: [], loading: true, prevKey: "", userID: "", isAdmin: "", userTeamList: []};
+		this.state = { teamList: [], loading: true, prevKey: "", userID: "", isAdmin: "", userTeamIDList: []};
 
         this.fetchData();
     }
@@ -48,19 +48,20 @@ export class TeamList extends Component {
 					this.setState({ teamList: data, loading: false });
 				});
 		}
-		else {
+		else if (!this.state.isAdmin) {
 			fetch('api/userteam?id=' + this.state.userID)
 				.then(response => response.json())
 				.then(data => {
-					this.setState({ userTeamList: data });
+					this.setState({ userTeamIDList: data });
 				});
-			this.state.userTeamList.forEach(function (entry) {
-				fetch('api/team?id =' + entry)
+			fetch('api/team?id =' + this.state.userTeamIDList)
 					.then(response => response.json())
 					.then(data => {
 						this.setState({ teamList: data, loading: false });
 					});
-			});
+		}
+		else {
+			console.log("Your Nothing Bro");
 		}
 
     }
