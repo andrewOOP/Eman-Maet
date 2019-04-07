@@ -68,6 +68,19 @@ export class EventList extends Component {
                 sortable: false,
                 width: 40
             },
+            {
+                id: 'emailbutton',
+                accessor: 'eventID',
+                Cell: ({ value }) => (
+
+                    <LinkContainer to={'mailto:=' + emailList}> {/*Call controller function to get the emails*/}
+                        <a className="EmailEvent" onClick={() => {}}>Email</a>
+                    </LinkContainer>
+
+                ),
+                sortable: false,
+                width: 40
+            },
 		];
 
 
