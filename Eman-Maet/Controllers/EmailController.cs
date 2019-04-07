@@ -24,15 +24,16 @@ namespace Eman_Maet.Controllers
         {
 
         }
-        
+
         [HttpGet]
-        public ActionResult<List<EventModel>> GetAll()
+        public ActionResult<List<EmailModel>> GetAll()
         {
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<EventModel> output = connection.Query<EventModel>("SELECT * FROM Event WHERE inactive = 0");
-                return formatDatesAndTimes(output).ToList();
+                IEnumerable<EmailModel> output = connection.Query<EmailModel>("select user.email from event join session on session.eventID = event.eventID join sessionattendance on session.sessionID = sessionattendance.sessionID join user on sessionattendance.userID = user.userID");
+                return string.Join(",", output);
             }
         }
     }
 }
+
