@@ -16,7 +16,6 @@ namespace Eman_Maet.Models
         public DateTime startTime { get; set; }
         public String formattedStartTime { get; set; }
         public int inactive { get; set; }
-        public String email { get; set; }
 
 
     }
