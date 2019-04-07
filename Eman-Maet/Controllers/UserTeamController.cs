@@ -35,7 +35,7 @@ namespace Eman_Maet.UserTeamController
             }
         }
 
-        [HttpGet("{id}", Name = "GetUserTeams")]
+        [HttpGet("{id}", Name = "GetUserByTeamID")]
         public ActionResult<List<UserTeamModel>> GetByTeamId(int id)
         {
 

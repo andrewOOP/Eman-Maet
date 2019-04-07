@@ -19,50 +19,34 @@ export class TeamList extends Component {
         this.fetchData();
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        // only update chart if the data has changed
-        if (this.state.prevKey !== this.props.location.key) {
-            this.fetchData();
-            this.setState({ prevKey: this.props.location.key });
-        }
-    }
-
     fetchData() {
-		fetch('api/user/GetCurrentUser', {
-			method: 'GET',
-		})
-			.then(res => res.json())
-			.then(response => {
-				this.setState({ isAdmin: response.securityRole, userID: response.userID });
-				if (this.state.isAdmin === "Administrator") {
-					this.setState({ isAdmin: true });
-				}
-				else { this.setState({ isAdmin: false }); }
-			})
-			.catch(error => console.error('Error:', error));
 
-		if (this.state.isAdmin) {
-			fetch('api/team')
-				.then(response => response.json())
-				.then(data => {
-					this.setState({ teamList: data, loading: false });
-				});
-		}
-		else if (!this.state.isAdmin) {
-			fetch('api/userteam?id=' + this.state.userID)
-				.then(response => response.json())
-				.then(data => {
-					this.setState({ userTeamIDList: data });
-				});
-			fetch('api/team?id =' + this.state.userTeamIDList)
-					.then(response => response.json())
-					.then(data => {
-						this.setState({ teamList: data, loading: false });
-					});
-		}
-		else {
-			console.log("Your Nothing Bro");
-		}
+
+        fetch('api/user/GetCurrentUser', {
+            method: 'GET',
+        })
+            .then(res => res.json())
+            .then(response => {
+                this.setState({ isAdmin: response.securityRole, userID: response.userID });
+                if (this.state.isAdmin === "Administrator") {
+                    this.setState({ isAdmin: true });
+                    fetch('api/team')
+                        .then(response => response.json())
+                        .then(data => {
+                            this.setState({ teamList: data, loading: false });
+                        });
+                }
+                else {
+                    this.setState({ isAdmin: false });
+                    fetch('api/team/' + this.state.userID)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            this.setState({ teamList: data, loading: false });
+                        });
+                }
+            })
+            .catch(error => console.error('Error:', error));
 
     }
 
