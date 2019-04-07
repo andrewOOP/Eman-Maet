@@ -52,7 +52,7 @@ export class TeamList extends Component {
 			fetch('api/userteam?id=' + this.state.userID)
 				.then(response => response.json())
 				.then(data => {
-					this.setState({ userTeamIDList: data });
+					this.setState({ userTeamIDList: data.teamID });
 				});
 			fetch('api/team?id =' + this.state.userTeamIDList)
 					.then(response => response.json())
