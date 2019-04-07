@@ -25,7 +25,8 @@ export class EditTeam extends Component {
         fetch('api/team/' + params.id)
             .then(response => response.json())
             .then(data => {
-                this.setState({ paramID: params.id, teamName: data.teamName, teamJob: data.teamJob })
+
+                this.setState({ paramID: params.id, teamName: data.teamName, teamJob: data.teamJob });
             });
 
         fetch('api/userteam/' + params.id)
@@ -34,7 +35,6 @@ export class EditTeam extends Component {
                 else return response.json();
             })
             .then(data => {
-                console.log(data);
                 data.forEach(x => {
                     this.toggleRow(x.userID);
                 });
@@ -153,7 +153,7 @@ export class EditTeam extends Component {
                         //Found, remove it
                         console.log(data);
 
-                        fetch('api/userteam/' + data.userTeamId, {
+                        fetch('api/userteam/' + data.userTeamID, {
                             method: 'DELETE'
                         }).then(res => {
                             return res;

@@ -70,7 +70,7 @@ export class CreateTeam extends Component {
                         userID: id,
                     };
 
-                    fetch('api/teammember', {
+                    fetch('api/userteam', {
                         method: 'POST',
                         body: JSON.stringify(submitState),
                         headers: {
