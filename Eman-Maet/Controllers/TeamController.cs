@@ -71,27 +71,20 @@ namespace Eman_Maet.TeamController
             }
         }
 
-        [HttpGet("{id}", Name = "GetTeams")]
-        public ActionResult<List<TeamModel>> GetTeamsByIds(int[] id)
+        [HttpGet("{id}", Name = "GetTeamByUserID")]
+        public ActionResult<List<TeamModel>> GetTeamsByIds(int id)
         {
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
                 IEnumerable<TeamModel> output = null;
-                List <TeamModel> listOfTeams = new List<TeamModel>();
-                foreach (int i in id)
-                {
-                    output = connection.Query<TeamModel>("SELECT * FROM Team WHERE teamId=(@_id)", new { _id = id });
+
+                    output = connection.Query<TeamModel>("SELECT team.teamID, teamName, teamJob, inactive FROM team INNER JOIN userteam ON team.teamID = userteam.teamID WHERE inactive = 0 AND userID = (@_id)", new { _id = id });
                     if (output.Count() == 0)
                     {
                         return NotFound();
                     }
-                    foreach (TeamModel j in output.ToList())
-                    {
-                        listOfTeams.Add(j);
-                    }
-                }
-                return listOfTeams;
+                return output.ToList();
             }
         }
     }

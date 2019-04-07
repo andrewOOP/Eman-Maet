@@ -11,21 +11,15 @@ export class EventList extends Component {
 
 	constructor(props) {
 		super(props);
-        this.state = { eventList: [], loading: true, prevKey: "", selected: null, isAdmin: ""};
-        
+        this.state = { eventList: [], loading: true, prevKey: "", selected: null, isAdmin: "" };
         this.fetchData();
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        // only update chart if the data has changed
-        if (this.state.prevKey !== this.props.location.key) {
-            this.fetchData();
-            this.setState({ prevKey: this.props.location.key, selected: null });
-        }
     }
 
 
     fetchData() {
+
+        console.log("FETCHING");
+
         fetch('api/event')
             .then(response => response.json())
             .then(data => {
