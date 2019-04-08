@@ -15,12 +15,11 @@ export class SendEmail extends Component {
             }
     }
 
-    renderUserTable(users)
+    renderEmail(users)
     {    
         return (
             <div className="main">
                 <h1>Create Email</h1>
-                
                 <a href="mailto:someone@example.com,test@gmail.com?Subject=Hello%20again" target="_top">Send Mail</a>
             </div>
         );
@@ -29,7 +28,7 @@ export class SendEmail extends Component {
     render() {
         let contents = this.state.loading
             ? <div class="loader">Please Wait...</div>
-            : this.renderUserTable(this.state.userList);
+            : this.renderEmail(this.state.userList);
 
         return (
             <div>

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Eman-Maet.Models
+namespace Eman_Maet.Models
 {
-    public class EmailModel
+public class EmailModel
 {
-    public string email { get; set; }
+    public String email { get; set; }
 }
 }

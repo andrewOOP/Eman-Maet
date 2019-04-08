@@ -31,7 +31,7 @@ namespace Eman_Maet.Controllers
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
                 IEnumerable<EmailModel> output = connection.Query<EmailModel>("select user.email from event join session on session.eventID = event.eventID join sessionattendance on session.sessionID = sessionattendance.sessionID join user on sessionattendance.userID = user.userID");
-                return string.Join(",", output);
+                return output.ToList();
             }
         }
     }

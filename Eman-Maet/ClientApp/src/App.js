@@ -45,7 +45,7 @@ export default class App extends Component
         <Route path='/createlocation' component={CreateLocation} />
         <Route path='/editlocation' component={EditLocation} />
         <Route path='/locationlist' component={LocationList} />
-        <Route path='/sendemail' component={SendEmail} />
+        <Route path='/eventemail' component={SendEmail} />
       </Layout>
     );
   }

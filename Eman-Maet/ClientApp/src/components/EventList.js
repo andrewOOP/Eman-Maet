@@ -17,6 +17,16 @@ export class EventList extends Component {
         this.fetchData();
     }
 
+    handleEventEmail(event) {
+        event.preventDefault();
+        let submitState = {
+            eventDate: this.state.startdate,
+            eventDescription: this.state.title,
+            startTime: this.state.starttime,
+        };
+        this.createEvent(submitState);
+    }
+
     componentDidUpdate(prevProps, prevState)
     {
         // only update chart if the data has changed
@@ -73,8 +83,8 @@ export class EventList extends Component {
                 accessor: 'eventID',
                 Cell: ({ value }) => (
 
-                    <LinkContainer to={'mailto:=' + emailList}> {/*Call controller function to get the emails*/}
-                        <a className="EmailEvent" onClick={() => {}}>Email</a>
+                    <LinkContainer to={'/eventemail?id=' + value}> 
+                        <a className="EventEmail" onClick={e => this.handleFormSubmit(e)}>Email</a> {/*working on this********************/}
                     </LinkContainer>
 
                 ),
