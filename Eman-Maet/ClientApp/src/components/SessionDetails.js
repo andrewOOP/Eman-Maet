@@ -158,11 +158,7 @@ export class SessionDetails extends Component {
                             <label>Title</label>
                         </div>
                         <div className="col-75">
-                            <input type="text" placeholder="Event Name"
-                                value={this.state.title}
-								onChange={e => this.setState({ title: e.target.value })}
-								disabled
-                            />
+                            <label>{this.state.title}</label>
                         </div>
                     </div>
 
@@ -171,11 +167,7 @@ export class SessionDetails extends Component {
                             <label>Start Date</label>
                         </div>
                         <div className="col-75">
-                            <input type="date" id="startdate" name="startdate"
-                                value={this.state.startdate}
-								onChange={e => this.setState({ startdate: e.target.value })}
-								disabled
-                            />
+                            <label>{this.state.startdate}</label>
                         </div>
                     </div>
                     <div className="row">
@@ -183,11 +175,7 @@ export class SessionDetails extends Component {
                             <label>Start Time</label>
                         </div>
                         <div className="col-75">
-                            <input type="time" id="starttime" name="starttime"
-                                value={this.state.starttime}
-								onChange={e => this.setState({ starttime: e.target.value })}
-								disabled
-                            />
+                            <label>{this.state.starttime}</label>
                         </div>
                     </div>
                     <div className="row">
@@ -195,11 +183,7 @@ export class SessionDetails extends Component {
                             <label>End Time</label>
                         </div>
                         <div className="col-75">
-                            <input type="time" id="endtime" name="endtime"
-                                value={this.state.endtime}
-								onChange={e => this.setState({ endtime: e.target.value })}
-								disabled
-                            />
+                            <label>{this.state.endtime}</label>
                         </div>
                     </div>
                     <div className="row">
@@ -207,9 +191,7 @@ export class SessionDetails extends Component {
                             <label>Location</label>
                         </div>
 						<div className="col-75">
-							<select value={this.state.locChoice} onChange={e => this.setState({ locChoice: e.target.value, locID: e.target.selectedIndex + 1 })} id="location" disabled>
-                                {options}
-                            </select>
+                            <label>{this.state.locChoice}</label>
                         </div>
                     </div>
                     {this.state.isAdmin &&

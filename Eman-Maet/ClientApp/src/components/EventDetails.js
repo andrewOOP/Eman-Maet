@@ -108,7 +108,29 @@ export class EventDetails extends Component
                             <label>Event Sessions</label><br />
                         </div>
                     </div>
-                    <ReactTable
+                <ReactTable
+                    getTrProps={(state, rowInfo) => {
+                        if (rowInfo && rowInfo.row) {
+                            return {
+                                onClick: (e) => {
+
+                                    if (rowInfo.index === this.state.selected) {
+                                        this.props.history.push('/sessiondetails?id=' + this.state.sessionList[rowInfo.index].sessionID);
+                                    }
+
+                                    this.setState({
+                                        selected: rowInfo.index
+                                    })
+                                },
+                                style: {
+                                    background: rowInfo.index === this.state.selected ? '#b2b2b2' : 'white',
+                                }
+                            }
+                        } else {
+                            return {}
+                        }
+                    }
+                    }
                         data={sessions}
                         columns={columns}
                         defaultSorted={[
