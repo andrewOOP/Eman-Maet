@@ -35,6 +35,21 @@ namespace Eman_Maet.TeamController
             }
         }
 
+        [HttpGet("{id}", Name = "GetTeam")]
+        public ActionResult<TeamModel> GetById(int id)
+        {
+
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<TeamModel> output = connection.Query<TeamModel>("SELECT * FROM Team WHERE teamID=(@_id)", new { _id = id });
+                if (output.Count() == 0)
+                {
+                    return NotFound();
+                }
+                return output.FirstOrDefault();
+            }
+        }
+
 
         [HttpPost]
         public ActionResult<int> Create(TeamModel item)
@@ -71,7 +86,7 @@ namespace Eman_Maet.TeamController
             }
         }
 
-        [HttpGet("{id}", Name = "GetTeamByUserID")]
+        [HttpGet("byuser/{id}", Name = "GetTeamByUserID")]
         public ActionResult<List<TeamModel>> GetTeamsByIds(int id)
         {
 

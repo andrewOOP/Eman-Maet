@@ -38,7 +38,7 @@ export class TeamList extends Component {
                 }
                 else {
                     this.setState({ isAdmin: false });
-                    fetch('api/team/' + this.state.userID)
+                    fetch('api/team/byuser/' + this.state.userID)
                         .then(response => response.json())
                         .then(data => {
                             console.log(data);
