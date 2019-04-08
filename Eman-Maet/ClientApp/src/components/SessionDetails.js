@@ -34,7 +34,7 @@ export class SessionDetails extends Component {
         fetch('api/session/' + params.id)
             .then(response => response.json())
             .then(data => {
-                this.setState({ paramID: params.id, title: data.sessionName, startdate: data.sessionDate.substr(0, 10), starttime: data.startTime.substr(11, 100), endtime: data.endTime.substr(11, 100), locID: data.locationID })
+                this.setState({ paramID: params.id, title: data.sessionName, startdate: data.formattedSessionDate, starttime: data.formattedStartTime, endtime: data.formattedEndTime, locID: data.locationID })
                 fetch('api/location/' + this.state.locID)
                     .then(response => response.json())
                     .then(data => {
