@@ -10,3 +10,7 @@
     background-color: #4189C7;
     color: white;
 }
+
+.navbar-brand {
+    float: right;
+}

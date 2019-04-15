@@ -5,10 +5,14 @@ import { NavMenu } from './NavMenu';
 export class Layout extends Component {
   displayName = Layout.name
 
-  render() {
+    render() {
+
     return (
         <Grid fluid>
-            <NavMenu />
+            {window.location.pathname != "/" &&
+                <NavMenu />
+        }
+
         <Row>
           <Col sm={12}>
             {this.props.children}

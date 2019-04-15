@@ -13,9 +13,6 @@ export class NavMenu extends Component
     return (
       <Navbar inverse fixedTop fluid collapseOnSelect>
         <Navbar.Header>
-          <Navbar.Brand>
-            <Link to={'/'}>Eman_Maet</Link>
-          </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
@@ -46,7 +43,11 @@ export class NavMenu extends Component
                 </NavItem>
                     </LinkContainer>
              
-          </Nav>
+                </Nav>
+
+                <Navbar.Brand>
+                    <Link to={'/'}>Log Out</Link>
+                </Navbar.Brand>
         </Navbar.Collapse>
       </Navbar>
     );
