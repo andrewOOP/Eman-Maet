@@ -69,7 +69,21 @@ export class EventDetails extends Component
             {
                 Header: "End Time",
                 accessor: "formattedEndTime",
-            }
+            },
+            {
+                id: 'editButton',
+                accessor: 'sessionID',
+                Cell: ({ value }) => (
+                    <LinkContainer to={'/editsession?id=' + value}>
+                        <a className="EditSession" onClick={() => {
+
+                        }}>Edit</a>
+                    </LinkContainer>
+                ),
+                sortable: false,
+                width: 40,
+                show: this.state.isAdmin,
+            },
         ];
 
 
