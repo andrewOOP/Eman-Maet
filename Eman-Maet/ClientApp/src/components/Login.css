@@ -6,7 +6,6 @@
 }
 
 .Login.background {
-    background-image: url(https://forums.unrealengine.com/filedata/fetch?id=1113441&d=1470732920);
     background-size: cover;
     height: calc(100vh - 50px);
 }
