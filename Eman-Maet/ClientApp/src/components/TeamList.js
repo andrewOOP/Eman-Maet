@@ -79,9 +79,12 @@ export class TeamList extends Component {
                 id: 'emailButton',
                 accessor: 'teamID',
                 Cell: ({ value }) => (
+                    <LinkContainer to={'/teamemail?id=' + value}>
+                        <a classTeam="TeamEmail" onClick={() => {
 
-                    //<asp: runat="server" Text="Send Email" OnClick="emailButton_Click" />
-                    <a href="mailto:austin.young@eagles.oc.edu?Subject=Hello%20Again" target="_top">Send Email</a>
+                        }}>Email</a>
+                    </LinkContainer>
+//                    <a href="mailto:austin.young@eagles.oc.edu?Subject=Hello%20Again" target="_top">Send Email</a>
                 ),
                 sortable: false,
                 width: 100
