@@ -8,4 +8,5 @@
 .Login.background {
     background-size: cover;
     height: calc(100vh - 50px);
+    background-image: linear-gradient(white, grey);
 }
