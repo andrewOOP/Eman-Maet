@@ -18,14 +18,6 @@ export class LocationList extends Component {
         this.fetchData();
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        // only update chart if the data has changed
-        if (this.state.prevKey !== this.props.location.key) {
-            this.fetchData();
-            this.setState({ prevKey: this.props.location.key });
-        }
-    }
-
     fetchData() {
         fetch('api/location')
             .then(response => response.json())

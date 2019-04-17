@@ -96,7 +96,7 @@ export class CreateLocation extends Component
                             <label>State:</label>
                         </div>
                         <div className="col-75">
-                            <input type="text" placeholder="Enter State"
+                            <input type="text" placeholder="Enter State" maxlength="2"
                                 value={this.state.state}
                                 onChange={e => this.setState({ state: e.target.value })}
                             />
@@ -108,7 +108,7 @@ export class CreateLocation extends Component
                             <label>Zip:</label>
                         </div>
                         <div className="col-75">
-                            <input type="text" placeholder="Enter Zip"
+                            <input type="text" placeholder="Enter Zip" maxlength="5"
                                 value={this.state.zip}
                                 onChange={e => this.setState({ zip: e.target.value })}
                             />

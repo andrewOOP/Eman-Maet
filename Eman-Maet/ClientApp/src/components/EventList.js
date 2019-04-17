@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import ReactTable from "react-table";
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import './EventList.css'
 import './AppStyle.css'
 import 'react-table/react-table.css'
-import { EditEvent } from './EditEvent';
 
 export class EventList extends Component {
 	displayName = EventList.name
 
 	constructor(props) {
 		super(props);
-        this.state = { eventList: [], loading: true, prevKey: "" };
-
+        this.state = { eventList: [], loading: true, prevKey: "", selected: null, isAdmin: "" };
         this.fetchData();
     }
 
+<<<<<<< HEAD
     handleEventEmail(event) {
         event.preventDefault();
         let submitState = {
@@ -40,15 +39,39 @@ export class EventList extends Component {
 
     fetchData()
     {
+=======
+
+    fetchData() {
+
+        console.log("FETCHING");
+
+>>>>>>> master
         fetch('api/event')
             .then(response => response.json())
             .then(data => {
                 this.setState({ eventList: data, loading: false });
             });
+        fetch('api/user/GetCurrentUser', {
+            method: 'GET',
+        })
+            .then(res => res.json())
+            .then(response => {
+                this.setState({ isAdmin: response.securityRole });
+                if (this.state.isAdmin === "Administrator") {
+                    this.setState({ isAdmin: true });
+                }
+                else { this.setState({ isAdmin: false });  }
+            })
+            .catch(error => console.error('Error:', error));
     }
 
+<<<<<<< HEAD
     static renderEventTable(events)
     {
+=======
+    renderEventTable(events) {
+
+>>>>>>> master
 
 		const columns = [
 			{
@@ -67,16 +90,15 @@ export class EventList extends Component {
                 id: 'editButton',
                 accessor: 'eventID',
                 Cell: ({ value }) => (
+                            <LinkContainer to={'/editevent?id=' + value}>
+                                <a className="EditEvent" onClick={() => {
 
-                    <LinkContainer to={'/editevent?id=' + value}>
-                    <a className="EditEvent" onClick={() => {
-
-                        }}>Edit</a>
-                    </LinkContainer>
-
+                                }}>Edit</a>
+                            </LinkContainer>
                 ),
                 sortable: false,
-                width: 40
+                width: 40,
+                show: this.state.isAdmin,
             },
             {
                 id: 'emailbutton',
@@ -98,6 +120,28 @@ export class EventList extends Component {
 			<div className="main">
 				<h1>Event List</h1>
 					<ReactTable
+                    getTrProps={(state, rowInfo) => {
+                        if (rowInfo && rowInfo.row) {
+                            return {
+                                onClick: (e) => {
+
+                                    if (rowInfo.index === this.state.selected) {
+                                        this.props.history.push('/eventdetails?id=' + this.state.eventList[rowInfo.index].eventID);
+                                    }
+
+                                    this.setState({
+                                        selected: rowInfo.index
+                                    })
+                                },
+                                style: {
+                                    background: rowInfo.index === this.state.selected ? '#b2b2b2' : 'white',
+                                }
+                            }
+                        } else {
+                            return {}
+                        }
+                    }
+                    }
                     data={events}
 						columns={columns}
 						defaultSorted={[
@@ -109,10 +153,11 @@ export class EventList extends Component {
 						defaultPageSize={10}
 						className="-striped -highlight"
                 />
-                <LinkContainer to={'/createevent'}>
-                    <button className="submit" type="button">Create Event</button>
-                </LinkContainer>
-
+                {this.state.isAdmin &&
+                    <LinkContainer to={'/createevent'}>
+                        <button className="submit" type="button">Create Event</button>
+                    </LinkContainer>
+                } 
 			</div>
 		);
     }
@@ -122,7 +167,7 @@ export class EventList extends Component {
     render() {
         let contents = this.state.loading
             ? <div class="loader">Please Wait...</div>
-            : EventList.renderEventTable(this.state.eventList);
+            : this.renderEventTable(this.state.eventList);
 
         return (
             <div>
@@ -131,3 +176,5 @@ export class EventList extends Component {
         );
     }
 }
+
+export default withRouter(EventList);

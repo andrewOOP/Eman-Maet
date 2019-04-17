@@ -26,6 +26,7 @@ namespace Eman_Maet.Controllers
         }
 
         [HttpGet]
+<<<<<<< HEAD
         public ActionResult<List<EmailModel>> GetAll()
         {
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
@@ -37,3 +38,15 @@ namespace Eman_Maet.Controllers
     }
 }
 
+=======
+        public ActionResult<List<EventModel>> GetAll()
+        {
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<EventModel> output = connection.Query<EventModel>("select user.email from event join session on session.eventID = event.eventID join sessionattendance on session.sessionID = sessionattendance.sessionID join user on sessionattendance.userID = user.userID");
+                return null; // splice(output).ToList();
+            }
+        }
+    }
+}
+>>>>>>> master

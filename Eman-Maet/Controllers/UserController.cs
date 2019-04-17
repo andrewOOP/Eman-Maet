@@ -9,7 +9,7 @@ using Dapper;
 
 
 
-namespace Eman_Maet.EventController
+namespace Eman_Maet.UserController
 {
     [Route("api/user")]
     [ApiController]
@@ -61,6 +61,17 @@ namespace Eman_Maet.EventController
             }
         }
 
+        //Find the user that is currently logged in
+        [HttpGet("GetCurrentUser")]
+        public ActionResult<UserModel> GetCurrentUser()
+        {
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                string id = this.HttpContext.Request.Cookies["CurrentID"];
+                return GetById(int.Parse(id));
+            }
+        }
+
         [HttpPost]
         public IActionResult Create(UserModel item)
         {
@@ -101,15 +112,15 @@ namespace Eman_Maet.EventController
         [HttpGet("{username}/{password}", Name = "Login")]
         public ActionResult<UserModel> GetResult(string username, string password)
         {
-            System.Console.WriteLine("HERE 1234");
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                System.Console.WriteLine("HERE 1234");
                 IEnumerable<UserModel> test = connection.Query<UserModel>("SELECT userID from user WHERE email=(@_email) AND password=(@_password)", new { _email = username, _password = password });
                 if (test.Count() == 1)
                 {
                     IEnumerable<UserModel> result = connection.Query<UserModel>("SELECT * from user WHERE email=(@_email) AND password=(@_password)", new { _email = username, _password = password });
-                    
+                    //Set a cookie with the ID of logged in User
+                    this.HttpContext.Response.Cookies.Append("CurrentID", result.First().userID.ToString());
+
                     return result.First();
                 }
                 return NotFound();

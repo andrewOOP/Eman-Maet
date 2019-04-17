@@ -18,6 +18,7 @@ export class SessionDetails extends Component {
             locID: 1,
             locChoice: '',
             locations: [],
+            isAdmin: '',
 			loading: true,
 			rsvped: false,
         }
@@ -33,7 +34,7 @@ export class SessionDetails extends Component {
         fetch('api/session/' + params.id)
             .then(response => response.json())
             .then(data => {
-                this.setState({ paramID: params.id, title: data.sessionName, startdate: data.sessionDate.substr(0, 10), starttime: data.startTime.substr(11, 100), endtime: data.endTime.substr(11, 100), locID: data.locationID })
+                this.setState({ paramID: params.id, title: data.sessionName, startdate: data.formattedSessionDate, starttime: data.formattedStartTime, endtime: data.formattedEndTime, locID: data.locationID })
                 fetch('api/location/' + this.state.locID)
                     .then(response => response.json())
                     .then(data => {
@@ -54,6 +55,18 @@ export class SessionDetails extends Component {
             .catch((error) => {
                 console.log('error: ' + error);
             });
+        fetch('api/user/GetCurrentUser', {
+            method: 'GET',
+        })
+            .then(res => res.json())
+            .then(response => {
+                this.setState({ isAdmin: response.securityRole });
+                if (this.state.isAdmin === "Administrator") {
+                    this.setState({ isAdmin: true });
+                }
+                else { this.setState({ isAdmin: false }); }
+            })
+            .catch(error => console.error('Error:', error));
 
 
 		console.log(this.state.rsvped);
@@ -145,11 +158,7 @@ export class SessionDetails extends Component {
                             <label>Title</label>
                         </div>
                         <div className="col-75">
-                            <input type="text" placeholder="Event Name"
-                                value={this.state.title}
-								onChange={e => this.setState({ title: e.target.value })}
-								disabled
-                            />
+                            <label>{this.state.title}</label>
                         </div>
                     </div>
 
@@ -158,11 +167,7 @@ export class SessionDetails extends Component {
                             <label>Start Date</label>
                         </div>
                         <div className="col-75">
-                            <input type="date" id="startdate" name="startdate"
-                                value={this.state.startdate}
-								onChange={e => this.setState({ startdate: e.target.value })}
-								disabled
-                            />
+                            <label>{this.state.startdate}</label>
                         </div>
                     </div>
                     <div className="row">
@@ -170,11 +175,7 @@ export class SessionDetails extends Component {
                             <label>Start Time</label>
                         </div>
                         <div className="col-75">
-                            <input type="time" id="starttime" name="starttime"
-                                value={this.state.starttime}
-								onChange={e => this.setState({ starttime: e.target.value })}
-								disabled
-                            />
+                            <label>{this.state.starttime}</label>
                         </div>
                     </div>
                     <div className="row">
@@ -182,11 +183,7 @@ export class SessionDetails extends Component {
                             <label>End Time</label>
                         </div>
                         <div className="col-75">
-                            <input type="time" id="endtime" name="endtime"
-                                value={this.state.endtime}
-								onChange={e => this.setState({ endtime: e.target.value })}
-								disabled
-                            />
+                            <label>{this.state.endtime}</label>
                         </div>
                     </div>
                     <div className="row">
@@ -194,13 +191,12 @@ export class SessionDetails extends Component {
                             <label>Location</label>
                         </div>
 						<div className="col-75">
-							<select value={this.state.locChoice} onChange={e => this.setState({ locChoice: e.target.value, locID: e.target.selectedIndex + 1 })} id="location" disabled>
-                                {options}
-                            </select>
+                            <label>{this.state.locChoice}</label>
                         </div>
                     </div>
-
-					<input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Edit Session" />
+                    {this.state.isAdmin &&
+                        <input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Edit Session" />
+                    }
 					<input className="rsvp" type="submit" onClick={e => this.handleFormRsvp(e)} value="Rsvp/Check-in" />
                 </form >
 

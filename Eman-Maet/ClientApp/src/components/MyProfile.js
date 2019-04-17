@@ -1,10 +1,11 @@
 ﻿import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
+import * as qs from 'query-string';
 import './AppStyle.css'
 import 'react-table/react-table.css'
 
-export class CreateUser extends Component {
-    displayName = CreateUser.name
+export class MyProfile extends Component {
+    displayName = MyProfile.name
 
     constructor(props) {
         super(props);
@@ -15,23 +16,40 @@ export class CreateUser extends Component {
             securityrole: '',
             email: '',
             password: '',
-            inactive: false,
+            inactive: '',
+            paramID: -1,
             redirect: false,
         }
-        fetch('api/user/GetNextUserId', {
+
+        const params = qs.parse(this.props.location.search);
+
+        fetch('api/user/GetCurrentUser', {
             method: 'GET',
         }).then(res => res.json())
-            .then(response => this.setState({ userid: response.userID }))
+            .then(response =>
+                this.setState({
+                    userid: response.userID,
+                    fname: response.fName,
+                    lname: response.lName,
+                    securityrole: response.securityRole,
+                    email: response.email,
+                    password: response.password,
+                    inactive: response.inactive,
+                    paramID: params.id,
+                }))
             .catch(error => console.error('Error:', error));
+        //change inactive to a boolean
+        if (this.state.inactive === 1) { this.setState({ inactive: true }) }
+        else { this.setState({ inactive: false }) }
     }
 
     handleFormSubmit(userEvent) {
         userEvent.preventDefault();
-        //changinge inactive flag to a integer value
+
+        //changinge inactive flag back to a integer value
         var inactiveFlag;
         if (this.state.inactive) { inactiveFlag = 1 }
         else { inactiveFlag = 0 }
-        this.setState({ redirect: true });
         this.setState({ redirect: true });
         let submitState = {
             userID: this.state.userid,
@@ -42,11 +60,11 @@ export class CreateUser extends Component {
             password: this.state.password,
             inactive: inactiveFlag,
         };
-        this.createUser(submitState);
+        this.myProfile(submitState);
     }
 
-    createUser(data) {
-        fetch('api/user', {
+    myProfile(data) {
+        fetch('api/user/' + this.state.paramID, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -59,13 +77,11 @@ export class CreateUser extends Component {
         });
     }
 
-    renderCreateUser() {
+    renderMyProfile() {
         return (
             <div className="main">
-                <h1>Create User</h1>
+                <h1>My Profile</h1>
                 <form action="#" >
-                    
-
                     <div className="row">
                         <div className="col-25">
                             <label>First Name:</label>
@@ -95,10 +111,7 @@ export class CreateUser extends Component {
                             <label>Email:</label>
                         </div>
                         <div className="col-75">
-                            <input type="text" placeholder="Email Address"
-                                value={this.state.email}
-                                onChange={e => this.setState({ email: e.target.value })}
-                            />
+                            <label>{this.state.email}</label>
                         </div>
                     </div>
 
@@ -119,15 +132,12 @@ export class CreateUser extends Component {
                             <label>Permission</label>
                         </div>
                         <div className="col-75">
-                            <select value={this.state.securityrole} onChange={e => this.setState({ securityrole: e.target.value })} id="securityRole">
-                                <option value="default">-------</option>
-                                <option value="User">User</option>
-                                <option value="Administrator">Administrator</option>
-                            </select>
+                            <label>{this.state.securityrole}</label>
                         </div>
                     </div>
 
                     <br /><input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
+                    <input className="delete" type="submit" onClick={e => this.setState({ redirect: true })} value="Cancel" />
                 </form >
 
             </div>
@@ -143,7 +153,7 @@ export class CreateUser extends Component {
     render() {
         return (
             <div>
-                {this.renderCreateUser()}
+                {this.renderMyProfile()}
                 {this.renderRedirect()}
             </div>
         );

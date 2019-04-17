@@ -19,7 +19,12 @@ export class NavMenu extends Component
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <Nav>
+                <Nav>
+                    <LinkContainer to={'/myprofile'}>
+                        <NavItem>
+                            <Glyphicon glyph='th-list' /> My Profile
+                </NavItem>
+                    </LinkContainer>
 			<LinkContainer to={'/eventlist'}>
 				<NavItem>
 					<Glyphicon glyph='th-list' /> Event List
@@ -29,17 +34,18 @@ export class NavMenu extends Component
                 <NavItem>
                    <Glyphicon glyph='th-list' /> User List
                 </NavItem>
-                    </LinkContainer>
-                    <LinkContainer to={'/locationlist'}>
-                        <NavItem>
-                            <Glyphicon glyph='th-list' /> Location List
-                </NavItem>
-                    </LinkContainer>
-             <LinkContainer to={'/createsession'}>
+            </LinkContainer>
+            <LinkContainer to={'/teamlist'}>
                 <NavItem>
-                    <Glyphicon glyph='th-list' /> Create Session
+                   <Glyphicon glyph='th-list' /> Team List
+                </NavItem>
+            </LinkContainer>
+             <LinkContainer to={'/locationlist'}>
+                <NavItem>
+                   <Glyphicon glyph='th-list' /> Location List
                 </NavItem>
                     </LinkContainer>
+<<<<<<< HEAD
 			 <LinkContainer to={'/sessiondetails?id=1'}>
 			    <NavItem>
 					<Glyphicon glyph='th-list' /> Session Details (1)
@@ -50,6 +56,9 @@ export class NavMenu extends Component
 					<Glyphicon glyph='th-list' /> Send Email
                 </NavItem>
 			 </LinkContainer>
+=======
+             
+>>>>>>> master
           </Nav>
         </Navbar.Collapse>
       </Navbar>

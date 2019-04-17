@@ -18,6 +18,7 @@ export class CreateSession extends Component {
             loading: true,
         }
 
+        console.log(this.state.eventID);
 
         fetch('api/location')
             .then(response => response.json())
@@ -47,15 +48,12 @@ export class CreateSession extends Component {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(res => {
-            console.log("WIN");
-            return res;
-            }).catch(err => {
-                console.log(err);
-            });
-        console.log(JSON.stringify(data));
+        }).then((response) => response.json())
+            .then((responseData) => {
+                this.props.history.push('/eventdetails?id=' + responseData);
+            })
+            .catch(error => console.warn(error));
 
-        this.props.history.push('/eventdetails');
     }
 
     getCurrentDate() {
