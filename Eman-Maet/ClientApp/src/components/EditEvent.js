@@ -18,6 +18,7 @@ export class EditEvent extends Component {
             starttime: '12:00',
             selected: {},
             userList: [],
+            search: '',
             paramID: -1,
             loading: true,
         }
@@ -218,6 +219,12 @@ export class EditEvent extends Component {
                     }
                 ];
 
+        let data = users;
+        if (this.state.search) {
+            data = data.filter(row => {
+                return row.fName.toLowerCase().includes(this.state.search.toLowerCase()) || row.lName.toLowerCase().includes(this.state.search.toLowerCase());
+            })
+        }
 
       return (
 
@@ -264,18 +271,23 @@ export class EditEvent extends Component {
                           <label>Event Coordinators</label><br />
                       </div>
                   </div>
-                      <ReactTable
-                          data={users}
-                          columns={columns}
-                          defaultSorted={[
-                              {
-                                  id: "lastName",
-                                  desc: false
-                              }
-                          ]}
-                          defaultPageSize={10}
-                          className="-striped -highlight"
-                      />
+                  <label>Search: </label>
+                      <input
+                      value={this.state.search}
+                      onChange={e => this.setState({ search: e.target.value })}
+                  />
+                  <ReactTable
+                      data={data}
+                      columns={columns}
+                      defaultSorted={[
+                          {
+                              id: "lastName",
+                              desc: false
+                          }
+                      ]}
+                      defaultPageSize={10}
+                      className="-striped -highlight"
+                  />
                   <input type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
                   <input className="delete" type="submit" onClick={e => this.deleteEvent(e)} value="Delete" />
               </form >
