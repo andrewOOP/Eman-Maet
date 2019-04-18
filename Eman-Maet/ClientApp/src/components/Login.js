@@ -12,7 +12,8 @@ export class Login extends Component {
             username: '',
             password: '',
             redirect: false,
-            showError: false
+            showError: false,
+            isAdmin: "",
         }
     }
 
@@ -25,12 +26,19 @@ export class Login extends Component {
             })
             .then((data) => {
                 console.log(data);
+                this.setState({ isAdmin: data.securityRole });
+                if (this.state.isAdmin === "Administrator") {
+                    this.setState({ isAdmin: true });
+                }
+                else { this.setState({ isAdmin: false }); }
                 this.setState({ redirect: true });
             })
             .catch((error) => {
                 console.log('Error from fetch in login.js: ' + error);
                 this.setState({ showError: true })
             });
+        
+
         event.preventDefault();
     }
 
@@ -68,8 +76,11 @@ export class Login extends Component {
     }
 
     renderRedirect = () => {
-        if (this.state.redirect) {
+        if (this.state.redirect && this.state.isAdmin) {
             return <Redirect to='/eventlist' />
+        }
+        else if (this.state.redirect) {
+            return <Redirect to='/userhome' />
         }
     }
 
