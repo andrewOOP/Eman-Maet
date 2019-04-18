@@ -16,7 +16,7 @@ namespace Eman_Maet.SessionController
     public class SessionController : ControllerBase
     {
 
-        string defaultConnection = "Server=localhost; Database=codeathon; UID=root; Password=iamroot; SslMode=none; allowPublicKeyRetrieval = true;";
+        string defaultConnection = "Server=localhost; Port = 3307; Database=codeathon; UID=root; Password=iamroot; SslMode=none; allowPublicKeyRetrieval = true;";
 
 
         public SessionController()

@@ -18,9 +18,11 @@ export class SessionDetails extends Component {
             locID: 1,
             locChoice: '',
             locations: [],
-            isAdmin: '',
+			isAdmin: '',
+			userID: -1,
 			loading: true,
 			rsvped: false,
+			found: false,
         }
 
         fetch('api/location/')
@@ -41,26 +43,29 @@ export class SessionDetails extends Component {
                         this.setState({ locChoice: data.locationName, loading: false })
                     });
 			});
-		fetch('api/sessionattendance/' + params.id + '/' + 1) // Change the 1 to whatever the sessionVariable user is
+		fetch('api/sessionattendance/' + this.state.paramID + '/' + this.state.userID) 
             .then((response) => {
                 if (!response.ok) throw new Error(response.status);
                 else return response.json();
             })
 			.then(data => {
 				if (data.rsvpCheckin === 1)
-					this.setState({ rsvped: true })
+					this.setState({ rsvped: true, found: true })
 				else
 					this.setState({ rsvped: false })
+				if (data.rsvpCheckin === 0)
+					this.setState({ found: true })
             })
             .catch((error) => {
                 console.log('error: ' + error);
-            });
+			});
+		console.log(this.state.found);
         fetch('api/user/GetCurrentUser', {
             method: 'GET',
         })
             .then(res => res.json())
-            .then(response => {
-                this.setState({ isAdmin: response.securityRole });
+			.then(response => {
+				this.setState({ isAdmin: response.securityRole, userID: response.userID });
                 if (this.state.isAdmin === "Administrator") {
                     this.setState({ isAdmin: true });
                 }
@@ -88,8 +93,8 @@ export class SessionDetails extends Component {
 		event.preventDefault();
 		let rsvpState = {
 			sessionID: this.state.paramID,
-			userID: 1, //This is gonna be where we put the UserID that we get from the session variable
-			rsvpCheckin: true,
+			userID: this.state.userID,
+			rsvpCheckin: !this.state.rsvped,
 		};
 		this.RsvpCheckin(rsvpState);
 	}
