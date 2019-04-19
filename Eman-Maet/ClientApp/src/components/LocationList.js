@@ -12,7 +12,7 @@ export class LocationList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { locationList: [], loading: true, prevKey: "", isAdmin: "" };
+        this.state = { locationList: [], loading: true, prevKey: "", isAdmin: "", search: "" };
 
         this.fetchData();
     }
@@ -72,11 +72,23 @@ export class LocationList extends Component {
             },
         ];
 
+        let data = locations;
+        if (this.state.search) {
+            data = data.filter(row => {
+                return row.locationName.toLowerCase().includes(this.state.search.toLowerCase()) || row.city.toLowerCase().includes(this.state.search.toLowerCase()) || row.state.toLowerCase().includes(this.state.search.toLowerCase());
+            })
+        }
+
         return (
             <div className="main">
                 <h1>Location List</h1>
+                <label>Search: </label>
+                <input
+                    value={this.state.search}
+                    onChange={e => this.setState({ search: e.target.value })}
+                />
                 <ReactTable
-                    data={locations}
+                    data={data}
                     columns={columns}
                     defaultSorted={[
                         {
