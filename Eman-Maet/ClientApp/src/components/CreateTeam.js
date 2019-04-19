@@ -16,6 +16,7 @@ export class CreateTeam extends Component {
             selected: {},
             userList: [],
             loading: true,
+            search: "",
         }
 
         fetch('api/user')
@@ -141,6 +142,12 @@ export class CreateTeam extends Component {
                     }
                 ];
 
+        let data = users;
+        if (this.state.search) {
+            data = data.filter(row => {
+                return row.fName.toLowerCase().includes(this.state.search.toLowerCase()) || row.lName.toLowerCase().includes(this.state.search.toLowerCase());
+            })
+        }
 
       return (
 
@@ -177,8 +184,13 @@ export class CreateTeam extends Component {
                           <label>Team Members</label><br />
                       </div>
                   </div>
+                  <label>Search: </label>
+                  <input
+                      value={this.state.search}
+                      onChange={e => this.setState({ search: e.target.value })}
+                  />
                       <ReactTable
-                          data={users}
+                          data={data}
                           columns={columns}
                           defaultSorted={[
                               {

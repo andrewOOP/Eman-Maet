@@ -18,6 +18,7 @@ export class EditTeam extends Component {
             userList: [],
             paramID: -1,
             loading: true,
+            search: "",
         }
 
         const params = qs.parse(this.props.location.search);
@@ -215,6 +216,12 @@ export class EditTeam extends Component {
                     }
                 ];
 
+        let data = users;
+        if (this.state.search) {
+            data = data.filter(row => {
+                return row.fName.toLowerCase().includes(this.state.search.toLowerCase()) || row.lName.toLowerCase().includes(this.state.search.toLowerCase());
+            })
+        }
 
       return (
 
@@ -251,8 +258,13 @@ export class EditTeam extends Component {
                           <label>Team Members</label><br />
                       </div>
                   </div>
+                  <label>Search: </label>
+                  <input
+                      value={this.state.search}
+                      onChange={e => this.setState({ search: e.target.value })}
+                  />
                       <ReactTable
-                          data={users}
+                          data={data}
                           columns={columns}
                           defaultSorted={[
                               {
