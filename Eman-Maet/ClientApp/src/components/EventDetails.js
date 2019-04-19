@@ -27,7 +27,7 @@ export class EventDetails extends Component
         fetch('api/event/' + params.id)
             .then(response => response.json())
             .then(data => {
-                this.setState({ paramID: params.id, title: data.eventDescription, startdate: data.formattedEventDate, starttime: data.formattedStartTime })
+                this.setState({ paramID: params.id, title: data.eventDescription, startdate: data.formattedEventDate, starttime: data.formattedStartTime, search: "" })
             });
 
         fetch('api/session/byevent/' + params.id)
@@ -86,6 +86,13 @@ export class EventDetails extends Component
             },
         ];
 
+        let data = sessions;
+        if (this.state.search) {
+            data = data.filter(row => {
+                return row.sessionName.toLowerCase().includes(this.state.search.toLowerCase());
+            })
+        }
+
 
         return (
 
@@ -121,7 +128,13 @@ export class EventDetails extends Component
                         <div className="col-25">
                             <label>Event Sessions</label><br />
                         </div>
-                    </div>
+                </div>
+
+                <label>Search: </label>
+                <input
+                    value={this.state.search}
+                    onChange={e => this.setState({ search: e.target.value })}
+                />
                 <ReactTable
                     getTrProps={(state, rowInfo) => {
                         if (rowInfo && rowInfo.row) {
@@ -145,7 +158,7 @@ export class EventDetails extends Component
                         }
                     }
                     }
-                        data={sessions}
+                        data={data}
                         columns={columns}
                         defaultSorted={[
                             {
