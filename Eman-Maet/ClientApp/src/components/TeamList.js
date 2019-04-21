@@ -14,7 +14,7 @@ export class TeamList extends Component {
 
     constructor(props) {
         super(props);
-		this.state = { teamList: [], loading: true, prevKey: "", userID: "", isAdmin: "", userTeamIDList: [], sendTo: "",};
+		this.state = { teamList: [], loading: true, prevKey: "", userID: "", isAdmin: "", userTeamIDList: []};
 
         this.fetchData();
     }
@@ -52,7 +52,7 @@ export class TeamList extends Component {
 
     getEmail(value) {
         fetch('api/teamemail/getteamemail/' + value)
-            .then(res => res.json())
+            .then(response => response.json())
             .then(data => {
                console.log(data);
                 this.setState({ sendTo: data });
@@ -88,20 +88,12 @@ export class TeamList extends Component {
                 id: 'emailButton',
                 accessor: 'teamID',
                 Cell: ({ value }) => (
-
-                    <a className="EditTeam" onClick={() => {
-                        //fetch('api/teamemail/getteamemail', {
-                        //    method: 'GET',
-                        //})
-                        //    .then(response => response.json())
-                        //    .then(data => {
-                        //        console.log("in the then");
-                        //        this.setState({ sendTo: data });
-                        //    });
-                        this.getEmail(value);
-                        //window.location.href = "mailto:" + this.state.sendTo;
-
-                    }}>Send Email</a>
+                    <LinkContainer to={'/teamemail?id=' + value}>
+                        <a classTeam="TeamEmail" onClick={() => {
+                            this.getEmail(value);
+                        }}>Send Email</a>
+                    </LinkContainer>
+//                    <a href="mailto:austin.young@eagles.oc.edu?Subject=Hello%20Again" target="_top">Send Email</a>
                 ),
                 sortable: false,
                 width: 100

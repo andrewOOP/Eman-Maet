@@ -25,15 +25,7 @@ namespace Eman_Maet.TeamEmailController
         }
 
 
-        [HttpGet]
-        public ActionResult<List<TeamModel>> GetAll()
-        {
-            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
-            {
-                IEnumerable<TeamModel> output = connection.Query<TeamModel>("SELECT * FROM Team WHERE inactive = 0");
-                return output.ToList();
-            }
-        }
+       
 
         [HttpGet("{id}", Name = "GetTeamEmail")]
         public ActionResult<List<UserModel>> GetById(int id)
@@ -63,7 +55,6 @@ namespace Eman_Maet.TeamEmailController
                         }
                         else
                         {
-                            System.Console.WriteLine("here");
                             return userEmails.ToList();
                         }
                     }
@@ -71,6 +62,8 @@ namespace Eman_Maet.TeamEmailController
                 }
             }
         }
+
+
         
     }
 }
