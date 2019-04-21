@@ -43,23 +43,6 @@ export class SessionDetails extends Component {
                         this.setState({ locChoice: data.locationName, loading: false })
                     });
 			});
-		fetch('api/sessionattendance/' + this.state.paramID + '/' + this.state.userID) 
-            .then((response) => {
-                if (!response.ok) throw new Error(response.status);
-                else return response.json();
-            })
-			.then(data => {
-				if (data.rsvpCheckin === 1)
-					this.setState({ rsvped: true, found: true })
-				else
-					this.setState({ rsvped: false })
-				if (data.rsvpCheckin === 0)
-					this.setState({ found: true })
-            })
-            .catch((error) => {
-                console.log('error: ' + error);
-			});
-		console.log(this.state.found);
         fetch('api/user/GetCurrentUser', {
             method: 'GET',
         })
@@ -71,10 +54,27 @@ export class SessionDetails extends Component {
                 }
                 else { this.setState({ isAdmin: false }); }
             })
-            .catch(error => console.error('Error:', error));
+			.catch(error => console.error('Error:', error));
 
+		//fetch('api/sessionattendance/' + this.state.paramID + '/' + this.state.userID)
+		//	.then((response) => {
+		//		if (!response.ok) throw new Error(response.status);
+		//		else return response.json();
+		//	})
+		//	.then(data => {
+		//		this.setState({ found: true });
+		//		if (data.rsvpCheckin === 1)
+		//			this.setState({ rsvped: true });
+		//		else
+		//			this.setState({ rsvped: false });
+		//	})
+		//	.catch((error) => {
+		//		//console.log('This One error: ' + error);
+		//		this.setState({ found: false });
+		//		console.log("HERE!");
+		//	});
+		//console.log(this.state.paramID + '/' + this.state.userID);
 
-		console.log(this.state.rsvped);
     }
 
     handleFormSubmit(event) {
@@ -90,35 +90,75 @@ export class SessionDetails extends Component {
 	}
 
 	handleFormRsvp(event) {
-		event.preventDefault();
+
+		fetch('api/sessionattendance/' + this.state.paramID + '/' + this.state.userID)
+			.then((response) => {
+				if (!response.ok) throw new Error(response.status);
+				else return response.json();
+			})
+			.then(data => {
+				this.setState({ found: true });
+				if (data.rsvpCheckin === 1)
+					this.setState({ rsvped: true });
+				else
+					this.setState({ rsvped: false });
+			})
+			.catch((error) => {
+				//console.log('This One error: ' + error);
+				this.setState({ found: false });
+				console.log("HERE!");
+			});
+		
+		let tempRsvp = -1;
+		if (this.state.rsvped)
+			tempRsvp = 0;
+		else
+			tempRsvp = 1;
 		let rsvpState = {
 			sessionID: this.state.paramID,
 			userID: this.state.userID,
-			rsvpCheckin: !this.state.rsvped,
+			rsvpCheckin: tempRsvp,
 		};
+		console.log("Found result: " + this.state.found);
 		this.RsvpCheckin(rsvpState);
 	}
 
 	RsvpCheckin(data) {
 
-		console.log(this.state.paramID);
-
-		fetch('api/sessionattendance', {
+		console.log("Found result: " + this.state.found);
+		if (this.state.found) {
+			fetch('api/sessionattendance', {
+				method: 'PUT',
+				body: JSON.stringify(data),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}).then(res => {
+				console.log("WIN:PUT");
+				return res;
+			}).catch(err => {
+				console.log(err);
+			});
+			console.log(JSON.stringify(data));
+		}
+		else if (!this.state.found) {
+			fetch('api/sessionattendance', {
 				method: 'POST',
 				body: JSON.stringify(data),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).then(res => {
-			console.log("WIN");
-			return res;
-		}).catch(err => {
-			console.log(err);
-		});
-		console.log(JSON.stringify(data));
-
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}).then(res => {
+				console.log("WIN:POST");
+				return res;
+			}).catch(err => {
+				console.log(err);
+			});
+			console.log(JSON.stringify(data));
+		}
 
 		this.props.history.push('/sessiondetails?id=' + this.state.paramID);
+		
 	}
 
 	
@@ -152,7 +192,7 @@ export class SessionDetails extends Component {
 
         let options = this.state.locations.map((location) =>
             <option key={location.locationID}>{location.locationName}</option>
-        );
+		);
 
         return (
             <div className="main">
