@@ -14,7 +14,7 @@ export class TeamList extends Component {
 
     constructor(props) {
         super(props);
-		this.state = { teamList: [], loading: true, prevKey: "", userID: "", isAdmin: "", userTeamIDList: []};
+		this.state = { teamList: [], loading: true, prevKey: "", userID: "", isAdmin: "", userTeamIDList: [], sendTo: ""};
 
         this.fetchData();
     }
