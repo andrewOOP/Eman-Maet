@@ -56,24 +56,22 @@ export class SessionDetails extends Component {
             })
 			.catch(error => console.error('Error:', error));
 
-		//fetch('api/sessionattendance/' + this.state.paramID + '/' + this.state.userID)
-		//	.then((response) => {
-		//		if (!response.ok) throw new Error(response.status);
-		//		else return response.json();
-		//	})
-		//	.then(data => {
-		//		this.setState({ found: true });
-		//		if (data.rsvpCheckin === 1)
-		//			this.setState({ rsvped: true });
-		//		else
-		//			this.setState({ rsvped: false });
-		//	})
-		//	.catch((error) => {
-		//		//console.log('This One error: ' + error);
-		//		this.setState({ found: false });
-		//		console.log("HERE!");
-		//	});
-		//console.log(this.state.paramID + '/' + this.state.userID);
+		fetch('api/sessionattendance/' + this.state.paramID + '/' + this.state.userID)
+			.then((response) => {
+				if (!response.ok) throw new Error(response.status);
+				else return response.json();
+			})
+			.then(data => {
+				if (data.rsvpCheckin === 1)
+					this.setState({ rsvped: true, found: true });
+				else
+					this.setState({ rsvped: false, found: true });
+			})
+			.catch((error) => {
+				//console.log('This One error: ' + error);
+				this.setState({ found: false });
+				console.log("HERE!");
+			});
 
     }
 
@@ -89,25 +87,27 @@ export class SessionDetails extends Component {
         this.sessionDetails(submitState);
 	}
 
-	handleFormRsvp(event) {
-
-		fetch('api/sessionattendance/' + this.state.paramID + '/' + this.state.userID)
+	fetchSessionAttendance(event) {
+		event.preventDefault();
+		return fetch('api/sessionattendance/' + this.state.paramID + '/' + this.state.userID)
 			.then((response) => {
 				if (!response.ok) throw new Error(response.status);
 				else return response.json();
 			})
 			.then(data => {
-				this.setState({ found: true });
 				if (data.rsvpCheckin === 1)
-					this.setState({ rsvped: true });
+					this.setState({ rsvped: true, found: true}, () => { this.handleFormRsvp(); });
 				else
-					this.setState({ rsvped: false });
+					this.setState({ rsvped: false, found: true}, () => { this.handleFormRsvp(); });
 			})
 			.catch((error) => {
 				//console.log('This One error: ' + error);
-				this.setState({ found: false });
+				this.setState({ found: false }, () => { this.handleFormRsvp();});
 				console.log("HERE!");
 			});
+	}
+
+	handleFormRsvp() {
 		
 		let tempRsvp = -1;
 		if (this.state.rsvped)
@@ -125,7 +125,6 @@ export class SessionDetails extends Component {
 
 	RsvpCheckin(data) {
 
-		console.log("Found result: " + this.state.found);
 		if (this.state.found) {
 			fetch('api/sessionattendance', {
 				method: 'PUT',
@@ -194,6 +193,12 @@ export class SessionDetails extends Component {
             <option key={location.locationID}>{location.locationName}</option>
 		);
 
+		let rsvpVisual = "";
+		if (this.state.rsvped)
+			rsvpVisual = "RSVP";
+		else
+			rsvpVisual = "UnRSVP";
+
         return (
             <div className="main">
                 <h1>Session Details</h1>
@@ -241,8 +246,8 @@ export class SessionDetails extends Component {
                     </div>
                     {this.state.isAdmin &&
                         <input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Edit Session" />
-                    }
-					<input className="rsvp" type="submit" onClick={e => this.handleFormRsvp(e)} value="Rsvp/Check-in" />
+					}
+					<input className="rsvp" type="submit" onClick={e => this.fetchSessionAttendance(e)} value={rsvpVisual} />
                 </form >
 
             </div>
