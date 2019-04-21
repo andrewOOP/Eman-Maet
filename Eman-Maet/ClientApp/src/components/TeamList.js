@@ -52,7 +52,7 @@ export class TeamList extends Component {
 
     getEmail(value) {
         fetch('api/teamemail/getteamemail/' + value)
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
                console.log(data);
                 this.setState({ sendTo: data });

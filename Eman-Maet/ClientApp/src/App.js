@@ -21,6 +21,7 @@ import { CreateLocation } from './components/CreateLocation';
 import { EditLocation } from './components/EditLocation';
 import { LocationList } from './components/LocationList';
 import { MyProfile } from './components/MyProfile';
+import { TeamEmail } from './components/TeamEmail';
 
 
 export default class App extends Component
