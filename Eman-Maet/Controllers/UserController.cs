@@ -61,6 +61,21 @@ namespace Eman_Maet.UserController
             }
         }
 
+        [HttpGet("coordinator/{id}", Name = "GetUsersByEventID")]
+        public ActionResult<List<UserModel>> GetUsersById(int id)
+        {
+
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM user INNER JOIN eventcoordinator ON user.userID = eventcoordinator.userID WHERE inactive = 0 AND eventID = (@_id)", new { _id = id });
+                if (output.Count() == 0)
+                {
+                    return NotFound();
+                }
+                return output.ToList();
+            }
+        }
+
         //Find the user that is currently logged in
         [HttpGet("GetCurrentUser")]
         public ActionResult<UserModel> GetCurrentUser()

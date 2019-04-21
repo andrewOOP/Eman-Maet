@@ -3,6 +3,8 @@ import ReactTable from "react-table";
 import { LinkContainer } from 'react-router-bootstrap';
 import * as qs from 'query-string';
 import { withRouter } from 'react-router';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import "react-tabs/style/react-tabs.css";
 import './AppStyle.css'
 import 'react-table/react-table.css'
 
@@ -17,6 +19,7 @@ export class EventDetails extends Component
             startdate: '',
             starttime: '',
             sessionList: [],
+            eventcoordList: [],
             isAdmin: '',
             paramID: -1,
             loading: true,
@@ -29,6 +32,20 @@ export class EventDetails extends Component
             .then(data => {
                 this.setState({ paramID: params.id, title: data.eventDescription, startdate: data.formattedEventDate, starttime: data.formattedStartTime, search: "" })
             });
+
+        fetch('api/user/coordinator/' + params.id)
+            .then((response) => {
+                if (!response.ok) throw new Error(response.status);
+                else return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                this.setState({ eventcoordList: data });
+            })
+            .catch((error) => {
+                console.log('error: ' + error);
+            });
+
 
         fetch('api/session/byevent/' + params.id)
             .then(response => response.json())
@@ -86,6 +103,21 @@ export class EventDetails extends Component
             },
         ];
 
+        const eventCoordColumns = [
+            {
+                Header: "First Name",
+                accessor: "fName",
+            },
+            {
+                Header: "Last Name",
+                accessor: "lName",
+            },
+            {
+                Header: "Email",
+                accessor: "email",
+            }
+        ];
+
         let data = sessions;
         if (this.state.search) {
             data = data.filter(row => {
@@ -130,50 +162,75 @@ export class EventDetails extends Component
                         </div>
                 </div>
 
-                <label>Search: </label>
-                <input
-                    value={this.state.search}
-                    onChange={e => this.setState({ search: e.target.value })}
-                />
-                <ReactTable
-                    getTrProps={(state, rowInfo) => {
-                        if (rowInfo && rowInfo.row) {
-                            return {
-                                onClick: (e) => {
+                <Tabs>
+                    <TabList>
+                        <Tab>Sessions</Tab>
+                        <Tab>Event Coordinators</Tab>
+                    </TabList>
 
-                                    if (rowInfo.index === this.state.selected) {
-                                        this.props.history.push('/sessiondetails?id=' + this.state.sessionList[rowInfo.index].sessionID);
+                    <TabPanel>
+                        <label>Search: </label>
+                        <input
+                            value={this.state.search}
+                            onChange={e => this.setState({ search: e.target.value })}
+                        />
+                        <ReactTable
+                            getTrProps={(state, rowInfo) => {
+                                if (rowInfo && rowInfo.row) {
+                                    return {
+                                        onClick: (e) => {
+
+                                            if (rowInfo.index === this.state.selected) {
+                                                this.props.history.push('/sessiondetails?id=' + this.state.sessionList[rowInfo.index].sessionID);
+                                            }
+
+                                            this.setState({
+                                                selected: rowInfo.index
+                                            })
+                                        },
+                                        style: {
+                                            background: rowInfo.index === this.state.selected ? '#b2b2b2' : 'white',
+                                        }
                                     }
-
-                                    this.setState({
-                                        selected: rowInfo.index
-                                    })
-                                },
-                                style: {
-                                    background: rowInfo.index === this.state.selected ? '#b2b2b2' : 'white',
+                                } else {
+                                    return {}
                                 }
                             }
-                        } else {
-                            return {}
-                        }
-                    }
-                    }
-                        data={data}
-                        columns={columns}
-                        defaultSorted={[
-                            {
-                                id: "formattedStartTime",
-                                desc: false
                             }
-                        ]}
-                        defaultPageSize={10}
-                        className="-striped -highlight"
-                />
-                {this.state.isAdmin &&
-                    <LinkContainer to={'/createsession'}>
-                        <button className="submit" type="button">Create Session</button>
-                    </LinkContainer>
-                }
+                            data={data}
+                            columns={columns}
+                            defaultSorted={[
+                                {
+                                    id: "formattedStartTime",
+                                    desc: false
+                                }
+                            ]}
+                            defaultPageSize={10}
+                            className="-striped -highlight"
+                        />
+                        {this.state.isAdmin &&
+                            <LinkContainer to={'/createsession'}>
+                                <button className="submit" type="button">Create Session</button>
+                            </LinkContainer>
+                        }
+                    </TabPanel>
+                    <TabPanel>
+                        <ReactTable
+                            data={this.state.eventcoordList}
+                            columns={eventCoordColumns}
+                            defaultSorted={[
+                                {
+                                    id: "lName",
+                                    desc: false
+                                }
+                            ]}
+                            defaultPageSize={10}
+                            className="-striped -highlight"
+                        />
+                    </TabPanel>
+                </Tabs>
+
+              
             </div>
         );
 
