@@ -156,11 +156,6 @@ export class EventDetails extends Component
                             <label>{this.state.starttime}</label>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col-25">
-                            <label>Event Sessions</label><br />
-                        </div>
-                </div>
 
                 <Tabs>
                     <TabList>
