@@ -28,7 +28,7 @@ namespace Eman_Maet.TeamEmailController
        
 
         [HttpGet("{id}", Name = "GetTeamEmail")]
-        public ActionResult<List<UserModel>> GetById(int id)
+        public ActionResult<List<EmailModel>> GetById(int id)
         {
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
@@ -40,21 +40,24 @@ namespace Eman_Maet.TeamEmailController
                 }
                 else
                 {
-                    IEnumerable<UserTeamModel> user = connection.Query<UserTeamModel>("SELECT userID FROM userTeam WHERE teamID=(@id)", new { _id = team.FirstOrDefault() });
+                    System.Console.WriteLine(team.ToString());
+                    IEnumerable<UserTeamModel> user = connection.Query<UserTeamModel>("SELECT userID FROM userTeam WHERE teamID=(@_id)", new { _id = id });
                     if (user.Count() == 0)
                     {
                         return NotFound();
                     }
                     else
                     {
+                        System.Console.WriteLine(user.ToString());
                         List<UserTeamModel> userList = new List<UserTeamModel>(user.ToList());
-                        IEnumerable<UserModel> userEmails = connection.Query<UserModel>("SELECT email FROM user WHERE userID IN (@ids)", new { _ids = userList });
+                        IEnumerable<EmailModel> userEmails = connection.Query<EmailModel>("SELECT email FROM user WHERE userID IN (SELECT userID FROM userTeam WHERE teamID=(@_id))", new { _id = id });
                         if (userEmails.Count() == 0)
                         {
                             return NotFound();
                         }
                         else
                         {
+                            System.Console.WriteLine(userEmails.ToString());
                             return userEmails.ToList();
                         }
                     }

@@ -51,11 +51,12 @@ export class TeamList extends Component {
     }
 
     getEmail(value) {
-        fetch('api/teamemail/getteamemail/' + value)
+        fetch('api/teamemail/' + value)
             .then(response => response.json())
             .then(data => {
-               console.log(data);
-                this.setState({ sendTo: data });
+                console.error(data);
+                return data;
+                //this.setState({ sendTo: data });
             });
     }
 
@@ -91,9 +92,10 @@ export class TeamList extends Component {
                     <LinkContainer to={'/teamemail?id=' + value}>
                         <a classTeam="TeamEmail" onClick={() => {
                             this.getEmail(value);
+                            //href = "mailto:austin.young@eagles.oc.edu?Subject=Hello%20Again";
                         }}>Send Email</a>
                     </LinkContainer>
-//                    <a href="mailto:austin.young@eagles.oc.edu?Subject=Hello%20Again" target="_top">Send Email</a>
+                    //<a href="mailto:austin.young@eagles.oc.edu?Subject=Hello%20Again" target="_top">Send Email</a>
                 ),
                 sortable: false,
                 width: 100
