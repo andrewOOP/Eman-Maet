@@ -17,6 +17,7 @@ export class SessionDetails extends Component {
 			paramID: -1,
 			locID: 1,
 			locChoice: '',
+			locAddress: '',
 			locations: [],
 			isAdmin: '',
 			userID: -1,
@@ -40,7 +41,7 @@ export class SessionDetails extends Component {
 				fetch('api/location/' + this.state.locID)
 					.then(response => response.json())
 					.then(data => {
-						this.setState({ locChoice: data.locationName, loading: false })
+						this.setState({ locChoice: data.locationName, locAddress: data.address, loading: false })
 					});
 			});
 		fetch('api/user/GetCurrentUser', {
@@ -242,6 +243,14 @@ export class SessionDetails extends Component {
 						</div>
 						<div className="col-75">
 							<label>{this.state.locChoice}</label>
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-25">
+							<label>Location Address</label>
+						</div>
+						<div className="col-75">
+							<label>{this.state.locAddress}</label>
 						</div>
 					</div>
 					{this.state.isAdmin &&
