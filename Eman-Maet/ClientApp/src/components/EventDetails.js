@@ -20,6 +20,7 @@ export class EventDetails extends Component
             starttime: '',
             sessionList: [],
             eventcoordList: [],
+            rsvpList: [],
             isAdmin: '',
             paramID: -1,
             loading: true,
@@ -41,6 +42,19 @@ export class EventDetails extends Component
             .then(data => {
                 console.log(data);
                 this.setState({ eventcoordList: data });
+            })
+            .catch((error) => {
+                console.log('error: ' + error);
+            });
+
+        fetch('api/user/eventRSVP/' + params.id)
+            .then((response) => {
+                if (!response.ok) throw new Error(response.status);
+                else return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                this.setState({ rsvpList: data });
             })
             .catch((error) => {
                 console.log('error: ' + error);
@@ -103,7 +117,7 @@ export class EventDetails extends Component
             },
         ];
 
-        const eventCoordColumns = [
+        const userColumns = [
             {
                 Header: "First Name",
                 accessor: "fName",
@@ -160,6 +174,7 @@ export class EventDetails extends Component
                 <Tabs>
                     <TabList>
                         <Tab>Sessions</Tab>
+                        <Tab>RSVPs</Tab>
                         <Tab>Event Coordinators</Tab>
                     </TabList>
 
@@ -211,8 +226,22 @@ export class EventDetails extends Component
                     </TabPanel>
                     <TabPanel>
                         <ReactTable
+                            data={this.state.rsvpList}
+                            columns={userColumns}
+                            defaultSorted={[
+                                {
+                                    id: "lName",
+                                    desc: false
+                                }
+                            ]}
+                            defaultPageSize={10}
+                            className="-striped -highlight"
+                        />
+                    </TabPanel>
+                    <TabPanel>
+                        <ReactTable
                             data={this.state.eventcoordList}
-                            columns={eventCoordColumns}
+                            columns={userColumns}
                             defaultSorted={[
                                 {
                                     id: "lName",
