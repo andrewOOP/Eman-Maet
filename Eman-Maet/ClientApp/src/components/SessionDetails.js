@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import * as qs from 'query-string';
 import { withRouter } from 'react-router';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import ReactTable from "react-table";
+import "react-tabs/style/react-tabs.css";
+import 'react-table/react-table.css'
 import './EditEvent.css'
 import './AppStyle.css'
 
@@ -18,7 +22,8 @@ export class SessionDetails extends Component {
 			locID: 1,
 			locChoice: '',
 			locAddress: '',
-			locations: [],
+            locations: [],
+            rsvpList: [],
 			isAdmin: '',
 			userID: -1,
 			loading: true,
@@ -43,7 +48,21 @@ export class SessionDetails extends Component {
 					.then(data => {
 						this.setState({ locChoice: data.locationName, locAddress: data.address, loading: false })
 					});
-			});
+            });
+
+        fetch('api/user/sessionRSVP/' + params.id)
+            .then((response) => {
+                if (!response.ok) throw new Error(response.status);
+                else return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                this.setState({ rsvpList: data });
+            })
+            .catch((error) => {
+                console.log('error: ' + error);
+            });
+
 		fetch('api/user/GetCurrentUser', {
 			method: 'GET',
 		})
@@ -200,6 +219,22 @@ export class SessionDetails extends Component {
 		else
 			rsvpVisual = "UnRSVP";
 
+
+        const userColumns = [
+            {
+                Header: "First Name",
+                accessor: "fName",
+            },
+            {
+                Header: "Last Name",
+                accessor: "lName",
+            },
+            {
+                Header: "Email",
+                accessor: "email",
+            }
+        ];
+
 		return (
 			<div className="main">
 				<h1>Session Details</h1>
@@ -252,7 +287,28 @@ export class SessionDetails extends Component {
 						<div className="col-75">
 							<label>{this.state.locAddress}</label>
 						</div>
-					</div>
+                    </div>
+
+                    <Tabs>
+                        <TabList>
+                            <Tab>RSVPs</Tab>
+                        </TabList>
+                        <TabPanel>
+                            <ReactTable
+                                data={this.state.rsvpList}
+                                columns={userColumns}
+                                defaultSorted={[
+                                    {
+                                        id: "lName",
+                                        desc: false
+                                    }
+                                ]}
+                                defaultPageSize={10}
+                                className="-striped -highlight"
+                            />
+                        </TabPanel>
+                    </Tabs>
+
 					{this.state.isAdmin &&
 						<input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Edit Session" />
 					}
