@@ -82,7 +82,7 @@ namespace Eman_Maet.UserController
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM session AS table1 INNER JOIN sessionattendance AS table2 ON table1.sessionID = table2.sessionID INNER JOIN user ON user.userID = table2.userID WHERE inactive = 0 AND eventID = (@_id) GROUP BY user.userID", new { _id = id });
+                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM session AS table1 INNER JOIN sessionattendance AS table2 ON table1.sessionID = table2.sessionID INNER JOIN user ON user.userID = table2.userID WHERE inactive = 0 AND rsvpCheckin = 1 AND eventID = (@_id) GROUP BY user.userID", new { _id = id });
                 if (output.Count() == 0)
                 {
                     return NotFound();
@@ -97,7 +97,7 @@ namespace Eman_Maet.UserController
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM user INNER JOIN sessionattendance ON user.userID = sessionattendance.userID WHERE inactive = 0 AND sessionID = (@_id)", new { _id = id });
+                IEnumerable<UserModel> output = connection.Query<UserModel>("SELECT * FROM user INNER JOIN sessionattendance ON user.userID = sessionattendance.userID WHERE inactive = 0 AND rsvpCheckin = 1 AND sessionID = (@_id)", new { _id = id });
                 if (output.Count() == 0)
                 {
                     return NotFound();
