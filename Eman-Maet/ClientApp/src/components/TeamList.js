@@ -51,17 +51,23 @@ export class TeamList extends Component {
     }
 
     getEmail(value) {
+
+        var bigString = "";
         fetch('api/teamemail/' + value)
             .then(response => response.json())
             .then(data => {
                 //console.error(data[0].email);
-                var bigString = "";
+
                 data.forEach(x => {
                     bigString = bigString + x.email+",";
                 });
                 //return data;
                 //var data2 = JSON.parse(data) 
-                this.setState({ sendTo: bigString });
+
+                var emailString = "mailto:" + bigString + "";
+                document.getElementById("redirect").href = emailString;
+                document.getElementById("redirect").click();
+                
             });
     }
 
@@ -94,16 +100,13 @@ export class TeamList extends Component {
                 id: 'emailButton',
                 accessor: 'teamID',
                 Cell: ({ value }) => (
-                    <LinkContainer to={'/teamemail?id=' + value}>
                         <a classTeam="TeamEmail" onMouseDown={() => {
-                            this.getEmail(value);
-                            //href = "mailto:austin.young@eagles.oc.edu?Subject=Hello%20Again";
-                        }} onMouseUp={() => {
-                            console.error("mailto:" + this.state.sendTo + "", "_top");
-                            var emailString = "mailto:" + this.state.sendTo + "";
-                            window.location.href = emailString;
+                            
+                        this.getEmail(value);
+
+                            //window.location.href = emailString;
                         }}> Send Email</a>
-                    </LinkContainer>
+                   
                     //<a href="mailto:austin.young@eagles.oc.edu?Subject=Hello%20Again" target="_top">Send Email</a>
                 ),
                 sortable: false,
@@ -132,7 +135,7 @@ export class TeamList extends Component {
 						<button className="submit" type="button">Create Team</button>
 					</LinkContainer>
                 }
-                
+                <a href="#" style={{display : 'none'}} id="redirect" target="_my_blank"/>
 			</div>
 		);
     }
