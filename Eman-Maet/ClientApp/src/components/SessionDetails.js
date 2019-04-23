@@ -42,7 +42,7 @@ export class SessionDetails extends Component {
                 fetch('api/location/' + this.state.locID)
                     .then(response => response.json())
 					.then(data => {
-						this.setState({ locChoice: data.locationName, locAddress: data.locationAddress })
+						this.setState({ locChoice: data.locationName, locAddress: data.address })
 						fetch('api/user/GetCurrentUser', {
 							method: 'GET',
 						})
@@ -165,9 +165,9 @@ export class SessionDetails extends Component {
 		}
 
 		if (!data.rsvpCheckin) {
-			document.getElementById("rsvpButton").value = "RSVP";
+			document.getElementById("rsvpButton").value = "CheckIn";
 		} else {
-			document.getElementById("rsvpButton").value = "UnRSVP";
+			document.getElementById("rsvpButton").value = "CheckOut";
 		}
 		
 	}
