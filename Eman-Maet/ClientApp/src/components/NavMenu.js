@@ -37,7 +37,7 @@ export class NavMenu extends Component
                 <Nav>
                     <LinkContainer to={'/myprofile'}>
                         <NavItem>
-                            <Glyphicon glyph='th-list' /> My Profile
+                            <Glyphicon glyph='user' /> My Profile
                 </NavItem>
                     </LinkContainer>
                     {!this.state.isAdmin &&

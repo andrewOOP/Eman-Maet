@@ -60,8 +60,6 @@ export class CreateSession extends Component {
         return new Date().toISOString().substr(0, 10);
     }
 
-
-
     
     renderScreen() {
 

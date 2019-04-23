@@ -44,7 +44,7 @@ namespace Eman_Maet.SessionController
         {
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<SessionModel> output = connection.Query<SessionModel>("SELECT * FROM Session");
+                IEnumerable<SessionModel> output = connection.Query<SessionModel>("SELECT * FROM Session WHERE inactive = 0");
                 return formatDatesAndTimes(output).ToList();
             }
         }
@@ -55,7 +55,7 @@ namespace Eman_Maet.SessionController
         {
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<SessionModel> output = connection.Query<SessionModel>("SELECT * FROM Session WHERE eventID=(@_id)", new { _id = id });
+                IEnumerable<SessionModel> output = connection.Query<SessionModel>("SELECT * FROM Session WHERE inactive = 0 AND eventID=(@_id)", new { _id = id });
                 this.HttpContext.Response.Cookies.Append("eventIDForSessionCreation", id.ToString());
                 return formatDatesAndTimes(output).ToList();
             }
@@ -67,7 +67,7 @@ namespace Eman_Maet.SessionController
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<SessionModel> output = connection.Query<SessionModel>("SELECT * FROM Session WHERE sessionID=(@_id)", new { _id = id });
+                IEnumerable<SessionModel> output = connection.Query<SessionModel>("SELECT * FROM Session WHERE inactive = 0 AND sessionID=(@_id)", new { _id = id });
                 if (output.Count() == 0)
                 {
                     return NotFound();
@@ -101,15 +101,17 @@ namespace Eman_Maet.SessionController
             }
         }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult MarkAsInactive(long id)
-        //{
+        [HttpDelete("{id}")]
+        public int MarkAsInactive(long id)
+        {
 
-        //    using (MySqlConnection connection = new MySqlConnection(defaultConnection))
-        //    {
-        //        IEnumerable<EventModel> output = connection.Query<EventModel>("UPDATE Event SET inactive = 1 WHERE eventID = @_id", new { _id = id });
-        //        return NoContent();
-        //    }
-        //}
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<int> response = connection.Query<int>("SELECT eventID FROM session WHERE sessionID = @_id", new { _id = id });
+
+                IEnumerable<SessionModel> output = connection.Query<SessionModel>("UPDATE Session SET inactive = 1 WHERE sessionID = @_id", new { _id = id });
+                return response.ToList().First();
+            }
+        }
     }
 }

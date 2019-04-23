@@ -100,6 +100,24 @@ export class EditSession extends Component {
         return new Date().toISOString().substr(0, 10);
     }
 
+    deleteSession(session) {
+        session.preventDefault();
+
+        if (!window.confirm('Are you sure you want to delete this session?')) {
+            return;
+        } else {
+
+            fetch('api/session/' + this.state.paramID, {
+                method: 'DELETE'
+            }).then((response) => response.json())
+                .then((responseData) => {
+                    this.props.history.push('/eventdetails?id=' + responseData);
+                })
+                .catch(error => console.warn(error));
+
+            
+        }
+    }
 
     renderScreen() {
 
@@ -168,6 +186,8 @@ export class EditSession extends Component {
                     </div>
 
                     <input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Submit" />
+                    <input className="delete" type="submit" onClick={e => this.deleteSession(e)} value="Delete" />
+
                 </form >
 
             </div>
