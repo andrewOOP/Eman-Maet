@@ -22,6 +22,7 @@ export class SessionDetails extends Component {
 			userID: -1,
 			loading: true,
 			rsvped: false,
+			initrsvped: false,
 			found: false,
         }
 
@@ -40,38 +41,45 @@ export class SessionDetails extends Component {
                 fetch('api/location/' + this.state.locID)
                     .then(response => response.json())
                     .then(data => {
-                        this.setState({ locChoice: data.locationName, loading: false })
+						this.setState({ locChoice: data.locationName})
+						fetch('api/user/GetCurrentUser', {
+							method: 'GET',
+						})
+							.then(res => res.json())
+							.then(response => {
+								this.setState({ isAdmin: response.securityRole, userID: response.userID });
+								if (this.state.isAdmin === "Administrator") {
+									this.setState({ isAdmin: true });
+								}
+								else { this.setState({ isAdmin: false }); }
+
+								fetch('api/sessionattendance/' + this.state.paramID + '/' + this.state.userID)
+									.then((response) => {
+										if (!response.ok) throw new Error(response.status);
+										else return response.json();
+									})
+									.then(data => {
+										if (data.rsvpCheckin === 1) {
+											this.setState({ initrsvped: true, found: true, loading: false  });
+											console.log("TRUE!");
+										}
+										else {
+											this.setState({ initrsvped: false, found: true, loading: false  });
+											console.log("false!");
+										}
+									})
+									.catch((error) => {
+										//console.log('This One error: ' + error);
+										this.setState({ found: false, loading: false  });
+										console.log("NOT FOUND!");
+									});
+							})
+							.catch(error => console.error('Error:', error));
+
+
                     });
 			});
-        fetch('api/user/GetCurrentUser', {
-            method: 'GET',
-        })
-            .then(res => res.json())
-			.then(response => {
-				this.setState({ isAdmin: response.securityRole, userID: response.userID });
-                if (this.state.isAdmin === "Administrator") {
-                    this.setState({ isAdmin: true });
-                }
-                else { this.setState({ isAdmin: false }); }
-            })
-			.catch(error => console.error('Error:', error));
-
-		fetch('api/sessionattendance/' + this.state.paramID + '/' + this.state.userID)
-			.then((response) => {
-				if (!response.ok) throw new Error(response.status);
-				else return response.json();
-			})
-			.then(data => {
-				if (data.rsvpCheckin === 1)
-					this.setState({ rsvped: true, found: true });
-				else
-					this.setState({ rsvped: false, found: true });
-			})
-			.catch((error) => {
-				//console.log('This One error: ' + error);
-				this.setState({ found: false });
-				console.log("HERE!");
-			});
+       
 
     }
 
@@ -119,7 +127,6 @@ export class SessionDetails extends Component {
 			userID: this.state.userID,
 			rsvpCheckin: tempRsvp,
 		};
-		console.log("Found result: " + this.state.found);
 		this.RsvpCheckin(rsvpState);
 	}
 
@@ -156,7 +163,11 @@ export class SessionDetails extends Component {
 			console.log(JSON.stringify(data));
 		}
 
-		this.props.history.push('/sessiondetails?id=' + this.state.paramID);
+		if (!data.rsvpCheckin) {
+			document.getElementById("rsvpButton").value = "RSVP";
+		} else {
+			document.getElementById("rsvpButton").value = "UnRSVP";
+		}
 		
 	}
 
@@ -192,12 +203,6 @@ export class SessionDetails extends Component {
         let options = this.state.locations.map((location) =>
             <option key={location.locationID}>{location.locationName}</option>
 		);
-
-		let rsvpVisual = "";
-		if (this.state.rsvped)
-			rsvpVisual = "RSVP";
-		else
-			rsvpVisual = "UnRSVP";
 
         return (
             <div className="main">
@@ -247,7 +252,12 @@ export class SessionDetails extends Component {
                     {this.state.isAdmin &&
                         <input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Edit Session" />
 					}
-					<input className="rsvp" type="submit" onClick={e => this.fetchSessionAttendance(e)} value={rsvpVisual} />
+					{this.state.initrsvped &&
+						<input type="submit" className="rsvp" id="rsvpButton" onClick={e => this.fetchSessionAttendance(e)} value="CheckOut" />
+					}
+					{!this.state.initrsvped &&
+						<input type="submit" className="rsvp" id="rsvpButton" onClick={e => this.fetchSessionAttendance(e)} value="CheckIn"/>
+					}
                 </form >
 
             </div>
