@@ -50,11 +50,6 @@ export class NavMenu extends Component
 					<Glyphicon glyph='th-list' /> Session Details (1)
                 </NavItem>
 			 </LinkContainer>
-             <LinkContainer to={'/sendemail'}>
-			    <NavItem>
-					<Glyphicon glyph='th-list' /> Send Email
-                </NavItem>
-			 </LinkContainer>
             </Nav>
         </Navbar.Collapse>
       </Navbar>
