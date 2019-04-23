@@ -112,6 +112,7 @@ namespace Eman_Maet.UserController
         {
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
+                System.Console.Write("In User Controller:");
                 string id = this.HttpContext.Request.Cookies["CurrentID"];
                 return GetById(int.Parse(id));
             }

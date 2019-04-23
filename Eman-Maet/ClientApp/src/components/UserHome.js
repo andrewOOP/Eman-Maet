@@ -7,7 +7,7 @@ export class UserHome extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { teamList: [], sessionList: [], loading: true, prevKey: "", userID: "", userTeamIDList: [] };
+        this.state = { teamList: [], sessionList: [], rsvpList: [], loading: true, prevKey: "", userID: "", userTeamIDList: [] };
 
         this.fetchData();
     }
@@ -26,16 +26,15 @@ export class UserHome extends Component {
                         console.log(data);
                         this.setState({ teamList: data });
                     });
+                fetch('api/sessionattendance/' + this.state.userID)
+                    .then(responsetwo => responsetwo.json())
+                    .then(data => {
+                        console.log(data);
+                        this.setState({ sessionList: data, loading: false });
+                    });
+                
             })
             .catch(error => console.error('Error:', error));
-
-        //change this once session check in works.
-        fetch('api/session/byevent/1')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ sessionList: data, loading: false });
-            });
-
     }
 
     renderTeamTable(teams, sessions) {

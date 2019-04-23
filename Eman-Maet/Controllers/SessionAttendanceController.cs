@@ -50,6 +50,26 @@ namespace Eman_Maet.SessionAttendanceController
             }
         }
 
+        [HttpGet("{userID}", Name = "GetUserRSVP")]
+        public ActionResult<List<SessionModel>> GetRSVPSessionsById(int sessionID, int userID)
+        {
+
+            using (MySqlConnection connection = new MySqlConnection(defaultConnection))
+            {
+                IEnumerable<SessionModel> output = connection.Query<SessionModel>("SELECT S.sessionID, S.eventID, S.locationID, " +
+                    "S.sessionName, S.sessionDate, S.startTime, S.endTime FROM Session AS S, " +
+                    "(SELECT sessionID FROM SessionAttendance WHERE userID=(@_userID) and rsvpCheckin = '1') " +
+                    "AS usersessions WHERE S.sessionID = usersessions.sessionID", new { _userID = userID, });
+                if (output.Count() == 0)
+                {
+                    return NotFound();
+                }
+                return output.ToList();
+            }
+        }
+
+
+
 
         [HttpPost()]
         public IActionResult Create(SessionAttendanceModel item)
