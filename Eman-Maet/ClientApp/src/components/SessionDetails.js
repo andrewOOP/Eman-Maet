@@ -248,7 +248,15 @@ export class SessionDetails extends Component {
 						<div className="col-75">
                             <label>{this.state.locChoice}</label>
                         </div>
-                    </div>
+					</div>
+					<div className="row">
+						<div className="col-25">
+							<label>Location Address</label>
+						</div>
+						<div className="col-75">
+							<label>{this.state.locAddress}</label>
+						</div>
+					</div>
                     {this.state.isAdmin &&
                         <input id="submit" type="submit" onClick={e => this.handleFormSubmit(e)} value="Edit Session" />
 					}
