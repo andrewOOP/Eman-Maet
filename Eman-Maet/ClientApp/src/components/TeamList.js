@@ -14,7 +14,7 @@ export class TeamList extends Component {
 
     constructor(props) {
         super(props);
-		this.state = { teamList: [], loading: true, prevKey: "", userID: "", isAdmin: "", userTeamIDList: [], search: ""};
+		this.state = { teamList: [], loading: true, prevKey: "", userID: "", isAdmin: "", userTeamIDList: [], sendTo: "", search: ""};
 
         this.fetchData();
     }
@@ -50,6 +50,27 @@ export class TeamList extends Component {
 
     }
 
+    getEmail(value) {
+
+        var bigString = "";
+        fetch('api/teamemail/' + value)
+            .then(response => response.json())
+            .then(data => {
+                //console.error(data[0].email);
+
+                data.forEach(x => {
+                    bigString = bigString + x.email+",";
+                });
+                //return data;
+                //var data2 = JSON.parse(data) 
+
+                var emailString = "mailto:" + bigString + "";
+                document.getElementById("redirect").href = emailString;
+                document.getElementById("redirect").click();
+                
+            });
+    }
+
     renderTeamTable(teams) {
 
 		const columns = [
@@ -79,9 +100,14 @@ export class TeamList extends Component {
                 id: 'emailButton',
                 accessor: 'teamID',
                 Cell: ({ value }) => (
+                        <a classTeam="TeamEmail" onMouseDown={() => {
+                            
+                        this.getEmail(value);
 
-                    //<asp: runat="server" Text="Send Email" OnClick="emailButton_Click" />
-                    <a href="mailto:austin.young@eagles.oc.edu?Subject=Hello%20Again" target="_top">Send Email</a>
+                            //window.location.href = emailString;
+                        }}> Send Email</a>
+                   
+                    //<a href="mailto:austin.young@eagles.oc.edu?Subject=Hello%20Again" target="_top">Send Email</a>
                 ),
                 sortable: false,
                 width: 100
@@ -119,7 +145,8 @@ export class TeamList extends Component {
 					<LinkContainer to={'/createteam'}>
 						<button className="submit" type="button">Create Team</button>
 					</LinkContainer>
-				}
+                }
+                <a href="#" style={{display : 'none'}} id="redirect" target="_my_blank"/>
 			</div>
 		);
     }
