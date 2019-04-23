@@ -69,6 +69,19 @@ export class EventList extends Component {
                 width: 40,
                 show: this.state.isAdmin,
             },
+            {//This goes to the getreport page with the given event ID
+                id: 'reportButton',
+                accessor: 'eventID',
+                Cell: ({ value }) => (
+                    <LinkContainer to={'/getreport?id=' + value}>
+                        <a className="GetReport" onClick={() => {
+                        }}>Get Report</a>
+                    </LinkContainer>
+                ),
+                sortable: false,
+                width: 100,
+                show: this.state.isAdmin,
+            },
         ];
 
         let data = events;

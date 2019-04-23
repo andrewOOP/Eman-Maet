@@ -22,7 +22,7 @@ import { EditLocation } from './components/EditLocation';
 import { LocationList } from './components/LocationList';
 import { MyProfile } from './components/MyProfile';
 import { UserHome } from './components/UserHome';
-
+import { GetReport } from './components/GetReport';
 
 export default class App extends Component
 {
@@ -52,6 +52,7 @@ export default class App extends Component
         <Route path='/locationlist' component={LocationList} />
         <Route path='/myprofile' component={MyProfile} />
         <Route path='/userhome' component={UserHome} />
+        <Route path='/getreport' component={GetReport} />
 
       </Layout>
     );
