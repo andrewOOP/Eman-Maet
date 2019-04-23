@@ -13,9 +13,6 @@ export class NavMenu extends Component
     return (
       <Navbar inverse fixedTop fluid collapseOnSelect>
         <Navbar.Header>
-          <Navbar.Brand>
-            <Link to={'/'}>Eman_Maet</Link>
-          </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
@@ -30,7 +27,6 @@ export class NavMenu extends Component
 					<Glyphicon glyph='th-list' /> Event List
 				</NavItem>
 			</LinkContainer>
-            <LinkContainer to={'/createevent'}>
             <LinkContainer to={'/userlist'}>
                 <NavItem>
                    <Glyphicon glyph='th-list' /> User List
@@ -41,18 +37,15 @@ export class NavMenu extends Component
                    <Glyphicon glyph='th-list' /> Team List
                 </NavItem>
             </LinkContainer>
-            <LinkContainer to={'/userlist'}>
-                <NavItem>
-                    <Glyphicon glyph='th-list' /> User List
-                </NavItem>
-            </LinkContainer>
              <LinkContainer to={'/locationlist'}>
                 <NavItem>
                    <Glyphicon glyph='th-list' /> Location List
                 </NavItem>
                     </LinkContainer>
-             
-          </Nav>
+                </Nav>
+                <Navbar.Brand>
+                    <Link to={'/'}>Log Out</Link>
+                </Navbar.Brand>
         </Navbar.Collapse>
       </Navbar>
     );
