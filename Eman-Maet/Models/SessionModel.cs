@@ -17,7 +17,7 @@ namespace Eman_Maet.Models
         public String formattedStartTime { get; set; }
         public DateTime endTime { get; set; }
         public String formattedEndTime { get; set; }
-
+        public int inactive { get; set; }
 
 
     }

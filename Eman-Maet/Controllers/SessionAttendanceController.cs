@@ -69,10 +69,7 @@ namespace Eman_Maet.SessionAttendanceController
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<SessionModel> output = connection.Query<SessionModel>("SELECT S.sessionID, S.eventID, S.locationID, " +
-                    "S.sessionName, S.sessionDate, S.startTime, S.endTime FROM Session AS S, " +
-                    "(SELECT sessionID FROM SessionAttendance WHERE userID=(@_userID) and rsvpCheckin = '1') " +
-                    "AS usersessions WHERE S.sessionID = usersessions.sessionID", new { _userID = userID, });
+                IEnumerable<SessionModel> output = connection.Query<SessionModel>("SELECT S.sessionID, S.eventID, S.locationID, S.sessionName, S.sessionDate, S.startTime, S.endTime, S.inactive FROM Session AS S, (SELECT sessionID FROM SessionAttendance WHERE userID=(@_userID) and rsvpCheckin = '1') AS usersessions WHERE S.sessionID = usersessions.sessionID AND S.inactive = 0", new { _userID = userID, });
                 if (output.Count() == 0)
                 {
                     return NotFound();

@@ -25,12 +25,20 @@ export class UserHome extends Component {
                     .then(data => {
                         console.log(data);
                         this.setState({ teamList: data });
+                    })
+                    .catch((error) => {
+                        console.log('error: ' + error);
                     });
                 fetch('api/sessionattendance/' + this.state.userID)
                     .then(responsetwo => responsetwo.json())
                     .then(data => {
                         console.log(data);
                         this.setState({ sessionList: data, loading: false });
+                    
+                    })
+                    .catch((error) => {
+                        this.setState({ loading: false });
+                        console.log('error: ' + error);
                     });
                 
             })
