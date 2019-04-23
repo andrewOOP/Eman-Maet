@@ -21,7 +21,7 @@ namespace Eman_Maet.SessionAttendanceController
 
         public SessionAttendanceController()
         {
-            
+
         }
 
 
@@ -51,27 +51,25 @@ namespace Eman_Maet.SessionAttendanceController
         }
 
 
-        [HttpPost]
+        [HttpPost()]
         public IActionResult Create(SessionAttendanceModel item)
         {
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                string cookieValueFromReq = this.HttpContext.Request.Cookies["CurrentID"];
-                int cookieUserId = int.Parse(cookieValueFromReq); 
-                IEnumerable<SessionAttendanceModel> output = connection.Query<SessionAttendanceModel>("INSERT INTO SessionAttendance (sessionID, userID, rsvpCheckin) VALUES ((@_sessionID), (@_userID), (@_rsvpCheckin))", new {_sessionID = item.sessionID, _userID = cookieUserId, _rsvpCheckin = item.rsvpCheckin });
-                return CreatedAtRoute("GetSessionAttendance", new { sessionID = item.sessionID , userID = item.userID }, item);
+                IEnumerable<SessionAttendanceModel> output = connection.Query<SessionAttendanceModel>("INSERT INTO SessionAttendance (sessionID, userID, rsvpCheckin) VALUES ((@_sessionID), (@_userID), (@_rsvpCheckin))", new { _sessionID = item.sessionID, _userID = item.userID, _rsvpCheckin = item.rsvpCheckin });
+                return NoContent();
             }
 
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(long id, SessionAttendanceModel item)
+        [HttpPut()]
+        public IActionResult Update(SessionAttendanceModel item)
         {
 
             using (MySqlConnection connection = new MySqlConnection(defaultConnection))
             {
-                IEnumerable<SessionAttendanceModel> output = connection.Query<SessionAttendanceModel>("UPDATE SessionAttendance SET sessionAttendanceID = @_sessionAttendanceID, sessionID = @_sessionID, userID = @_userID, rsvpCheckin = @_rsvpCheckin WHERE sessionAttendanceID = @_id", new { _sessionAttendanceID = item.sessionAttendanceID, _sessionID = item.sessionID, _userID = item.userID, _rsvpCheckin = item.rsvpCheckin });
+                IEnumerable<SessionAttendanceModel> output = connection.Query<SessionAttendanceModel>("UPDATE SessionAttendance SET rsvpCheckin = @_rsvpCheckin WHERE sessionID = @_sessionID AND userID = @_userID", new { _sessionAttendanceID = item.sessionAttendanceID, _sessionID = item.sessionID, _userID = item.userID, _rsvpCheckin = item.rsvpCheckin });
                 return NoContent();
             }
         }

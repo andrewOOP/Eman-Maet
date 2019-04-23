@@ -146,7 +146,14 @@ export class MyProfile extends Component {
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            return <Redirect to='/userlist' />
+
+            if (this.state.securityrole == "Administrator") {
+                return <Redirect to='/userlist' />
+            } else {
+                return <Redirect to='/userhome' />
+            }
+
+            
         }
     }
 

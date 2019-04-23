@@ -13,7 +13,7 @@ export class UserList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { userList: [], loading: true, prevKey: "" };
+        this.state = { userList: [], loading: true, prevKey: "", search: "" };
 
         this.fetchData();
     }
@@ -26,7 +26,7 @@ export class UserList extends Component {
             });
     }
 
-    static renderUserTable(users) {
+    renderUserTable(users) {
 
 		const columns = [
 			{
@@ -59,12 +59,23 @@ export class UserList extends Component {
             },
 		];
 
+        let data = users;
+        if (this.state.search) {
+            data = data.filter(row => {
+                return row.fName.toLowerCase().includes(this.state.search.toLowerCase()) || row.lName.toLowerCase().includes(this.state.search.toLowerCase());
+            })
+        }
 
 		return (
 			<div className="main">
-				<h1>User List</h1>
+                <h1>User List</h1>
+                <label>Search: </label>
+                <input
+                    value={this.state.search}
+                    onChange={e => this.setState({ search: e.target.value })}
+                />
 					<ReactTable
-                    data={users}
+                    data={data}
 						columns={columns}
 						defaultSorted={[
 							{
@@ -87,7 +98,7 @@ export class UserList extends Component {
     render() {
         let contents = this.state.loading
             ? <div class="loader">Please Wait...</div>
-            : UserList.renderUserTable(this.state.userList);
+            : this.renderUserTable(this.state.userList);
 
         return (
             <div>

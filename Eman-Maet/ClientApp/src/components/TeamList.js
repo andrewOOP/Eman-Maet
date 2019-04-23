@@ -14,7 +14,7 @@ export class TeamList extends Component {
 
     constructor(props) {
         super(props);
-		this.state = { teamList: [], loading: true, prevKey: "", userID: "", isAdmin: "", userTeamIDList: [], sendTo: ""};
+		this.state = { teamList: [], loading: true, prevKey: "", userID: "", isAdmin: "", userTeamIDList: [], sendTo: "", search: ""};
 
         this.fetchData();
     }
@@ -114,12 +114,23 @@ export class TeamList extends Component {
             },
 		];
 
+        let data = teams;
+        if (this.state.search) {
+            data = data.filter(row => {
+                return row.teamName.toLowerCase().includes(this.state.search.toLowerCase()) || row.teamJob.toLowerCase().includes(this.state.search.toLowerCase());
+            })
+        }
 
 		return (
 			<div className="main">
-				<h1>Team List</h1>
+                <h1>Team List</h1>
+                <label>Search: </label>
+                <input
+                    value={this.state.search}
+                    onChange={e => this.setState({ search: e.target.value })}
+                />
 					<ReactTable
-                    data={teams}
+                    data={data}
 						columns={columns}
 						defaultSorted={[
 							{

@@ -11,7 +11,7 @@ export class EventList extends Component {
 
 	constructor(props) {
 		super(props);
-        this.state = { eventList: [], loading: true, prevKey: "", selected: null, isAdmin: "" };
+        this.state = { eventList: [], loading: true, prevKey: "", selected: null, isAdmin: "", search: "" };
         this.fetchData();
     }
 
@@ -69,12 +69,24 @@ export class EventList extends Component {
                 width: 40,
                 show: this.state.isAdmin,
             },
-		];
+        ];
+
+        let data = events;
+        if (this.state.search) {
+            data = data.filter(row => {
+                return row.eventDescription.toLowerCase().includes(this.state.search.toLowerCase());
+            })
+        }
 
 
 		return (
 			<div className="main">
-				<h1>Event List</h1>
+                <h1>Event List</h1>
+                <label>Search: </label>
+                <input
+                    value={this.state.search}
+                    onChange={e => this.setState({ search: e.target.value })}
+                />
 					<ReactTable
                     getTrProps={(state, rowInfo) => {
                         if (rowInfo && rowInfo.row) {
@@ -98,7 +110,7 @@ export class EventList extends Component {
                         }
                     }
                     }
-                    data={events}
+                    data={data}
 						columns={columns}
 						defaultSorted={[
 							{

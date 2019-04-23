@@ -21,6 +21,7 @@ import { CreateLocation } from './components/CreateLocation';
 import { EditLocation } from './components/EditLocation';
 import { LocationList } from './components/LocationList';
 import { MyProfile } from './components/MyProfile';
+import { UserHome } from './components/UserHome';
 
 
 export default class App extends Component
@@ -50,6 +51,7 @@ export default class App extends Component
         <Route path='/editlocation' component={EditLocation} />
         <Route path='/locationlist' component={LocationList} />
         <Route path='/myprofile' component={MyProfile} />
+        <Route path='/userhome' component={UserHome} />
 
       </Layout>
     );
