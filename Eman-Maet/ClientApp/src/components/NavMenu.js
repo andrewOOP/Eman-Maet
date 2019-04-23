@@ -41,7 +41,7 @@ export class NavMenu extends Component
                 </NavItem>
                     </LinkContainer>
                     {!this.state.isAdmin &&
-                        <LinkContainer to={'/homepage'}>
+                        <LinkContainer to={'/userhome'}>
                             <NavItem>
                                 <Glyphicon glyph='th-list' /> Home
                 </NavItem>

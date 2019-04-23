@@ -25,6 +25,19 @@ namespace Eman_Maet.SessionAttendanceController
         }
 
 
+        IEnumerable<SessionModel> formatDatesAndTimes(IEnumerable<SessionModel> ienum)
+        {
+            foreach (SessionModel x in ienum)
+            {
+                x.formattedSessionDate = x.sessionDate.ToString("MM/dd/yyyy");
+                x.formattedStartTime = x.startTime.ToString("h:mm tt");
+                x.formattedEndTime = x.endTime.ToString("h:mm tt");
+            }
+
+            return ienum;
+
+        }
+
         [HttpGet]
         public ActionResult<List<SessionAttendanceModel>> GetAll()
         {
@@ -64,7 +77,7 @@ namespace Eman_Maet.SessionAttendanceController
                 {
                     return NotFound();
                 }
-                return output.ToList();
+                return formatDatesAndTimes(output).ToList();
             }
         }
 
