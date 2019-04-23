@@ -16,7 +16,8 @@ export class SessionDetails extends Component {
             endtime: '12:00',
             paramID: -1,
             locID: 1,
-            locChoice: '',
+			locChoice: '',
+			locAddress: '',
             locations: [],
 			isAdmin: '',
 			userID: -1,
@@ -40,8 +41,8 @@ export class SessionDetails extends Component {
                 this.setState({ paramID: params.id, title: data.sessionName, startdate: data.formattedSessionDate, starttime: data.formattedStartTime, endtime: data.formattedEndTime, locID: data.locationID })
                 fetch('api/location/' + this.state.locID)
                     .then(response => response.json())
-                    .then(data => {
-						this.setState({ locChoice: data.locationName})
+					.then(data => {
+						this.setState({ locChoice: data.locationName, locAddress: data.locationAddress })
 						fetch('api/user/GetCurrentUser', {
 							method: 'GET',
 						})
