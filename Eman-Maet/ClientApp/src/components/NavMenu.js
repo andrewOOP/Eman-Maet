@@ -6,7 +6,25 @@ import './NavMenu.css';
 
 export class NavMenu extends Component
 {
-  displayName = NavMenu.name
+    displayName = NavMenu.name
+
+    constructor(props) {
+        super(props);
+        this.state = { isAdmin: "" };
+
+        fetch('api/user/GetCurrentUser', {
+            method: 'GET',
+        })
+            .then(res => res.json())
+            .then(response => {
+                this.setState({ isAdmin: response.securityRole });
+                if (this.state.isAdmin === "Administrator") {
+                    this.setState({ isAdmin: true });
+                }
+                else { this.setState({ isAdmin: false }); }
+            })
+            .catch(error => console.error('Error:', error));
+    }
 
     render()
     {
@@ -22,16 +40,25 @@ export class NavMenu extends Component
                             <Glyphicon glyph='th-list' /> My Profile
                 </NavItem>
                     </LinkContainer>
-			<LinkContainer to={'/eventlist'}>
+                    {!this.state.isAdmin &&
+                        <LinkContainer to={'/homepage'}>
+                            <NavItem>
+                                <Glyphicon glyph='th-list' /> Home
+                </NavItem>
+                        </LinkContainer>
+                    }
+			 <LinkContainer to={'/eventlist'}>
 				<NavItem>
 					<Glyphicon glyph='th-list' /> Event List
 				</NavItem>
-			</LinkContainer>
-            <LinkContainer to={'/userlist'}>
-                <NavItem>
-                   <Glyphicon glyph='th-list' /> User List
+             </LinkContainer>
+             {this.state.isAdmin &&
+             <LinkContainer to={'/userlist'}>
+                 <NavItem>
+                      <Glyphicon glyph='th-list' /> User List
                 </NavItem>
-            </LinkContainer>
+              </LinkContainer>
+             }
             <LinkContainer to={'/teamlist'}>
                 <NavItem>
                    <Glyphicon glyph='th-list' /> Team List
