@@ -19,7 +19,7 @@ export class NavMenu extends Component
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-                <Nav>
+           <Nav>
                     <LinkContainer to={'/myprofile'}>
                         <NavItem>
                             <Glyphicon glyph='th-list' /> My Profile
@@ -45,7 +45,6 @@ export class NavMenu extends Component
                    <Glyphicon glyph='th-list' /> Location List
                 </NavItem>
                     </LinkContainer>
-<<<<<<< HEAD
 			 <LinkContainer to={'/sessiondetails?id=1'}>
 			    <NavItem>
 					<Glyphicon glyph='th-list' /> Session Details (1)
@@ -56,10 +55,7 @@ export class NavMenu extends Component
 					<Glyphicon glyph='th-list' /> Send Email
                 </NavItem>
 			 </LinkContainer>
-=======
-             
->>>>>>> master
-          </Nav>
+            </Nav>
         </Navbar.Collapse>
       </Navbar>
     );

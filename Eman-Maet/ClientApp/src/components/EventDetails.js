@@ -1,11 +1,8 @@
 ﻿import React, { Component } from 'react';
 import ReactTable from "react-table";
-<<<<<<< HEAD
-=======
 import { LinkContainer } from 'react-router-bootstrap';
 import * as qs from 'query-string';
 import { withRouter } from 'react-router';
->>>>>>> master
 import './AppStyle.css'
 import 'react-table/react-table.css'
 

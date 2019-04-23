@@ -15,7 +15,6 @@ export class EventList extends Component {
         this.fetchData();
     }
 
-<<<<<<< HEAD
     handleEventEmail(event) {
         event.preventDefault();
         let submitState = {
@@ -39,13 +38,9 @@ export class EventList extends Component {
 
     fetchData()
     {
-=======
-
-    fetchData() {
 
         console.log("FETCHING");
 
->>>>>>> master
         fetch('api/event')
             .then(response => response.json())
             .then(data => {
@@ -65,13 +60,9 @@ export class EventList extends Component {
             .catch(error => console.error('Error:', error));
     }
 
-<<<<<<< HEAD
     static renderEventTable(events)
     {
-=======
-    renderEventTable(events) {
 
->>>>>>> master
 
 		const columns = [
 			{

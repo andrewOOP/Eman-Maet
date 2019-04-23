@@ -1,50 +1,14 @@
 ﻿import React, { Component } from 'react';
-<<<<<<< HEAD
 import ReactTable from "react-table";
 import { withRouter } from 'react-router';
-=======
 import { Redirect } from 'react-router-dom'
 import * as qs from 'query-string';
->>>>>>> master
 import './AppStyle.css'
 import 'react-table/react-table.css'
 
 export class SendEmail extends Component {
     displayName = SendEmail.name
 
-<<<<<<< HEAD
-    constructor(props)
-    {
-        super(props);
-        this.state =
-            {
-            }
-    }
-
-    renderEmail(users)
-    {    
-        return (
-            <div className="main">
-                <h1>Create Email</h1>
-                <a href="mailto:someone@example.com,test@gmail.com?Subject=Hello%20again" target="_top">Send Mail</a>
-            </div>
-        );
-    }
-
-    render() {
-        let contents = this.state.loading
-            ? <div class="loader">Please Wait...</div>
-            : this.renderEmail(this.state.userList);
-
-        return (
-            <div>
-                {contents}
-            </div>
-        );
-    }
-}
-
-=======
     constructor(props) {
         super(props);
         this.state = {
@@ -84,4 +48,4 @@ transporter.sendMail(mailOptions, function (error, info) {
         console.log('Email sent: ' + info.response);
     }
 });
->>>>>>> master
+

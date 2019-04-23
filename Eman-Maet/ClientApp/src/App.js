@@ -20,13 +20,9 @@ import { UserList } from './components/UserList';
 import { CreateLocation } from './components/CreateLocation';
 import { EditLocation } from './components/EditLocation';
 import { LocationList } from './components/LocationList';
-<<<<<<< HEAD
 import { SendEmail } from './components/SendEmail';
-
-
-=======
 import { MyProfile } from './components/MyProfile';
->>>>>>> master
+
 
 
 export default class App extends Component
@@ -55,12 +51,9 @@ export default class App extends Component
         <Route path='/createlocation' component={CreateLocation} />
         <Route path='/editlocation' component={EditLocation} />
         <Route path='/locationlist' component={LocationList} />
-<<<<<<< HEAD
         <Route path='/eventemail' component={SendEmail} />
-=======
         <Route path='/myprofile' component={MyProfile} />
 
->>>>>>> master
       </Layout>
     );
   }
