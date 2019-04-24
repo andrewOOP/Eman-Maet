@@ -71,7 +71,7 @@ Finally, you will need a default email client installed (we have tested with Gma
 ## SQL SCRIPTS
 
 Table Creation
-
+```
 CREATE TABLE IF NOT EXISTS  company(
     companyID INT AUTO_INCREMENT,
     companyName VARCHAR(255) NOT NULL,
@@ -228,6 +228,6 @@ INSERT INTO `codeathon`.`session`
 VALUES
 (1,1,1,"Coding Session 1","2019-02-10"),
 (2,1,2,"Seasame Session 1","2019-03-01"); 
-
+```
 
 [NOTE] This script does not assign users to teams or check them in to sessions. That must be done from the front end.
